@@ -19,10 +19,16 @@ const Calendar = (): JSX.Element => {
     <>
       <CalendarPage>
         <ChallengeInfoSection challengeData={challengeData} />
+        <Title>챌린지 캘린더</Title>
       </CalendarPage>
     </>
   );
 };
+
+const Title = styled.h1`
+  font-size: 26px;
+  margin-top: 80px;
+`;
 
 const CalendarPage = styled.main`
   width: 65%;
