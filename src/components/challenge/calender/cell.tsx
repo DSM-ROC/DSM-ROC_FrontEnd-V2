@@ -1,5 +1,6 @@
 import { isSameMonth } from 'date-fns';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
+import { theme } from 'styles/theme';
 import { dayType } from 'utils/interface/calendar/caledar';
 
 interface props {
@@ -34,7 +35,10 @@ const determiningBackgroundColor = ({
 }: {
   day: dayType;
 }): FlattenSimpleInterpolation => {
-  const bgColor = day === 0 || day === 6 ? '#DBEFFF' : '#F6FBFF';
+  const bgColor =
+    day === 0 || day === 6
+      ? theme.weekendCalendarColor
+      : theme.weekdayCalendarColor;
 
   return css`
     background-color: ${bgColor};
