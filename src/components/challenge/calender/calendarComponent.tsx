@@ -13,7 +13,7 @@ import styled from 'styled-components';
 import Cell from './cell';
 
 const CalendarComponent = (): JSX.Element => {
-  const monthStart = startOfMonth(subMonths(new Date(), 1));
+  const monthStart = startOfMonth(new Date());
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
