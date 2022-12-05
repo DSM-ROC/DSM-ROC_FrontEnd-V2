@@ -1,3 +1,4 @@
+import CalendarComponent from 'components/challenge/calender/calendarComponent';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
 import styled from 'styled-components';
 
@@ -20,6 +21,7 @@ const Calendar = (): JSX.Element => {
       <CalendarPage>
         <ChallengeInfoSection challengeData={challengeData} />
         <Title>챌린지 캘린더</Title>
+        <CalendarComponent />
       </CalendarPage>
     </>
   );
