@@ -15,7 +15,7 @@ const Cell = ({ date, formattedDate, day, monthStart }: props): JSX.Element => {
   return (
     <>
       <CellContainer day={day}>
-        <DayNumber>
+        <DayNumber date={date}>
           {isSameMonth(date, monthStart) ? formattedDate : ''}
         </DayNumber>
         {isSameMonth(date, monthStart) && date <= new Date() && (
@@ -36,6 +36,14 @@ const DayNumber = styled.p`
   justify-content: center;
   align-items: center;
   aspect-ratio: 1;
+
+  ${({ date }: { date: Date }) =>
+    isSameDay(date, new Date()) &&
+    css`
+      background-color: red;
+      border-radius: 50%;
+      color: ${theme.whiteContentColor};
+    `}
 `;
 
 const TodayComment = styled.div`
