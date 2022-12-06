@@ -41,6 +41,7 @@ const Calendar = (): JSX.Element => {
 const Title = styled.h1`
   font-size: 26px;
   margin-top: 80px;
+  margin-bottom: 80px;
 `;
 
 const CalendarPage = styled.main`

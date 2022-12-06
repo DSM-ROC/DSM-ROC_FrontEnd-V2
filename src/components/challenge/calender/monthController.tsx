@@ -57,6 +57,7 @@ const MonthControllerContainer = styled.div`
   gap: 100px;
 
   margin: 0 auto;
+  margin-bottom: 60px;
 `;
 
 export default MonthController;
