@@ -1,3 +1,4 @@
+export { default as arrow } from 'assets/img/calendar/arrow.svg';
 export { default as speaker } from 'assets/img/main/speaker.png';
 export { default as search } from 'assets/img/main/search.svg';
 export { default as background } from 'assets/img/main/background.png';
