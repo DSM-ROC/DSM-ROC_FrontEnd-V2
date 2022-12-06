@@ -1,22 +1,28 @@
 import styled from 'styled-components';
+import { theme } from 'styles/theme';
 
 const Login = (): JSX.Element => {
   return (
     <>
       <LoginPage>
-        <Head>Header</Head>
         <LoginWrapper>
           <LoginForm>
             <b>로그인</b>
           </LoginForm>
           <LoginBox>
-            <EmailForm>이메일</EmailForm>
+            <EmailForm>
+              <b>이메일</b>
+            </EmailForm>
             <Email placeholder="이메일을 입력해주세요" />
             <InputForm>
-              <PwForm>비밀번호</PwForm>
+              <PwForm>
+                <b>비밀번호</b>
+              </PwForm>
               <PassWord placeholder="비밀번호를 입력해주세요" />
             </InputForm>
-            <LoginBtn><b>로그인</b></LoginBtn>
+            <LoginBtn>
+              <b>로그인</b>
+            </LoginBtn>
           </LoginBox>
         </LoginWrapper>
       </LoginPage>
@@ -27,28 +33,18 @@ const Login = (): JSX.Element => {
 export default Login;
 
 const LoginPage = styled.div`
-  width: 100vw;
-  height: 100vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-`;
-const Head = styled.div`
-  width: 1512px;
-  height: 130px;
-  position: fixed;
-  top: 0;
-  display: flex;
   justify-content: center;
 `;
 const LoginWrapper = styled.div`
   width: 600px;
   height: 620px;
   border-radius: 10px;
-  border: solid 1px #808080;
   display: flex;
   justify-content: center;
   margin-top: 62px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 `;
 const LoginForm = styled.div`
   font-size: 40px;
@@ -62,48 +58,54 @@ const LoginBox = styled.div`
   height: 340px;
 `;
 const EmailForm = styled.div`
-  color: blue;
+  color: ${theme.mainBlueColor};
   font-size: 20px;
   margin-bottom: 30px;
 `;
 const Email = styled.input`
   border: none;
-  border-bottom: 1px blue solid;
+  border-bottom: 3px ${theme.mainBlueColor} solid;
   display: flex;
   position: absolute;
   width: 420px;
   padding-bottom: 10px;
   outline: none;
+  font-size: 16px;
 `;
-
 const PwForm = styled.div`
-  color: blue;
+  color: ${theme.mainBlueColor};
   font-size: 20px;
   margin-bottom: 30px;
 `;
 const PassWord = styled.input`
   border: none;
-  border-bottom: 1px blue solid;
+  border-bottom: 3px ${theme.mainBlueColor} solid;
   display: flex;
   position: absolute;
   width: 420px;
   padding-bottom: 10px;
   outline: none;
+  font-size: 16px;
 `;
 const InputForm = styled.div`
   position: relative;
-  top: 50px;
+  top: 65px;
 `;
 const LoginBtn = styled.button`
   width: 420px;
   height: 60px;
   border-radius: 33px;
   border: none;
-  background-color: blue;
+  background-color: ${theme.mainBlueColor};
   justify-content: center;
   align-items: center;
   position: absolute;
-  bottom: 240px;
+  top: 680px;
   color: white;
   font-size: 24px;
+  background: linear-gradient(
+    To right,
+    rgba(0, 100, 255, 0.4),
+    ${theme.mainBlueColor}
+  );
 `;
