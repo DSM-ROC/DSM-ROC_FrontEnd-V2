@@ -1,4 +1,5 @@
-import { isSameDay, isSameMonth } from 'date-fns';
+import { format, isSameDay, isSameMonth } from 'date-fns';
+import { Link, useParams } from 'react-router-dom';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import { theme } from 'styles/theme';
 import { dayType } from 'utils/interface/calendar/caledar';
@@ -18,6 +19,10 @@ const Cell = ({
   monthStart,
   challengeStartDate,
 }: props): JSX.Element => {
+  const { challengeId } = useParams();
+
+  const dateString = format(date, 'yyyy-MM-dd');
+
   return (
     <>
       <CellContainer day={day}>
@@ -27,12 +32,21 @@ const Cell = ({
         {isSameMonth(date, monthStart) &&
           date <= new Date() &&
           date >= challengeStartDate && (
-            <TodayComment>오늘의 메모🔥</TodayComment>
+            <StyleLink
+              to={`/challenge/${challengeId}/comments?date=${dateString}`}
+            >
+              <TodayComment>오늘의 메모🔥</TodayComment>
+            </StyleLink>
           )}
       </CellContainer>
     </>
   );
 };
+
+const StyleLink = styled(Link)`
+  width: 80%;
+  height: fit-content;
+`;
 
 const DayNumber = styled.p`
   font-size: 18px;
@@ -55,7 +69,7 @@ const DayNumber = styled.p`
 `;
 
 const TodayComment = styled.div`
-  width: 80%;
+  width: 100%;
   background-color: white;
   border: 0.5px solid #c6c6c6;
 
