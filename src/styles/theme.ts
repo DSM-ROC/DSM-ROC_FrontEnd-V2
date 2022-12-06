@@ -1,7 +1,7 @@
 export const theme = {
   mainBlueColor: '#1C7ED6',
   uiBlueColor: '#1864AB',
-  uiReadColor: '#F03E3E',
+  uiRedColor: '#F03E3E',
 
   blackContentColor: '#000000',
   whiteContentColor: '#ffffff',
