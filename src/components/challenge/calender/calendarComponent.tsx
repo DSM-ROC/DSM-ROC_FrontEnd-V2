@@ -7,10 +7,10 @@ import {
   getMonth,
   startOfMonth,
   startOfWeek,
-  subMonths,
 } from 'date-fns';
 import styled from 'styled-components';
 import Cell from './cell';
+import WeekBar from './weekBar';
 
 const CalendarComponent = (): JSX.Element => {
   const monthStart = startOfMonth(new Date());
@@ -43,9 +43,8 @@ const CalendarComponent = (): JSX.Element => {
 
   return (
     <>
-      <>
-        <CalendarContainer>{rows}</CalendarContainer>
-      </>
+      <WeekBar />
+      <CalendarContainer>{rows}</CalendarContainer>
     </>
   );
 };
