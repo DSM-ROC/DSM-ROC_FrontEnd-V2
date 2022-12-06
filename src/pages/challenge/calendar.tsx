@@ -1,5 +1,7 @@
 import CalendarComponent from 'components/challenge/calender/calendarComponent';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
+import { addMonths, startOfMonth, subMonths } from 'date-fns';
+import { useState } from 'react';
 import styled from 'styled-components';
 
 const challengeData = {
@@ -16,12 +18,21 @@ const challengeData = {
 };
 
 const Calendar = (): JSX.Element => {
+  const [monthStart, setMonthStart] = useState<Date>(startOfMonth(new Date()));
+
+  const preMonth = (): void => setMonthStart(subMonths(monthStart, 1));
+  const nextMonth = (): void => setMonthStart(addMonths(monthStart, 1));
+
   return (
     <>
       <CalendarPage>
         <ChallengeInfoSection challengeData={challengeData} />
         <Title>챌린지 캘린더</Title>
-        <CalendarComponent />
+        <CalendarComponent
+          monthStart={monthStart}
+          preMonth={preMonth}
+          nextMonth={nextMonth}
+        />
       </CalendarPage>
     </>
   );
