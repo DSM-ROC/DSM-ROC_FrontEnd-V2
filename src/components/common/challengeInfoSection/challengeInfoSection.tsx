@@ -77,6 +77,7 @@ const ChallengeInfoContainer = styled.section`
   width: 100%;
   height: fit-content;
   padding-bottom: 30px;
+  margin-top: 50px;
 
   border-bottom: ${theme.darkGray} 1px solid;
 
