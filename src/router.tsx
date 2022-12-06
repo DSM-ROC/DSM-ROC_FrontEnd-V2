@@ -18,10 +18,9 @@ const Router = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
         <Route element={<Header />}>
-          {/** header 있는 페이지 */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/" element={<Main />} />
           <Route path="/myPage" element={<MyPage />} />
           <Route path="/createChallenge" element={<CreateChallenge />} />
