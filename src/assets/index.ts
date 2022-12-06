@@ -1,1 +1,1 @@
-export const t = '에러 제거용 / 추후 삭제';
+export { default as logo } from 'assets/img/header/logo.png';
