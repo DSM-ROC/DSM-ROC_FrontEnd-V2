@@ -1,23 +1,34 @@
 import {
   addDays,
+  addMonths,
   endOfMonth,
   endOfWeek,
   format,
   getDay,
-  getMonth,
   startOfMonth,
   startOfWeek,
+  subMonths,
 } from 'date-fns';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Cell from './cell';
 import MonthController from './monthController';
 import WeekBar from './weekBar';
 
 const CalendarComponent = (): JSX.Element => {
-  const monthStart = startOfMonth(new Date());
-  const monthEnd = endOfMonth(monthStart);
-  const startDate = startOfWeek(monthStart);
-  const endDate = endOfWeek(monthEnd);
+  const [monthStart, setMonthStart] = useState<Date>(startOfMonth(new Date()));
+  const [monthEnd, setMonthEnd] = useState<Date>(endOfMonth(monthStart));
+  const [startDate, setStartDate] = useState<Date>(startOfWeek(monthStart));
+  const [endDate, setEndDate] = useState<Date>(endOfWeek(monthEnd));
+
+  const preMonth = (): void => setMonthStart(subMonths(monthStart, 1));
+  const nextMonth = (): void => setMonthStart(addMonths(monthStart, 1));
+
+  useEffect(() => {
+    setMonthEnd(endOfMonth(monthStart));
+    setStartDate(startOfWeek(monthStart));
+    setEndDate(endOfWeek(monthEnd));
+  }, [monthStart]);
 
   const rows = [];
   let dates = [];
@@ -45,7 +56,11 @@ const CalendarComponent = (): JSX.Element => {
 
   return (
     <>
-      <MonthController monthStart={monthStart} />
+      <MonthController
+        monthStart={monthStart}
+        preMonth={preMonth}
+        nextMonth={nextMonth}
+      />
       <WeekBar />
       <CalendarContainer>{rows}</CalendarContainer>
     </>
