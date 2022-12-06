@@ -15,16 +15,25 @@ interface props {
   monthStart: Date;
   preMonth: () => void;
   nextMonth: () => void;
+  period: string;
 }
 
 const CalendarComponent = ({
   monthStart,
+  period,
   preMonth,
   nextMonth,
 }: props): JSX.Element => {
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
+
+  const [sYear, sMonth, sDate] = period.split(' ')[0].split('.');
+  const challengeStartDate = new Date(
+    Number(sYear),
+    Number(sMonth) - 1,
+    Number(sDate),
+  );
 
   const rows = [];
   let dates = [];
@@ -37,6 +46,7 @@ const CalendarComponent = ({
       dates.push(
         <Cell
           key={formattedDate}
+          challengeStartDate={challengeStartDate}
           date={date}
           day={getDay(date)}
           formattedDate={formattedDate}

@@ -8,18 +8,27 @@ interface props {
   day: dayType;
   formattedDate: string;
   monthStart: Date;
+  challengeStartDate: Date;
 }
 
-const Cell = ({ date, formattedDate, day, monthStart }: props): JSX.Element => {
+const Cell = ({
+  date,
+  formattedDate,
+  day,
+  monthStart,
+  challengeStartDate,
+}: props): JSX.Element => {
   return (
     <>
       <CellContainer day={day}>
         <DayNumber date={date}>
           {isSameMonth(date, monthStart) ? formattedDate : ''}
         </DayNumber>
-        {isSameMonth(date, monthStart) && date <= new Date() && (
-          <TodayComment>오늘의 메모🔥</TodayComment>
-        )}
+        {isSameMonth(date, monthStart) &&
+          date <= new Date() &&
+          date >= challengeStartDate && (
+            <TodayComment>오늘의 메모🔥</TodayComment>
+          )}
       </CellContainer>
     </>
   );

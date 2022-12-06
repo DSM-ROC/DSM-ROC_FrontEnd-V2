@@ -29,6 +29,7 @@ const Calendar = (): JSX.Element => {
         <ChallengeInfoSection challengeData={challengeData} />
         <Title>챌린지 캘린더</Title>
         <CalendarComponent
+          period={challengeData.period}
           monthStart={monthStart}
           preMonth={preMonth}
           nextMonth={nextMonth}
