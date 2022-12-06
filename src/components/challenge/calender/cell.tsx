@@ -11,7 +11,6 @@ interface props {
 }
 
 const Cell = ({ date, formattedDate, day, monthStart }: props): JSX.Element => {
-  console.log({ date, formattedDate, monthStart, day });
   return (
     <>
       <CellContainer day={day}>

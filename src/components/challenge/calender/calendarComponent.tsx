@@ -10,6 +10,7 @@ import {
 } from 'date-fns';
 import styled from 'styled-components';
 import Cell from './cell';
+import MonthController from './monthController';
 import WeekBar from './weekBar';
 
 const CalendarComponent = (): JSX.Element => {
@@ -18,17 +19,17 @@ const CalendarComponent = (): JSX.Element => {
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
 
-  console.log(getMonth(monthStart));
-
   const rows = [];
   let dates = [];
   let date = startDate;
+  let count = 0;
   while (date <= endDate) {
     for (let i = 0; i < 7; i++) {
       const formattedDate = format(date, 'd');
 
       dates.push(
         <Cell
+          key={formattedDate}
           date={date}
           day={getDay(date)}
           formattedDate={formattedDate}
@@ -37,12 +38,14 @@ const CalendarComponent = (): JSX.Element => {
       );
       date = addDays(date, 1);
     }
-    rows.push(<Week>{dates}</Week>);
+    rows.push(<Week key={count}>{dates}</Week>);
+    count++;
     dates = [];
   }
 
   return (
     <>
+      <MonthController monthStart={monthStart} />
       <WeekBar />
       <CalendarContainer>{rows}</CalendarContainer>
     </>
