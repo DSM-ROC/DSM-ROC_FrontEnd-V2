@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { theme } from 'styles/theme';
 
 interface props {
   challengeData: {
@@ -32,9 +33,9 @@ const Tag = styled.div`
   padding: 0 15px;
 
   font-size: 14px;
-  color: #1c7ed6;
+  color: ${theme.mainBlueColor};
 
-  border: #1c7ed6 1px solid;
+  border: ${theme.mainBlueColor} 1px solid;
   border-radius: 15px;
 
   display: flex;
@@ -77,7 +78,7 @@ const ChallengeInfoContainer = styled.section`
   height: fit-content;
   padding-bottom: 30px;
 
-  border-bottom: #5b5b5b 1px solid;
+  border-bottom: ${theme.darkGray} 1px solid;
 
   display: flex;
   flex-direction: column;

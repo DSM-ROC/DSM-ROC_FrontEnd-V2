@@ -91,7 +91,10 @@ const determiningBackgroundColor = ({
 }: {
   day: dayType;
 }): FlattenSimpleInterpolation => {
-  const bgColor = day === 0 || day === 6 ? '#DBEFFF' : '#F6FBFF';
+  const bgColor =
+    day === 0 || day === 6
+      ? theme.weekendCalendarColor
+      : theme.weekdayCalendarColor;
 
   return css`
     background-color: ${bgColor};

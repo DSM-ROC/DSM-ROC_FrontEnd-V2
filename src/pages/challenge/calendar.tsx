@@ -50,6 +50,7 @@ const CalendarPage = styled.main`
   height: fit-content;
   min-height: 100px;
   margin: 0 auto;
+  margin-bottom: 300px;
 `;
 
 export default Calendar;
