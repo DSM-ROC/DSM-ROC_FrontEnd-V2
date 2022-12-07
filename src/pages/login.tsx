@@ -14,12 +14,10 @@ const Login = (): JSX.Element => {
               <b>이메일</b>
             </EmailForm>
             <Email placeholder="이메일을 입력해주세요" />
-            <InputForm>
               <PwForm>
                 <b>비밀번호</b>
               </PwForm>
               <PassWord placeholder="비밀번호를 입력해주세요" />
-            </InputForm>
             <LoginBtn>
               <b>로그인</b>
             </LoginBtn>
@@ -66,11 +64,11 @@ const Email = styled.input`
   border: none;
   border-bottom: 3px ${theme.mainBlueColor} solid;
   display: flex;
-  position: absolute;
   width: 420px;
   padding-bottom: 10px;
   outline: none;
   font-size: 16px;
+  margin-bottom: 42px;
 `;
 const PwForm = styled.div`
   color: ${theme.mainBlueColor};
@@ -81,15 +79,11 @@ const PassWord = styled.input`
   border: none;
   border-bottom: 3px ${theme.mainBlueColor} solid;
   display: flex;
-  position: absolute;
   width: 420px;
   padding-bottom: 10px;
   outline: none;
   font-size: 16px;
-`;
-const InputForm = styled.div`
-  position: relative;
-  top: 65px;
+  margin-bottom: 42px;
 `;
 const LoginBtn = styled.button`
   width: 420px;
