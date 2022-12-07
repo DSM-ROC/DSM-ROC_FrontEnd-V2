@@ -1,4 +1,5 @@
 import AddComment from 'components/challenge/comments/addComment';
+import CommentList from 'components/challenge/comments/commentList';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
 import { useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -28,6 +29,7 @@ const Comments = (): JSX.Element => {
         오늘의 메모🔥 - {year}년 {Number(month)}월 {Number(date)}일
       </Title>
       <AddComment />
+      <CommentList />
     </CommentsPage>
   );
 };
