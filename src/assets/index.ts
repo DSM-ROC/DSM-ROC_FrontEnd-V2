@@ -8,3 +8,7 @@ export { default as logo } from 'assets/img/header/logo.png';
 export { default as whiteLogo } from 'assets/img/footer/whiteLogo.png';
 export { default as facebook } from 'assets/img/footer/facebook.svg';
 export { default as github } from 'assets/img/footer/github.svg';
+export { default as boardIcon } from 'assets/img/comments/boardIcon.svg';
+export { default as calenderIcon } from 'assets/img/comments/calenderIcon.svg';
+export { default as challengerIcon } from 'assets/img/comments/challengerIcon.svg';
+export { default as deleteIcon } from 'assets/img/comments/deleteIcon.svg';
