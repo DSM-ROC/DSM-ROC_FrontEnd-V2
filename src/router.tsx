@@ -14,6 +14,7 @@ import Comments from 'pages/challenge/comments';
 import Board from 'pages/challenge/board';
 import Challengers from 'pages/challenge/challengers';
 import Footer from 'components/common/footer/footer';
+import AllChallenge from 'pages/allChallenge';
 
 const Router = (): JSX.Element => {
   return (
@@ -29,12 +30,15 @@ const Router = (): JSX.Element => {
             <Route path="/" element={<Main />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/createChallenge" element={<CreateChallenge />} />
-            <Route path="detail/:challengeId" element={<Detail />} />
-            <Route path="challenge/:challengeId">
-              <Route path="" element={<Challenge />} />
-              <Route path="calendar" element={<Calendar />} />
-              <Route path="comments" element={<Comments />} />
-              <Route path="challengers" element={<Challengers />} />
+            <Route path="/detail/:challengeId" element={<Detail />} />
+            <Route path="/challenge">
+              <Route path="" element={<AllChallenge />} />
+              <Route path=":challengeId">
+                <Route path="" element={<Challenge />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="comments" element={<Comments />} />
+                <Route path="challengers" element={<Challengers />} />
+              </Route>
             </Route>
           </Route>
         </Route>
