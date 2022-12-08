@@ -1,24 +1,45 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
+import { ChangeEvent, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 
 const AddComment = (): JSX.Element => {
+  const navigate = useNavigate();
+  const { challengeId } = useParams();
+  const [comment, setComment] = useState<string>('');
+
+  const goCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
+  const goBoardPage = () => navigate(`/challenge/${challengeId}/board`);
+  const goChallengerPage = () =>
+    navigate(`/challenge/${challengeId}/challengers`);
+
+  const changeComment = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setComment(value);
+  };
+
   return (
     <AddCommentContainer>
       <InputWrap>
         <Profile />
-        <CommentInput placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다." />
+        <CommentInput
+          placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
+          value={comment}
+          onChange={changeComment}
+        />
       </InputWrap>
       <Buttons>
-        <Button>
+        <Button onClick={goCalendarPage}>
           <Icon img={calenderIcon} />
           <Label>캘린더 보기</Label>
         </Button>
-        <Button>
+        <Button onClick={goBoardPage}>
           <Icon img={boardIcon} />
           <Label>자유게시판</Label>
         </Button>
-        <Button>
+        <Button onClick={goChallengerPage}>
           <Icon img={challengerIcon} />
           <Label>챌린저 목록</Label>
         </Button>
@@ -51,6 +72,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 `;
 
 const Buttons = styled.div`
