@@ -1,18 +1,15 @@
 import { arrow } from 'assets';
-import { getMonth, getYear } from 'date-fns';
+import { addMonths, getMonth, getYear, subMonths } from 'date-fns';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { calendarRecoil } from 'utils/store/calendar/calendar';
 
-interface props {
-  monthStart: Date;
-  preMonth: () => void;
-  nextMonth: () => void;
-}
+const MonthController = (): JSX.Element => {
+  const [monthStart, setMonthStart] = useRecoilState(calendarRecoil);
 
-const MonthController = ({
-  monthStart,
-  preMonth,
-  nextMonth,
-}: props): JSX.Element => {
+  const preMonth = (): void => setMonthStart(subMonths(monthStart, 1));
+  const nextMonth = (): void => setMonthStart(addMonths(monthStart, 1));
+
   return (
     <MonthControllerContainer>
       <PreMonthBtn onClick={preMonth} />
