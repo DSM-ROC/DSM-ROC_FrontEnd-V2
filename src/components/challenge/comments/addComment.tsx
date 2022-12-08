@@ -1,4 +1,5 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
@@ -6,17 +7,28 @@ import { theme } from 'styles/theme';
 const AddComment = (): JSX.Element => {
   const navigate = useNavigate();
   const { challengeId } = useParams();
+  const [comment, setComment] = useState<string>('');
 
   const goCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
   const goBoardPage = () => navigate(`/challenge/${challengeId}/board`);
   const goChallengerPage = () =>
     navigate(`/challenge/${challengeId}/challengers`);
 
+  const changeComment = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setComment(value);
+  };
+
   return (
     <AddCommentContainer>
       <InputWrap>
         <Profile />
-        <CommentInput placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다." />
+        <CommentInput
+          placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
+          value={comment}
+          onChange={changeComment}
+        />
       </InputWrap>
       <Buttons>
         <Button onClick={goCalendarPage}>
