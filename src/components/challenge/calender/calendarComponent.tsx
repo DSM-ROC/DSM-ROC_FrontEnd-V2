@@ -6,24 +6,19 @@ import {
   getDay,
   startOfWeek,
 } from 'date-fns';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { calendarRecoil } from 'utils/store/calendar/calendar';
 import Cell from './cell';
 import MonthController from './monthController';
 import WeekBar from './weekBar';
 
 interface props {
-  monthStart: Date;
-  preMonth: () => void;
-  nextMonth: () => void;
   period: string;
 }
 
-const CalendarComponent = ({
-  monthStart,
-  period,
-  preMonth,
-  nextMonth,
-}: props): JSX.Element => {
+const CalendarComponent = ({ period }: props): JSX.Element => {
+  const monthStart = useRecoilValue(calendarRecoil);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
@@ -50,7 +45,6 @@ const CalendarComponent = ({
           date={date}
           day={getDay(date)}
           formattedDate={formattedDate}
-          monthStart={monthStart}
         />,
       );
       date = addDays(date, 1);
@@ -62,11 +56,7 @@ const CalendarComponent = ({
 
   return (
     <>
-      <MonthController
-        monthStart={monthStart}
-        preMonth={preMonth}
-        nextMonth={nextMonth}
-      />
+      <MonthController />
       <WeekBar />
       <CalendarContainer>{rows}</CalendarContainer>
     </>
