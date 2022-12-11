@@ -1,11 +1,7 @@
-import Banner from 'components/createChallenge/banner';
-import InputItems from 'components/createChallenge/inputItems';
-
 const CreateChallenge = (): JSX.Element => {
   return (
     <>
-      <Banner />
-      <InputItems />
+      <h1>CreateChallenge</h1>
     </>
   );
 };
