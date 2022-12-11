@@ -4,3 +4,5 @@ export { default as background } from 'assets/img/main/background.png';
 export { default as falseLike } from 'assets/img/main/falseLike.png';
 export { default as trueLike } from 'assets/img/main/trueLike.png';
 export { default as logo } from 'assets/img/header/logo.png';
+export { default as pen } from 'assets/img/createChallenge/pen.png';
+export { default as defaultImg } from 'assets/img/createChallenge/defaultImg.png';
