@@ -40,13 +40,8 @@ const Header = (): JSX.Element => {
 export default Header;
 
 const Container = styled.div`
-<<<<<<< Updated upstream
-  width: 100vw;
-  height: 100px;
-=======
   width: 100%;
-  height: 130px;
->>>>>>> Stashed changes
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
