@@ -2,20 +2,22 @@ import MemberCard from 'components/memberCard';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import crown from '../../assets/img/challenger/Crown.png';
-import trashcan from '../../assets/img/challenger/trashcan.png';
+import profile from '../../assets/img/challenger/profile.png';
 
 const Challengers = (): JSX.Element => {
   const Member = [
     {
-      rank: '[챌린저]',
-      name: '뿡뿡이',
-      img: trashcan,
-    },
-    {
+      profile: profile,
       rank: '[챌린저]',
       name: '뿡뿡이',
     },
     {
+      profile: profile,
+      rank: '[챌린저]',
+      name: '뿡뿡이',
+    },
+    {
+      profile: profile,
       rank: '[챌린저]',
       name: '뿡뿡이',
     },
@@ -52,7 +54,12 @@ const Challengers = (): JSX.Element => {
             <b>[챌린지 방장]</b>&nbsp;진격의 규짱
           </ChallengeHost>
           {Member.map((member) => (
-            <MemberCard img={member.img} rank={member.rank} name={member.name} />
+            <MemberCard
+              deleteMember
+              profile={member.profile}
+              rank={member.rank}
+              name={member.name}
+            />
           ))}
         </Challenger>
       </ChallengerPage>
@@ -63,7 +70,7 @@ const Challengers = (): JSX.Element => {
 export default Challengers;
 
 const ChallengerPage = styled.div`
-  width: 100% ;
+  width: 100%;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -158,4 +165,5 @@ const Crown = styled.img`
 `;
 const Challenger = styled.div`
   font-size: 24px;
+  margin-bottom: 230px;
 `;

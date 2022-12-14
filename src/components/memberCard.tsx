@@ -1,28 +1,22 @@
 import styled from 'styled-components';
-
+import trashcan from '../assets/img/challenger/trashcan.png';
 interface MemberCardProps {
-  pfp?: string;
+  profile: string;
   rank: string;
   name: string;
-  img: string;
   deleteMember?: boolean;
 }
 
-const MemberCard = ({
-  pfp,
-  rank,
-  name,
-  img,
-  deleteMember,
-}: MemberCardProps) => {
+const MemberCard = ({ profile, rank, name, deleteMember }: MemberCardProps) => {
   return (
     <Wrapper>
       <ProfileWrapper>
-        <img src={pfp} alt="profile" />
+        <img src={profile} alt="profile" />
         <b>{rank}</b>
+        &nbsp;
         <span>{name}</span>
       </ProfileWrapper>
-      {deleteMember && <img src={img} alt="deleteMember" />}
+      {deleteMember && <img src={trashcan} alt="deleteMember" />}
     </Wrapper>
   );
 };
@@ -49,7 +43,6 @@ const Wrapper = styled.div`
 `;
 
 const ProfileWrapper = styled.div`
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   align-items: center;
