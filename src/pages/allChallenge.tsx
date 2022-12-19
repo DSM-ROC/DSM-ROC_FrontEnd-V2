@@ -1,7 +1,13 @@
+import Banner from 'components/allChallenge/banner';
+import ChallengeList from 'components/allChallenge/challengeList';
+import Warning from 'components/allChallenge/warning';
+
 const AllChallenge = () => {
   return (
     <>
-      <h1>AllChallenge</h1>
+      <Banner />
+      <Warning />
+      <ChallengeList />
     </>
   );
 };
