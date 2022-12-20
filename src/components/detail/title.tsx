@@ -34,7 +34,7 @@ export default function Title() {
 }
 
 const Container = styled.div`
-  width: 70vw;
+  width: 70%;
   margin-top: 40px;
   padding-bottom: 30px;
   border-bottom: 1px solid ${theme.darkGray};
