@@ -17,14 +17,14 @@ export default function Warning() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-top: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 const TextBox = styled.div`
-  width: 80vw;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -42,14 +42,14 @@ export default function ChallengeList() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
 `;
 
 const TextBox = styled.ul`
