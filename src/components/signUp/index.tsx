@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { postSignUp } from 'utils/api/signup';
+import { SignUpType } from 'utils/interface/signUp';
 
-interface SignUpProps {
-  email: string;
-  password: string;
-  nickname: string;
-}
-
-const SignUp = (): JSX.Element => {
-  const [signupState, setSignupState] = useState<SignUpProps>({
+const SignUp = () => {
+  const [signupState, setSignupState] = useState<SignUpType>({
     email: '',
     password: '',
     nickname: '',
@@ -23,6 +19,19 @@ const SignUp = (): JSX.Element => {
       ...signupState,
       [name]: value,
     });
+  };
+
+  const SubmitSignUp = () => {
+    if (email === '' || nickname === '' || password === '') {
+      alert('입력칸을 다시 확인해주세요.');
+    } else {
+      postSignUp({
+        email: email,
+        nickname: nickname,
+        password: password,
+      });
+      alert('회원가입에 성공하셨습니다!');
+    }
   };
 
   return (
@@ -59,7 +68,7 @@ const SignUp = (): JSX.Element => {
             minLength={8}
             maxLength={20}
           />
-          <SignUpBtn>
+          <SignUpBtn onClick={SubmitSignUp}>
             <b>회원가입</b>
           </SignUpBtn>
         </SignUpBox>
