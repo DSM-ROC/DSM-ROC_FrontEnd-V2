@@ -63,7 +63,7 @@ const Contents = styled.div`
   height: 1539px;
   display: flex;
   flex-direction: column;
-  border: solid #dcecfa;
+  border: solid ${theme.darkGray};
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background-color: ${theme.whiteContentColor};
