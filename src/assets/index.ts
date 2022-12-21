@@ -15,3 +15,5 @@ export { default as calenderIcon } from 'assets/img/comments/calenderIcon.svg';
 export { default as challengerIcon } from 'assets/img/comments/challengerIcon.svg';
 export { default as deleteIcon } from 'assets/img/comments/deleteIcon.svg';
 export { default as list } from 'assets/img/allChallenge/list.png';
+export { default as profile } from 'assets/img/mypage/profile.svg';
+export { default as challengeImg } from 'assets/img/mypage/challengeImg.svg';
