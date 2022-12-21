@@ -1,17 +1,18 @@
 import styled from 'styled-components';
-import { speaker } from 'assets';
+import { theme } from 'styles/theme';
+import { pen } from 'assets';
 
 export default function Banner() {
   return (
     <Container>
       <Wrapper>
         <TextBox>
-          <Page>ROC 메인페이지</Page>
-          <Title>ROC와 함께할 </Title>
-          <Title>챌린저들을 모집합니다!</Title>
+          <Page>ROC 챌린지 생성하기 페이지</Page>
+          <Title>원하는 챌린지를 </Title>
+          <Title>생성하고 모집해보세요</Title>
           <Content>공동의 목표를 정하고 함께 목표를 실현합니다</Content>
         </TextBox>
-        <Image src={speaker}></Image>
+        <Image src={pen}></Image>
       </Wrapper>
     </Container>
   );
@@ -24,7 +25,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   color: #fff;
-  background-color: #1c7ed6;
+  background-color: ${theme.mainBlueColor};
 `;
 
 const Wrapper = styled.div`
@@ -52,5 +53,5 @@ const Content = styled.p`
 `;
 
 const Image = styled.img`
-  width: 380px;
+  width: 400px;
 `;

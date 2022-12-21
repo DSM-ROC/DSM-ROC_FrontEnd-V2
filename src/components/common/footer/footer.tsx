@@ -3,49 +3,53 @@ import { theme } from 'styles/theme';
 import { whiteLogo } from 'assets';
 import { facebook } from 'assets';
 import { github } from 'assets';
+import { Outlet } from 'react-router-dom';
 
 export default function Footer() {
   return (
-    <Container>
-      <Wrapper>
-        <Cover>
-          <Image src={whiteLogo}></Image>
-          <Text>
-            <Front>
-              <Fild>Frontend</Fild>
-              <Names>
-                <Name>김민성</Name>
-                <Name>배준수</Name>
-                <Name>신윤호</Name>
-                <Name>임수빈</Name>
-              </Names>
-            </Front>
-            <Back>
-              <Fild>Back-end</Fild>
-              <Names>
-                <Name>박상진</Name>
-                <Name>이예빈</Name>
-              </Names>
-            </Back>
-            <Design>
-              <Fild>Designer</Fild>
-              <Names>
-                <Name>임수빈</Name>
-              </Names>
-            </Design>
-          </Text>
-        </Cover>
-        <Route>
-          <Facebook src={facebook}></Facebook>
-          <Github src={github}></Github>
-        </Route>
-      </Wrapper>
-    </Container>
+    <>
+      <Outlet />
+      <Container>
+        <Wrapper>
+          <Cover>
+            <Image src={whiteLogo}></Image>
+            <Text>
+              <Front>
+                <Fild>Frontend</Fild>
+                <Names>
+                  <Name>김민성</Name>
+                  <Name>배준수</Name>
+                  <Name>신윤호</Name>
+                  <Name>임수빈</Name>
+                </Names>
+              </Front>
+              <Back>
+                <Fild>Back-end</Fild>
+                <Names>
+                  <Name>박상진</Name>
+                  <Name>이예빈</Name>
+                </Names>
+              </Back>
+              <Design>
+                <Fild>Designer</Fild>
+                <Names>
+                  <Name>임수빈</Name>
+                </Names>
+              </Design>
+            </Text>
+          </Cover>
+          <Route>
+            <Facebook src={facebook}></Facebook>
+            <Github src={github}></Github>
+          </Route>
+        </Wrapper>
+      </Container>
+    </>
   );
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 340px;
   display: flex;
   align-items: center;
@@ -103,6 +107,7 @@ const Names = styled.div`
 
 const Name = styled.p`
   font-weight: 600;
+  white-space: nowrap;
 `;
 
 const routeLogo = styled.img`
