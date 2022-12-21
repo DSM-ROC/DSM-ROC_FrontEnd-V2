@@ -36,6 +36,9 @@ const Comments = (): JSX.Element => {
   };
 
   useLayoutEffect(() => {
+    if (!/(\d{2})-(\d{2})-(\d{2})/.test(dateStr)) {
+      navigate(-1);
+    }
     getData();
   }, []);
 
