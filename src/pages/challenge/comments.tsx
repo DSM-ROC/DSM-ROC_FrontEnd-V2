@@ -2,16 +2,19 @@ import AddComment from 'components/challenge/comments/addComment';
 import CommentList from 'components/challenge/comments/commentList';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 const Comments = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const addCommentInputRef = useRef<HTMLInputElement>(null);
   const [searchParams] = useSearchParams();
-  const dateStr: string = searchParams.get('date') as string;
-  const [year, month, date] = dateStr.split('-');
+  const { challengeId } = useParams();
+  const dateStr = searchParams.get('date') ?? '';
+  const date = new Date(dateStr);
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
     id: 0,
     name: '',
@@ -28,8 +31,6 @@ const Comments = (): JSX.Element => {
     },
   });
 
-  const { challengeId } = useParams();
-
   const getData = async () => {
     setChallengeData(await getChallengeData(challengeId as string));
   };
@@ -42,10 +43,11 @@ const Comments = (): JSX.Element => {
     <CommentsPage>
       <ChallengeInfoSection challengeData={challengeData} />
       <Title>
-        오늘의 메모🔥 - {year}년 {Number(month)}월 {Number(date)}일
+        오늘의 메모🔥 - {date.getFullYear()}년 {Number(date.getMonth() + 1)}월{' '}
+        {Number(date.getDate())}일
       </Title>
       <AddComment addCommentInputRef={addCommentInputRef} />
-      <CommentList addCommentInputRef={addCommentInputRef} />
+      <CommentList addCommentInputRef={addCommentInputRef} date={date} />
     </CommentsPage>
   );
 };

@@ -8,14 +8,27 @@ import Commemt from './commemt';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
+  date: Date;
 }
 
-const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
+const CommentList = ({ addCommentInputRef, date }: props): JSX.Element => {
   const { challengeId } = useParams();
   const [commentDateList, setCommentDateList] = useState<commentDataType[]>([]);
 
+  const isSameDate = (date1: Date, date2: Date) => {
+    return (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    );
+  };
+
   const getCommentData = async () => {
-    setCommentDateList(await getCommentList(parseInt(challengeId as string)));
+    setCommentDateList(
+      (await getCommentList(parseInt(challengeId as string))).filter(
+        (comment: commentDataType) => isSameDate(date, comment.createdAt),
+      ),
+    );
   };
 
   useEffect(() => {
@@ -29,7 +42,7 @@ const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
   return (
     <CommentListContainer>
       {commentDateList.length ? (
-        commentDateList.map((commentData, i) => (
+        commentDateList.map((commentData: commentDataType, i) => (
           <Commemt key={i} commentData={commentData} />
         ))
       ) : (
