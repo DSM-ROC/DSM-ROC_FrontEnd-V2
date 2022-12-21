@@ -1,27 +1,22 @@
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 interface props {
-  challengeData: {
-    title: string;
-    writer: string;
-    period: string;
-    tags: string[];
-  };
+  challengeData: challengeInfoType;
 }
 
 const ChallengeInfoSection = ({ challengeData }: props): JSX.Element => {
   return (
     <ChallengeInfoContainer>
-      <ChallengeTitle>{challengeData.title}</ChallengeTitle>
+      <ChallengeTitle>{challengeData.name}</ChallengeTitle>
       <WriteInfo>
-        <Writer>{challengeData.writer}</Writer>
-        <Period>{challengeData.period}</Period>
+        <Writer>{challengeData.user.nickname}</Writer>
+        <Period>{format(challengeData.createdAt, 'yyyy-MM-dd')}</Period>
       </WriteInfo>
       <Tags>
-        {challengeData.tags.map((tag, i) => (
-          <Tag key={i}>{tag}</Tag>
-        ))}
+        <Tag>{challengeData.topic}</Tag>
       </Tags>
     </ChallengeInfoContainer>
   );
