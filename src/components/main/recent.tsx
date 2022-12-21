@@ -40,7 +40,7 @@ export default function Recent() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   color: ${theme.darkGray};
   display: flex;
   align-items: center;
@@ -48,7 +48,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
   margin-top: 150px;
   display: flex;
   align-items: center;

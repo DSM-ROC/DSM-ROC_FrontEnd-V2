@@ -16,7 +16,7 @@ export default function Search() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-top: 150px;
 `;
 
