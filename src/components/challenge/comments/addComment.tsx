@@ -1,10 +1,14 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, RefObject, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 
-const AddComment = (): JSX.Element => {
+interface props {
+  addCommentInputRef: RefObject<HTMLInputElement>;
+}
+
+const AddComment = ({ addCommentInputRef }: props): JSX.Element => {
   const navigate = useNavigate();
   const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
@@ -28,6 +32,7 @@ const AddComment = (): JSX.Element => {
           placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
           value={comment}
           onChange={changeComment}
+          ref={addCommentInputRef}
         />
       </InputWrap>
       <Buttons>

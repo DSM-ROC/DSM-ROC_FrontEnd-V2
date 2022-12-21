@@ -1,26 +1,42 @@
 import AddComment from 'components/challenge/comments/addComment';
 import CommentList from 'components/challenge/comments/commentList';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
-import { useSearchParams } from 'react-router-dom';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-const challengeData = {
-  title: 'React 공부하기',
-  writer: '배준수',
-  period: '2022.11.22 ~ 2022.12.22',
-  tags: [
-    'React',
-    'Programing',
-    'Study',
-    'TypeScript',
-    'TypeScriptTypeScriptTypeScriptTypeScript',
-  ],
-};
+import { getChallengeData } from 'utils/functions/challenge/challenge';
+import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 const Comments = (): JSX.Element => {
+  const addCommentInputRef = useRef<HTMLInputElement>(null);
   const [searchParams] = useSearchParams();
   const dateStr: string = searchParams.get('date') as string;
   const [year, month, date] = dateStr.split('-');
+  const [challengeData, setChallengeData] = useState<challengeInfoType>({
+    id: 0,
+    name: '',
+    introduction: '',
+    limitMember: 0,
+    joinMember: 0,
+    topic: '코딩',
+    startDay: new Date(),
+    endDay: new Date(),
+    createdAt: new Date(),
+
+    user: {
+      nickname: '',
+    },
+  });
+
+  const { challengeId } = useParams();
+
+  const getData = async () => {
+    setChallengeData(await getChallengeData(challengeId as string));
+  };
+
+  useLayoutEffect(() => {
+    getData();
+  }, []);
 
   return (
     <CommentsPage>
@@ -28,8 +44,8 @@ const Comments = (): JSX.Element => {
       <Title>
         오늘의 메모🔥 - {year}년 {Number(month)}월 {Number(date)}일
       </Title>
-      <AddComment />
-      <CommentList />
+      <AddComment addCommentInputRef={addCommentInputRef} />
+      <CommentList addCommentInputRef={addCommentInputRef} />
     </CommentsPage>
   );
 };

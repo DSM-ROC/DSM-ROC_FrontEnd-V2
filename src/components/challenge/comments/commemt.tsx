@@ -1,4 +1,5 @@
 import { deleteIcon } from 'assets';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { commentDataType } from 'utils/interface/comment/comment';
@@ -7,17 +8,17 @@ interface props {
   commentData: commentDataType;
 }
 
-const myWriterId = 0;
+// const myWriterId = 0;
 
 const Commemt = ({ commentData }: props): JSX.Element => {
   return (
     <CommemtContainer>
       <WriteInfoWrap>
-        <Writer>{commentData.writer}</Writer>
-        <CreatedDate>{commentData.created}</CreatedDate>
+        <Writer>{commentData.user.nickname}</Writer>
+        <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
       </WriteInfoWrap>
-      <Content>{commentData.content}</Content>
-      {commentData.writerId === myWriterId && <DeleteComment />}
+      <Content>{commentData.text}</Content>
+      {/* {commentData. === myWriterId && <DeleteComment />} */}
     </CommemtContainer>
   );
 };
