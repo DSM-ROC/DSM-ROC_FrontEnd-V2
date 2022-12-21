@@ -19,7 +19,7 @@ export default function Content() {
 }
 
 const Container = styled.div`
-  width: 70vw;
+  width: 70%;
   margin-top: 60px;
   display: flex;
   align-items: flex-start;
