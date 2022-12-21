@@ -82,7 +82,7 @@ export default function InputItems() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   margin: 170px 0 180px 0;
   display: flex;
   align-items: center;
@@ -91,7 +91,7 @@ const Container = styled.div`
 `;
 
 const TextBox = styled.div`
-  width: 80vw;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: center;
