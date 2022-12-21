@@ -1,21 +1,25 @@
 import styled from 'styled-components';
-import { recentDocs } from 'docs/main/recentDocs';
+import { allChallengeDocs } from 'docs/allChallenge/allChallengeDocs';
+import { theme } from 'styles/theme';
 import { background } from 'assets';
 import { falseLike } from 'assets';
 import { trueLike } from 'assets';
 import { useState } from 'react';
 
-export default function Recent() {
+export default function ChallengeList() {
   const [like, setLike] = useState(false);
   return (
     <Container>
       <Wrapper>
-        <Summary>지금 있기있는 챌린지🏆</Summary>
-        <Cover>
-          {recentDocs.map((ch, i) => (
-            <Frame key={i}>
+        <TextBox>
+          <Text>최신순</Text>
+          <Text>인기순</Text>
+        </TextBox>
+        <Frame>
+          {allChallengeDocs.map((ch, i) => (
+            <Cover key={i}>
               <Image src={background}></Image>
-              <Text>
+              <TextItem>
                 <Title>{ch.title}</Title>
                 <Content>
                   <User>{ch.user}</User>
@@ -28,11 +32,10 @@ export default function Recent() {
                     )}
                   </LikeBox>
                 </Content>
-              </Text>
-            </Frame>
+              </TextItem>
+            </Cover>
           ))}
-        </Cover>
-        <Route>모든 챌린지 보러가기</Route>
+        </Frame>
       </Wrapper>
     </Container>
   );
@@ -40,7 +43,6 @@ export default function Recent() {
 
 const Container = styled.div`
   width: 100%;
-  color: #5b5b5b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,29 +50,30 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
   width: 80%;
-  margin-top: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
 `;
 
-const Summary = styled.h2`
+const TextBox = styled.ul`
   width: 100%;
-  margin-bottom: 60px;
-  font-size: 30px;
-  text-align: start;
-  color: #000;
-`;
-
-const Cover = styled.div`
-  width: 100%;
+  margin-top: 80px;
+  gap: 30px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
+`;
+
+const Text = styled.li`
+  font-weight: 600;
 `;
 
 const Frame = styled.div`
+  width: 100%;
+  margin: 40px 0 170px;
+  display: grid;
+  grid-template-columns: repeat(4, 25.8%);
+  grid-row-gap: 80px;
+`;
+
+const Cover = styled.div`
   width: 260px;
   height: 100%;
   display: flex;
@@ -78,7 +81,7 @@ const Frame = styled.div`
   justify-content: center;
   flex-direction: column;
   border-radius: 4px;
-  background-color: #fff;
+  background-color: ${theme.whiteContentColor};
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -88,7 +91,7 @@ const Image = styled.img`
   border-radius: 4px;
 `;
 
-const Text = styled.div`
+const TextItem = styled.div`
   width: 100%;
   margin: 12px 0 16px 0;
   display: flex;
@@ -124,7 +127,7 @@ const LikeBox = styled.div`
 `;
 
 const LikeNum = styled.div`
-  color: #f03e3e;
+  color: ${theme.uiRedColor};
   font-size: 14px;
   font-weight: 600;
 `;
@@ -136,7 +139,7 @@ const Route = styled.p`
   text-align: end;
   font-size: 16px;
   font-weight: 500;
-  color: #000;
+  color: ${theme.blackContentColor};
 `;
 
 const FalseLike = styled.img`

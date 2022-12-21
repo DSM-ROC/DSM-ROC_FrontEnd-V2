@@ -6,34 +6,23 @@ import {
   getDay,
   startOfWeek,
 } from 'date-fns';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { calendarRecoil } from 'utils/store/calendar/calendar';
 import Cell from './cell';
 import MonthController from './monthController';
 import WeekBar from './weekBar';
 
 interface props {
-  monthStart: Date;
-  preMonth: () => void;
-  nextMonth: () => void;
-  period: string;
+  startDay: Date;
+  endDay: Date;
 }
 
-const CalendarComponent = ({
-  monthStart,
-  period,
-  preMonth,
-  nextMonth,
-}: props): JSX.Element => {
+const CalendarComponent = ({ startDay, endDay }: props): JSX.Element => {
+  const monthStart = useRecoilValue(calendarRecoil);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-
-  const [sYear, sMonth, sDate] = period.split(' ')[0].split('.');
-  const challengeStartDate = new Date(
-    Number(sYear),
-    Number(sMonth) - 1,
-    Number(sDate),
-  );
 
   const rows = [];
   let dates = [];
@@ -46,11 +35,11 @@ const CalendarComponent = ({
       dates.push(
         <Cell
           key={formattedDate}
-          challengeStartDate={challengeStartDate}
+          challengeStartDate={startDay}
+          challengeEndDate={endDay}
           date={date}
           day={getDay(date)}
           formattedDate={formattedDate}
-          monthStart={monthStart}
         />,
       );
       date = addDays(date, 1);
@@ -62,11 +51,7 @@ const CalendarComponent = ({
 
   return (
     <>
-      <MonthController
-        monthStart={monthStart}
-        preMonth={preMonth}
-        nextMonth={nextMonth}
-      />
+      <MonthController />
       <WeekBar />
       <CalendarContainer>{rows}</CalendarContainer>
     </>

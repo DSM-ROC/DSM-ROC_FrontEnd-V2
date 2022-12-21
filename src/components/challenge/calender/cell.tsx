@@ -1,24 +1,28 @@
 import { format, isSameDay, isSameMonth } from 'date-fns';
 import { Link, useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled, { css, FlattenSimpleInterpolation } from 'styled-components';
 import { theme } from 'styles/theme';
 import { dayType } from 'utils/interface/calendar/caledar';
+import { calendarRecoil } from 'utils/store/calendar/calendar';
 
 interface props {
   date: Date;
   day: dayType;
   formattedDate: string;
-  monthStart: Date;
   challengeStartDate: Date;
+  challengeEndDate: Date;
 }
 
 const Cell = ({
   date,
-  formattedDate,
   day,
-  monthStart,
+  formattedDate,
   challengeStartDate,
+  challengeEndDate,
 }: props): JSX.Element => {
+  const monthStart = useRecoilValue(calendarRecoil);
+
   const { challengeId } = useParams();
 
   const dateString = format(date, 'yyyy-MM-dd');
@@ -31,7 +35,8 @@ const Cell = ({
         </DayNumber>
         {isSameMonth(date, monthStart) &&
           date <= new Date() &&
-          date >= challengeStartDate && (
+          date >= challengeStartDate &&
+          challengeEndDate >= date && (
             <StyleLink
               to={`/challenge/${challengeId}/comments?date=${dateString}`}
             >
