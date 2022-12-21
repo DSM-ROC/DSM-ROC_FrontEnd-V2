@@ -37,30 +37,30 @@ const SignUp = () => {
   return (
     <SignUpPage>
       <SignUpWrapper>
-        <SignUpForm>
+        <SignUpText>
           <b>회원가입</b>
-        </SignUpForm>
+        </SignUpText>
         <SignUpBox>
-          <NicknameForm>
+          <SignUpForm>
             <b>닉네임</b>
-          </NicknameForm>
+          </SignUpForm>
           <SignUpInput
             name="nickname"
             placeholder="닉네임을 입력해주세요"
             onChange={SignUpInputChange}
             maxLength={10}
           />
-          <EmailForm>
+          <SignUpForm>
             <b>이메일</b>
-          </EmailForm>
+          </SignUpForm>
           <SignUpInput
             onChange={SignUpInputChange}
             name="email"
             placeholder="이메일을 입력해주세요"
           />
-          <PwForm>
+          <SignUpForm>
             <b>비밀번호</b>
-          </PwForm>
+          </SignUpForm>
           <SignUpInput
             onChange={SignUpInputChange}
             name="password"
@@ -93,7 +93,7 @@ const SignUpWrapper = styled.div`
   margin-top: 27px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 `;
-const SignUpForm = styled.div`
+const SignUpText = styled.div`
   font-size: 40px;
   margin-top: 70px;
   display: flex;
@@ -104,13 +104,7 @@ const SignUpBox = styled.div`
   width: 420px;
   height: 340px;
 `;
-const NicknameForm = styled.div`
-  color: ${theme.mainBlueColor};
-  font-size: 20px;
-  margin-bottom: 30px;
-`;
-
-const EmailForm = styled.div`
+const SignUpForm = styled.div`
   color: ${theme.mainBlueColor};
   font-size: 20px;
   margin-bottom: 30px;
@@ -124,11 +118,6 @@ const SignUpInput = styled.input`
   outline: none;
   font-size: 16px;
   margin-bottom: 42px;
-`;
-const PwForm = styled.div`
-  color: ${theme.mainBlueColor};
-  font-size: 20px;
-  margin-bottom: 30px;
 `;
 
 const SignUpBtn = styled.button`
