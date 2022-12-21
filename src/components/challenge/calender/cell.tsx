@@ -11,6 +11,7 @@ interface props {
   day: dayType;
   formattedDate: string;
   challengeStartDate: Date;
+  challengeEndDate: Date;
 }
 
 const Cell = ({
@@ -18,6 +19,7 @@ const Cell = ({
   day,
   formattedDate,
   challengeStartDate,
+  challengeEndDate,
 }: props): JSX.Element => {
   const monthStart = useRecoilValue(calendarRecoil);
 
@@ -33,7 +35,8 @@ const Cell = ({
         </DayNumber>
         {isSameMonth(date, monthStart) &&
           date <= new Date() &&
-          date >= challengeStartDate && (
+          date >= challengeStartDate &&
+          challengeEndDate >= date && (
             <StyleLink
               to={`/challenge/${challengeId}/comments?date=${dateString}`}
             >
