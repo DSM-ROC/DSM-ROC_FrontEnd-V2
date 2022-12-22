@@ -58,7 +58,6 @@ export default function InputItems() {
           <ShortInput placeholder="카테고리를 선택해주세요"></ShortInput>
         </FildBox>
       </Frame>
-
       <Frame>
         <FildBox>
           <Fild>챌린지 시작 기간</Fild>
@@ -82,8 +81,8 @@ export default function InputItems() {
 }
 
 const Container = styled.div`
-  width: 100%;
-  margin: 170px 0 180px 0;
+  width: 60%;
+  margin: 100px auto 180px auto;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -91,7 +90,7 @@ const Container = styled.div`
 `;
 
 const TextBox = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -122,14 +121,14 @@ const Warning = styled.p`
 `;
 
 const FildBox = styled.div`
-  width: 80vw;
+  width: 100%;
   margin-bottom: 50px;
 `;
 
 const Cover = styled.div``;
 
 const Frame = styled.div`
-  width: 80vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -162,6 +161,7 @@ const Input = styled.input`
   outline: none;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
+  font-size: 18px;
 `;
 
 const LongInput = styled(Input)`
@@ -179,6 +179,7 @@ const ImgInput = styled.input`
 const Label = styled.label`
   width: 100%;
   height: 600px;
+  cursor: pointer;
 `;
 
 const choiceBackground = ({ imgView }: { imgView: string }) => {
@@ -190,7 +191,7 @@ const Image = styled.div`
   height: 600px;
   background-image: url(${choiceBackground});
   background-position: center;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-size: cover;
 `;
 
@@ -202,6 +203,9 @@ const TextArea = styled.textarea`
   border-radius: 2px;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
+  resize: none;
+  outline: none;
+  font-size: 18px;
 `;
 
 const Button = styled.button`
