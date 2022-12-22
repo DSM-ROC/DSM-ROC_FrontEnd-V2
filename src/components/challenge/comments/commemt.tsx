@@ -23,21 +23,21 @@ const Commemt = ({ commentData }: props): JSX.Element => {
   );
 };
 
-const DeleteComment = styled.button`
-  width: 20px;
-  aspect-ratio: 1;
-  border: none;
-  background-color: transparent;
-  background-image: url(${deleteIcon});
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  cursor: pointer;
+// const DeleteComment = styled.button`
+//   width: 20px;
+//   aspect-ratio: 1;
+//   border: none;
+//   background-color: transparent;
+//   background-image: url(${deleteIcon});
+//   background-repeat: no-repeat;
+//   background-size: contain;
+//   background-position: center;
+//   cursor: pointer;
 
-  position: absolute;
-  top: 25px;
-  right: 30px;
-`;
+//   position: absolute;
+//   top: 25px;
+//   right: 30px;
+// `;
 
 const Content = styled.div`
   width: 100%;

@@ -1,14 +1,21 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
-import { ChangeEvent, RefObject, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { addComment } from 'utils/api/comment/comment';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
+  date: Date;
+  getCommentData: () => void;
 }
 
-const AddComment = ({ addCommentInputRef }: props): JSX.Element => {
+const AddComment = ({
+  addCommentInputRef,
+  date,
+  getCommentData,
+}: props): JSX.Element => {
   const navigate = useNavigate();
   const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
@@ -20,8 +27,17 @@ const AddComment = ({ addCommentInputRef }: props): JSX.Element => {
 
   const changeComment = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setComment(value);
+  };
+
+  const submit = () => {
+    addComment(comment, parseInt(challengeId as string));
+    setComment('');
+    getCommentData();
+  };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') submit();
   };
 
   return (
@@ -32,6 +48,7 @@ const AddComment = ({ addCommentInputRef }: props): JSX.Element => {
           placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
           value={comment}
           onChange={changeComment}
+          onKeyDown={getEnter}
           ref={addCommentInputRef}
         />
       </InputWrap>

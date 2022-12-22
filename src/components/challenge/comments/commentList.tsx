@@ -1,40 +1,20 @@
-import { RefObject, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { RefObject } from 'react';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { getCommentList } from 'utils/api/calendar/calendar';
 import { commentDataType } from 'utils/interface/comment/comment';
 import Commemt from './commemt';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
   date: Date;
+  commentDateList: commentDataType[];
 }
 
-const CommentList = ({ addCommentInputRef, date }: props): JSX.Element => {
-  const { challengeId } = useParams();
-  const [commentDateList, setCommentDateList] = useState<commentDataType[]>([]);
-
-  const isSameDate = (date1: Date, date2: Date) => {
-    return (
-      date1.getFullYear() === date2.getFullYear() &&
-      date1.getMonth() === date2.getMonth() &&
-      date1.getDate() === date2.getDate()
-    );
-  };
-
-  const getCommentData = async () => {
-    setCommentDateList(
-      (await getCommentList(parseInt(challengeId as string))).filter(
-        (comment: commentDataType) => isSameDate(date, comment.createdAt),
-      ),
-    );
-  };
-
-  useEffect(() => {
-    getCommentData();
-  }, []);
-
+const CommentList = ({
+  addCommentInputRef,
+  date,
+  commentDateList,
+}: props): JSX.Element => {
   const focusCommentInput = () => {
     addCommentInputRef.current?.focus();
   };

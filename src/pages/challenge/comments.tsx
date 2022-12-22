@@ -4,8 +4,11 @@ import ChallengeInfoSection from 'components/common/challengeInfoSection/challen
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { getCommentList } from 'utils/api/calendar/calendar';
+import { isSameDate } from 'utils/api/isSameDate/isSameDate';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
+import { commentDataType } from 'utils/interface/comment/comment';
 
 const Comments = (): JSX.Element => {
   const navigate = useNavigate();
@@ -13,6 +16,8 @@ const Comments = (): JSX.Element => {
   const addCommentInputRef = useRef<HTMLInputElement>(null);
   const [searchParams] = useSearchParams();
   const { challengeId } = useParams();
+  const [commentDateList, setCommentDateList] = useState<commentDataType[]>([]);
+
   const dateStr = searchParams.get('date') ?? '';
   const date = new Date(dateStr);
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
@@ -35,11 +40,22 @@ const Comments = (): JSX.Element => {
     setChallengeData(await getChallengeData(challengeId as string));
   };
 
+  const getCommentData = async () => {
+    setCommentDateList(
+      (await getCommentList(parseInt(challengeId as string)))
+        .filter((comment: commentDataType) =>
+          isSameDate(date, comment.createdAt),
+        )
+        .reverse(),
+    );
+  };
+
   useLayoutEffect(() => {
     if (!/(\d{2})-(\d{2})-(\d{2})/.test(dateStr)) {
       navigate(-1);
     }
     getData();
+    getCommentData();
   }, []);
 
   return (
@@ -49,8 +65,16 @@ const Comments = (): JSX.Element => {
         오늘의 메모🔥 - {date.getFullYear()}년 {Number(date.getMonth() + 1)}월{' '}
         {Number(date.getDate())}일
       </Title>
-      <AddComment addCommentInputRef={addCommentInputRef} />
-      <CommentList addCommentInputRef={addCommentInputRef} date={date} />
+      <AddComment
+        addCommentInputRef={addCommentInputRef}
+        date={date}
+        getCommentData={getCommentData}
+      />
+      <CommentList
+        addCommentInputRef={addCommentInputRef}
+        date={date}
+        commentDateList={commentDateList}
+      />
     </CommentsPage>
   );
 };
