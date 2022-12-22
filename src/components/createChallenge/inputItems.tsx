@@ -2,9 +2,22 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { defaultImg } from 'assets';
 import { ChangeEvent, useState } from 'react';
+import { challengeCreateModel } from 'models/challengeCreate/challengeCreate';
+import { createChallenge } from 'utils/api/challenge/createChallenge';
 
 export default function InputItems() {
   const [imgView, setImgView] = useState<string>('');
+  const [createChallengeData, setCreateChallengeData] =
+    useState<challengeCreateModel>({
+      name: '',
+      introduction: '',
+      password: '',
+      image: null,
+      startDay: '',
+      endDay: '',
+      limitMember: 10,
+      topic: '코딩',
+    });
 
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files as FileList;
@@ -19,6 +32,29 @@ export default function InputItems() {
       setImgView(result);
     };
     await reader.readAsDataURL(theFile);
+  };
+
+  const submit = () => {
+    createChallenge(createChallengeData);
+    // setCreateChallengeData();
+  };
+
+  const changeChallengeData = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { value, name } = e.target;
+
+    if (name === 'limitMember') {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: parseInt(value),
+      }));
+    } else {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: value,
+      }));
+    }
   };
 
   return (
@@ -42,20 +78,53 @@ export default function InputItems() {
       </FildBox>
       <FildBox>
         <Fild>제목</Fild>
-        <LongInput placeholder="챌린지 제목을 입력해주세요"></LongInput>
+        <LongInput
+          placeholder="챌린지 제목을 입력해주세요"
+          onChange={changeChallengeData}
+          name="name"
+          value={createChallengeData.name}
+        ></LongInput>
       </FildBox>
       <FildBox>
         <Fild>내용</Fild>
-        <TextArea placeholder="챌린지 내용을 입력해주세요"></TextArea>
+        <TextArea
+          placeholder="챌린지 내용을 입력해주세요"
+          onChange={changeChallengeData}
+          name="introduction"
+          value={createChallengeData.introduction}
+        ></TextArea>
       </FildBox>
       <Frame>
         <FildBox>
           <Fild>인원수</Fild>
-          <ShortInput placeholder="2~50명 이내로 인원 수를 입력해주세요"></ShortInput>
+          <ShortInput
+            type="number"
+            min={2}
+            max={50}
+            defaultValue={10}
+            placeholder="2~50명 이내로 인원 수를 입력해주세요"
+            onChange={changeChallengeData}
+            name="limitMember"
+            value={createChallengeData.limitMember}
+          ></ShortInput>
         </FildBox>
         <FildBox>
           <Fild>카테고리</Fild>
-          <ShortInput placeholder="카테고리를 선택해주세요"></ShortInput>
+          <CategorySelecter>
+            {[
+              '코딩',
+              '스터디',
+              '운동',
+              '독서',
+              '미술',
+              '음악',
+              '취업',
+              '자격증',
+              '기타',
+            ].map((category: string, i) => (
+              <option key={i}>{category}</option>
+            ))}
+          </CategorySelecter>
         </FildBox>
       </Frame>
       <Frame>
@@ -64,6 +133,9 @@ export default function InputItems() {
           <ShortInput
             type="date"
             placeholder="챌린지 시작 날짜를 골라주세요"
+            onChange={changeChallengeData}
+            value={createChallengeData.startDay}
+            name="startDay"
           ></ShortInput>
         </FildBox>
         <FildBox>
@@ -71,11 +143,14 @@ export default function InputItems() {
           <ShortInput
             type="date"
             placeholder="챌린지 마감 날짜를 골라주세요"
+            onChange={changeChallengeData}
+            value={createChallengeData.endDay}
+            name="endDay"
           ></ShortInput>
         </FildBox>
       </Frame>
 
-      <Button type="submit">챌린지 생성하기</Button>
+      <Button onClick={submit}>챌린지 생성하기</Button>
     </Container>
   );
 }
@@ -170,6 +245,19 @@ const LongInput = styled(Input)`
 
 const ShortInput = styled(Input)`
   width: 96%;
+`;
+
+const CategorySelecter = styled.select`
+  height: 60px;
+  width: 96%;
+
+  padding: 0 20px;
+  border: 1px solid #5b5b5b;
+  border-radius: 2px;
+  outline: none;
+  background-color: #f5f5f5;
+  color: ${theme.blackContentColor};
+  font-size: 18px;
 `;
 
 const ImgInput = styled.input`
