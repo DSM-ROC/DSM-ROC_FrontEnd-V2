@@ -1,13 +1,4 @@
-type topicEnum =
-  | '운동'
-  | '스터디'
-  | '독서'
-  | '미술'
-  | '음악'
-  | '취업'
-  | '자격증'
-  | '코딩'
-  | '기타';
+import { topicEnum } from '../topic/topic';
 
 export interface challengeInfoType {
   id: number;
