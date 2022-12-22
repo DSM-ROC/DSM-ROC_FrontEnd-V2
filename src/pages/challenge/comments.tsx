@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getCommentList } from 'utils/api/calendar/calendar';
-import { isSameDate } from 'utils/api/isSameDate/isSameDate';
+import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import { commentDataType } from 'utils/interface/comment/comment';
@@ -41,7 +41,6 @@ const Comments = (): JSX.Element => {
   };
 
   const getCommentData = async () => {
-    console.log('get comment data');
     setCommentDateList(
       (await getCommentList(parseInt(challengeId as string)))
         .filter((comment: commentDataType) =>

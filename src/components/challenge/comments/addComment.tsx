@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { addComment } from 'utils/api/comment/comment';
+import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
@@ -26,6 +27,14 @@ const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   };
 
   const submit = () => {
+    console.log(date, new Date());
+    console.log(isSameDate(date, new Date()));
+    if (!isSameDate(date, new Date())) {
+      console.log('dddd');
+      alert('당일에만 작성할 수 있어요!!');
+      return null;
+    }
+
     addComment(comment, parseInt(challengeId as string));
     setComment('');
   };
