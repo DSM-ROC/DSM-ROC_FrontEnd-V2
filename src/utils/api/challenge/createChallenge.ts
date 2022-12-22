@@ -1,9 +1,12 @@
-import { challengeCreateModel } from 'models/challengeCreate/challengeCreate';
 import instance from 'utils/axios';
 
-export const createChallenge = (createChallengeData: challengeCreateModel) => {
+export const createChallenge = (createChallengeData: FormData) => {
   try {
-    instance.post('/challenge', createChallengeData);
+    instance.post('/challenge', createChallengeData, {
+      headers: {
+        'content-Type': 'multipart/form-data',
+      },
+    });
   } catch (error) {
     throw error;
   }

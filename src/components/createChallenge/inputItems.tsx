@@ -2,26 +2,30 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { defaultImg } from 'assets';
 import { ChangeEvent, useState } from 'react';
-import { challengeCreateModel } from 'models/challengeCreate/challengeCreate';
 import { createChallenge } from 'utils/api/challenge/createChallenge';
+import { format } from 'date-fns';
+import { createChallengeType } from 'utils/interface/createChallenge/createChallenge';
 
 export default function InputItems() {
   const [imgView, setImgView] = useState<string>('');
   const [createChallengeData, setCreateChallengeData] =
-    useState<challengeCreateModel>({
+    useState<createChallengeType>({
       name: '',
       introduction: '',
       password: '',
-      image: null,
-      startDay: '',
-      endDay: '',
+      startDay: format(new Date(), 'yyyy-MM-dd'),
+      endDay: format(new Date(), 'yyyy-MM-dd'),
       limitMember: 10,
       topic: '코딩',
     });
 
+  const [imgFile, setImgFile] = useState<File | null>(null);
+
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files as FileList;
     const theFile = fileList[0];
+
+    setImgFile(theFile);
 
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
@@ -34,9 +38,22 @@ export default function InputItems() {
     await reader.readAsDataURL(theFile);
   };
 
-  const submit = () => {
-    createChallenge(createChallengeData);
-    // setCreateChallengeData();
+  const submit = async () => {
+    console.log(createChallengeData);
+
+    const formData = new FormData();
+    formData.append('name', createChallengeData.name);
+    formData.append('introduction', createChallengeData.introduction);
+    formData.append('password', createChallengeData.password);
+    formData.append('startDay', createChallengeData.startDay);
+    formData.append('endDay', createChallengeData.endDay);
+    formData.append('limitMember', createChallengeData.limitMember.toString());
+    formData.append('topic', createChallengeData.topic);
+    if (imgFile) {
+      formData.append('image', imgFile);
+    }
+
+    createChallenge(formData);
   };
 
   const changeChallengeData = (
@@ -44,17 +61,10 @@ export default function InputItems() {
   ) => {
     const { value, name } = e.target;
 
-    if (name === 'limitMember') {
-      setCreateChallengeData((pre) => ({
-        ...pre,
-        [name]: parseInt(value),
-      }));
-    } else {
-      setCreateChallengeData((pre) => ({
-        ...pre,
-        [name]: value,
-      }));
-    }
+    setCreateChallengeData((pre) => ({
+      ...pre,
+      [name]: value,
+    }));
   };
 
   return (
@@ -99,10 +109,7 @@ export default function InputItems() {
           <Fild>인원수</Fild>
           <ShortInput
             type="number"
-            min={2}
-            max={50}
-            defaultValue={10}
-            placeholder="2~50명 이내로 인원 수를 입력해주세요"
+            placeholder="5~30명 이내로 인원 수를 입력해주세요"
             onChange={changeChallengeData}
             name="limitMember"
             value={createChallengeData.limitMember}

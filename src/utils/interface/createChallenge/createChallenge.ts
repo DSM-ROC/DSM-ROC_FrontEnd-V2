@@ -1,10 +1,9 @@
 import { topicEnum } from 'utils/interface/topic/topic';
 
-export interface challengeCreateModel {
+export interface createChallengeType {
   name: string;
   introduction: string;
   password: string;
-  image: FormData | null;
   startDay: string;
   endDay: string;
   limitMember: number;
