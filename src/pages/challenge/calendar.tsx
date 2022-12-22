@@ -17,8 +17,10 @@ const Calendar = (): JSX.Element => {
     startDay: new Date(),
     endDay: new Date(),
     createdAt: new Date(),
+    coverImage: '',
 
     user: {
+      id: '',
       nickname: '',
     },
   });

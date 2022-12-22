@@ -1,4 +1,5 @@
 import { deleteIcon } from 'assets';
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { commentDataType } from 'utils/interface/comment/comment';
@@ -7,36 +8,36 @@ interface props {
   commentData: commentDataType;
 }
 
-const myWriterId = 0;
+// const myWriterId = 0;
 
 const Commemt = ({ commentData }: props): JSX.Element => {
   return (
     <CommemtContainer>
       <WriteInfoWrap>
-        <Writer>{commentData.writer}</Writer>
-        <CreatedDate>{commentData.created}</CreatedDate>
+        <Writer>{commentData.user.nickname}</Writer>
+        <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
       </WriteInfoWrap>
-      <Content>{commentData.content}</Content>
-      {commentData.writerId === myWriterId && <DeleteComment />}
+      <Content>{commentData.text}</Content>
+      {/* {commentData. === myWriterId && <DeleteComment />} */}
     </CommemtContainer>
   );
 };
 
-const DeleteComment = styled.button`
-  width: 20px;
-  aspect-ratio: 1;
-  border: none;
-  background-color: transparent;
-  background-image: url(${deleteIcon});
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
-  cursor: pointer;
+// const DeleteComment = styled.button`
+//   width: 20px;
+//   aspect-ratio: 1;
+//   border: none;
+//   background-color: transparent;
+//   background-image: url(${deleteIcon});
+//   background-repeat: no-repeat;
+//   background-size: contain;
+//   background-position: center;
+//   cursor: pointer;
 
-  position: absolute;
-  top: 25px;
-  right: 30px;
-`;
+//   position: absolute;
+//   top: 25px;
+//   right: 30px;
+// `;
 
 const Content = styled.div`
   width: 100%;

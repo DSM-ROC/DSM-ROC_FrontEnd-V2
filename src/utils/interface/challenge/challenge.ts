@@ -18,9 +18,11 @@ export interface challengeInfoType {
   topic: topicEnum;
   startDay: Date;
   endDay: Date;
+  coverImage: string;
   createdAt: Date;
 
   user: {
+    id: string;
     nickname: string;
   };
 }
