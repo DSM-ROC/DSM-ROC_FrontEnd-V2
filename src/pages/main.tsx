@@ -18,6 +18,6 @@ const Main = (): JSX.Element => {
 export default Main;
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-bottom: 180px;
 `;
