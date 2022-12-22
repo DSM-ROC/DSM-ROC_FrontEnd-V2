@@ -8,7 +8,7 @@ import {
 import ToastError from 'utils/functions/errorMessage';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_BUBLIC_URL,
+  baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 10000,
 });
 

@@ -11,6 +11,7 @@ export const getChallengeInfo = async (
       id: data.id,
       name: data.name,
       introduction: data.introduction,
+      coverImage: data.coverImage,
       limitMember: data.limitMember,
       joinMember: data.joinMember,
       topic: data.topic,
@@ -18,7 +19,8 @@ export const getChallengeInfo = async (
       endDay: new Date(data.endDay),
       createdAt: new Date(data.createdAt),
       user: {
-        nickname: data.user.nick,
+        id: data.user.id,
+        nickname: data.user.nickname,
       },
     };
 
