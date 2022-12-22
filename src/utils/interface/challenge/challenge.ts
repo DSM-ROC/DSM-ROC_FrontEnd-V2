@@ -13,12 +13,12 @@ export interface challengeInfoType {
   id: number;
   name: string;
   introduction: string;
+  coverImage: string;
   limitMember: number;
   joinMember: number;
   topic: topicEnum;
   startDay: Date;
   endDay: Date;
-  coverImage: string;
   createdAt: Date;
 
   user: {
