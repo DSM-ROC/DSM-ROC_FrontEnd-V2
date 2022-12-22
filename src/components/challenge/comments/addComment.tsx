@@ -8,14 +8,9 @@ import { addComment } from 'utils/api/comment/comment';
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
   date: Date;
-  getCommentData: () => void;
 }
 
-const AddComment = ({
-  addCommentInputRef,
-  date,
-  getCommentData,
-}: props): JSX.Element => {
+const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   const navigate = useNavigate();
   const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
@@ -33,7 +28,6 @@ const AddComment = ({
   const submit = () => {
     addComment(comment, parseInt(challengeId as string));
     setComment('');
-    getCommentData();
   };
 
   const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {

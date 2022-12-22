@@ -41,6 +41,7 @@ const Comments = (): JSX.Element => {
   };
 
   const getCommentData = async () => {
+    console.log('get comment data');
     setCommentDateList(
       (await getCommentList(parseInt(challengeId as string)))
         .filter((comment: commentDataType) =>
@@ -65,11 +66,7 @@ const Comments = (): JSX.Element => {
         오늘의 메모🔥 - {date.getFullYear()}년 {Number(date.getMonth() + 1)}월{' '}
         {Number(date.getDate())}일
       </Title>
-      <AddComment
-        addCommentInputRef={addCommentInputRef}
-        date={date}
-        getCommentData={getCommentData}
-      />
+      <AddComment addCommentInputRef={addCommentInputRef} date={date} />
       <CommentList
         addCommentInputRef={addCommentInputRef}
         date={date}
