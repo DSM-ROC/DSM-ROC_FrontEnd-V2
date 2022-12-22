@@ -17,7 +17,9 @@ export const getChallengeInfo = async (
       startDay: new Date(data.startDay),
       endDay: new Date(data.endDay),
       createdAt: new Date(data.createdAt),
+      coverImage: data.coverImage ?? '',
       user: {
+        id: data.user.id,
         nickname: data.user.nickname,
       },
     };
