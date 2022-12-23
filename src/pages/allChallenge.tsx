@@ -22,8 +22,8 @@ const AllChallenge = () => {
   return (
     <>
       <Banner />
-      <Search />
       <Warning />
+      <Search />
       <ChallengeList />
     </>
   );
