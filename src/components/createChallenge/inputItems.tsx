@@ -91,34 +91,29 @@ export default function InputItems() {
 
   /** 챌린지 생성 조건 확인 */
   const confirmCreationConditions = (): boolean => {
-    if (!createChallengeData.name) {
-      alert('챌린지명을 작성하세요!');
-      return true;
-    }
-
     const dateSecond = 24 * 60 * 60 * 1000;
     const today = new Date(format(new Date(), 'yyyy-MM-dd'));
-
     const startDay = new Date(createChallengeData.startDay);
     const endDay = new Date(createChallengeData.endDay);
 
+    if (!createChallengeData.name) {
+      toast.error('챌린지명을 작성하세요!');
+      return true;
+    }
     if (startDay > endDay) {
-      alert('종료일이 시작일보다 앞일 수 없어요!');
+      toast.error('종료일이 시작일보다 앞일 수 없어요!');
       return true;
     }
     if (startDay < today) {
-      console.log(startDay);
-      console.log(new Date().getTime());
-
-      alert(`챌린지가 이전에 시작될 수 없어요!`);
+      toast.error(`챌린지가 이전에 시작될 수 없어요!`);
       return true;
     }
     if (endDay.getTime() - startDay.getTime() < dateSecond * 7) {
-      alert(`챌린지는 7일 이상이어야 해요!!`);
+      toast.error(`챌린지는 7일 이상이어야 해요!!`);
       return true;
     }
     if (endDay.getTime() - startDay.getTime() > dateSecond * 30) {
-      alert(`챌린지는 30일 이내이어야 해요!!`);
+      toast.error(`챌린지는 30일 이내이어야 해요!!`);
       return true;
     }
 
