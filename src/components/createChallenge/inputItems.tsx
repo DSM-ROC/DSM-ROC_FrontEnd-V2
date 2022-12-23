@@ -56,6 +56,7 @@ export default function InputItems() {
     }
 
     const dateSecond = 24 * 60 * 60 * 1000;
+    const today = new Date(format(new Date(), 'yyyy-MM-dd'));
 
     const startDay = new Date(createChallengeData.startDay);
     const endDay = new Date(createChallengeData.endDay);
@@ -64,7 +65,10 @@ export default function InputItems() {
       alert('종료일이 시작일보다 앞일 수 없어요!');
       return true;
     }
-    if (startDay < new Date()) {
+    if (startDay < today) {
+      console.log(startDay);
+      console.log(new Date().getTime());
+
       alert(`챌린지가 이전에 시작될 수 없어요!`);
       return true;
     }
@@ -111,7 +115,6 @@ export default function InputItems() {
           </Warning>
         </WarningBox>
       </TextBox>
-
       <FildBox>
         <Fild>사진</Fild>
         <Label htmlFor="input-file">
