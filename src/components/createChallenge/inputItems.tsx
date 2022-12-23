@@ -2,11 +2,13 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { defaultImg } from 'assets';
 import { ChangeEvent, useState } from 'react';
+
 import { createChallenge } from 'utils/api/challenge/createChallenge';
 import { addDays, format } from 'date-fns';
 import { createChallengeType } from 'utils/interface/createChallenge/createChallenge';
 import { topicEnum } from 'utils/interface/topic/topic';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function InputItems() {
   const navigate = useNavigate();
@@ -124,8 +126,6 @@ export default function InputItems() {
   };
 
   const submit = async () => {
-    console.log(createChallengeData);
-
     if (confirmCreationConditions()) return null;
 
     const formData = new FormData();
@@ -141,6 +141,8 @@ export default function InputItems() {
     }
 
     createChallenge(formData);
+    toast.success('새로운 챌린지가 생성되었어요!');
+
     navigate('/challenge');
   };
 
