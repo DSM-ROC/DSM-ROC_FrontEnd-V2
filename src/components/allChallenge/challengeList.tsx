@@ -75,6 +75,7 @@ const Frame = styled.div`
   width: 100%;
   margin: 40px 0 170px;
   display: grid;
-  grid-template-columns: repeat(4, 25.8%);
-  grid-row-gap: 80px;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-row-gap: 50px;
 `;
