@@ -1,44 +1,27 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { useEffect, useState } from 'react';
-import { getAllChallengeInfo } from 'utils/api/challenge/allChallenge';
-import { challengeInfoType } from 'utils/interface/challenge/challenge';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
+import { Link } from 'react-router-dom';
+import ChallengeCard from 'components/challengeCard/challengeCard';
 
 export default function Recent() {
-  const [allChallengeInfo, setAllChallengeInfo] = useState<challengeInfoType[]>(
-    [],
-  );
-
-  useEffect(() => {
-    console.log(allChallengeInfo);
-  }, [allChallengeInfo]);
-
-  const getChallenge = async () => {
-    setAllChallengeInfo(await (await getAllChallengeInfo()).slice(0, 8));
-  };
-
-  useEffect(() => {
-    getChallenge();
-  }, []);
+  const [slicerLength, setSlicerLength] = useState<number>(8);
+  const allChallengeInfo = useRecoilValue(challengeListSlicer(slicerLength));
 
   return (
     <Container>
       <Wrapper>
         <Summary>최근에 만들어진 챌린지🌱</Summary>
         <Cover>
-          {allChallengeInfo.map((ch, i) => (
-            <Frame key={i}>
-              <Image src={ch.coverImage}></Image>
-              <Text>
-                <Title>{ch.name}</Title>
-                <Content>
-                  <User>{ch.user.nickname}</User>
-                </Content>
-              </Text>
-            </Frame>
+          {allChallengeInfo.map((challenge, i) => (
+            <ChallengeCard challenge={challenge} key={i} />
           ))}
         </Cover>
-        <Route>모든 챌린지 보러가기</Route>
+        <Link to="/challenge">
+          <Route>모든 챌린지 보러가기</Route>
+        </Link>
       </Wrapper>
     </Container>
   );
@@ -72,54 +55,9 @@ const Summary = styled.h2`
 const Cover = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 25.6%);
+  grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 40px;
-`;
-
-const Frame = styled.div`
-  width: 260px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 4px;
-  background-color: ${theme.whiteContentColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 200px;
-  border-radius: 4px;
-`;
-
-const Text = styled.div`
-  width: 100%;
-  margin: 12px 0 16px 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-
-const Title = styled.p`
-  width: 90%;
-  font-size: 18px;
-  font-weight: 700;
-`;
-
-const Content = styled.div`
-  width: 90%;
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const User = styled.p`
-  font-size: 12px;
-  font-weight: 600;
+  justify-items: center;
 `;
 
 const Route = styled.p`
