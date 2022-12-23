@@ -2,15 +2,36 @@ import styled from 'styled-components';
 import ChallengeCard from 'components/challengeCard/challengeCard';
 import { useRecoilValue } from 'recoil';
 import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
+import { useState } from 'react';
+import { challengeSortKey } from 'utils/interface/challengeSortKey/challengeSortKey';
+import { theme } from 'styles/theme';
+import { sortedChallenge } from 'utils/store/challengeList/selector/sortedChallenge';
 
 export default function ChallengeList() {
-  const challengeList = useRecoilValue(challengeListRecoil);
+  const [challengeSortKey, setChallengeSortKey] =
+    useState<challengeSortKey>('new');
+  const challengeList = useRecoilValue(sortedChallenge(challengeSortKey));
+
+  const changeSortKey = (newSortKey: challengeSortKey) => {
+    setChallengeSortKey(newSortKey);
+  };
+
   return (
     <Container>
       <Wrapper>
         <TextBox>
-          <Text>최신순</Text>
-          <Text>인기순</Text>
+          <Text
+            isSelected={challengeSortKey === 'new'}
+            onClick={() => changeSortKey('new')}
+          >
+            최신순
+          </Text>
+          <Text
+            isSelected={challengeSortKey === 'popular'}
+            onClick={() => changeSortKey('popular')}
+          >
+            인기순
+          </Text>
         </TextBox>
         <Frame>
           {challengeList.map((challenge, i) => (
@@ -44,6 +65,10 @@ const TextBox = styled.ul`
 
 const Text = styled.li`
   font-weight: 600;
+  cursor: pointer;
+
+  color: ${({ isSelected }: { isSelected: boolean }) =>
+    isSelected ? theme.mainBlueColor : theme.blackContentColor};
 `;
 
 const Frame = styled.div`
