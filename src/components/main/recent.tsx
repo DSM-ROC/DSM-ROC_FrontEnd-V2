@@ -3,8 +3,8 @@ import { theme } from 'styles/theme';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
-import { background } from 'assets';
 import { Link } from 'react-router-dom';
+import ChallengeCard from 'components/challengeCard/challengeCard';
 
 export default function Recent() {
   const [slicerLength, setSlicerLength] = useState<number>(8);
@@ -15,16 +15,8 @@ export default function Recent() {
       <Wrapper>
         <Summary>최근에 만들어진 챌린지🌱</Summary>
         <Cover>
-          {allChallengeInfo.map((ch, i) => (
-            <Frame key={i}>
-              <Image img={ch.coverImage || background}></Image>
-              <Text>
-                <Title>{ch.name}</Title>
-                <Content>
-                  <User>{ch.user.nickname}</User>
-                </Content>
-              </Text>
-            </Frame>
+          {allChallengeInfo.map((chellenge, i) => (
+            <ChallengeCard chellenge={chellenge} key={i} />
           ))}
         </Cover>
         <Link to="/challenge">
@@ -66,55 +58,6 @@ const Cover = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 40px;
   justify-items: center;
-`;
-
-const Frame = styled.div`
-  width: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 4px;
-  background-color: ${theme.whiteContentColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const Image = styled.div`
-  width: 100%;
-  aspect-ratio: 10/6;
-  border-radius: 4px;
-  background-image: url(${({ img }: { img: string }) => img});
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-`;
-
-const Text = styled.div`
-  width: 100%;
-  margin: 12px 0 16px 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-
-const Title = styled.p`
-  width: 90%;
-  font-size: 18px;
-  font-weight: 700;
-`;
-
-const Content = styled.div`
-  width: 90%;
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const User = styled.p`
-  font-size: 12px;
-  font-weight: 600;
 `;
 
 const Route = styled.p`
