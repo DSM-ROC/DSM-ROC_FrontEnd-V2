@@ -3,8 +3,9 @@ import { theme } from 'styles/theme';
 import { defaultImg } from 'assets';
 import { ChangeEvent, useState } from 'react';
 import { createChallenge } from 'utils/api/challenge/createChallenge';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import { createChallengeType } from 'utils/interface/createChallenge/createChallenge';
+import { topicEnum } from 'utils/interface/topic/topic';
 
 export default function InputItems() {
   const [imgView, setImgView] = useState<string>('');
@@ -15,7 +16,7 @@ export default function InputItems() {
       introduction: '',
       password: '',
       startDay: format(new Date(), 'yyyy-MM-dd'),
-      endDay: format(new Date(), 'yyyy-MM-dd'),
+      endDay: format(addDays(new Date(), 7), 'yyyy-MM-dd'),
       limitMember: 10,
       topic: '코딩',
     });
@@ -28,6 +29,15 @@ export default function InputItems() {
     setCreateChallengeData((pre) => ({
       ...pre,
       [name]: value,
+    }));
+  };
+
+  const changeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+
+    setCreateChallengeData((pre) => ({
+      ...pre,
+      topic: value as topicEnum,
     }));
   };
 
@@ -153,7 +163,7 @@ export default function InputItems() {
         </FildBox>
         <FildBox>
           <Fild>카테고리</Fild>
-          <CategorySelecter>
+          <CategorySelecter onChange={changeCategory}>
             {[
               '코딩',
               '스터디',
