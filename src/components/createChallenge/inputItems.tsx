@@ -24,12 +24,20 @@ export default function InputItems() {
   const changeChallengeData = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { value, name } = e.target;
+    let { value, name } = e.target;
 
-    setCreateChallengeData((pre) => ({
-      ...pre,
-      [name]: value,
-    }));
+    if (name === 'limitMember') {
+      console.log('dddd');
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: parseInt(value.replace(/[^0-9]/g, '')) | 0,
+      }));
+    } else {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: value,
+      }));
+    }
   };
 
   const changeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -39,6 +47,25 @@ export default function InputItems() {
       ...pre,
       topic: value as topicEnum,
     }));
+  };
+
+  const formatNumericRange = () => {
+    const { limitMember } = createChallengeData;
+
+    if (limitMember < 5) {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        limitMember: 5,
+      }));
+      return null;
+    }
+    if (limitMember > 30) {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        limitMember: 30,
+      }));
+      return null;
+    }
   };
 
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -154,11 +181,11 @@ export default function InputItems() {
         <FildBox>
           <Fild>인원수</Fild>
           <ShortInput
-            type="number"
+            onBlur={formatNumericRange}
             placeholder="5~30명 이내로 인원 수를 입력해주세요"
             onChange={changeChallengeData}
             name="limitMember"
-            value={createChallengeData.limitMember}
+            value={String(createChallengeData.limitMember)}
           ></ShortInput>
         </FildBox>
         <FildBox>
