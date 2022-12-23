@@ -6,8 +6,10 @@ import { createChallenge } from 'utils/api/challenge/createChallenge';
 import { addDays, format } from 'date-fns';
 import { createChallengeType } from 'utils/interface/createChallenge/createChallenge';
 import { topicEnum } from 'utils/interface/topic/topic';
+import { useNavigate } from 'react-router-dom';
 
 export default function InputItems() {
+  const navigate = useNavigate();
   const [imgView, setImgView] = useState<string>('');
   const [imgFile, setImgFile] = useState<File | null>(null);
   const [createChallengeData, setCreateChallengeData] =
@@ -139,6 +141,7 @@ export default function InputItems() {
     }
 
     createChallenge(formData);
+    navigate('/challenge');
   };
 
   return (
