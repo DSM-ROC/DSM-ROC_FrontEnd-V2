@@ -3,6 +3,7 @@ import { theme } from 'styles/theme';
 import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
+import { background } from 'assets';
 
 export default function Recent() {
   const [slicerLength, setSlicerLength] = useState<number>(8);
@@ -15,7 +16,7 @@ export default function Recent() {
         <Cover>
           {allChallengeInfo.map((ch, i) => (
             <Frame key={i}>
-              <Image src={ch.coverImage}></Image>
+              <Image img={ch.coverImage || background}></Image>
               <Text>
                 <Title>{ch.name}</Title>
                 <Content>
@@ -66,7 +67,6 @@ const Cover = styled.div`
 
 const Frame = styled.div`
   width: 260px;
-  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,10 +76,14 @@ const Frame = styled.div`
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
-const Image = styled.img`
+const Image = styled.div`
   width: 100%;
-  height: 200px;
+  aspect-ratio: 10/6;
   border-radius: 4px;
+  background-image: url(${({ img }: { img: string }) => img});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const Text = styled.div`
