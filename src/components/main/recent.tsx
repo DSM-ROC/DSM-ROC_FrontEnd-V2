@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
 import { background } from 'assets';
+import { Link } from 'react-router-dom';
 
 export default function Recent() {
   const [slicerLength, setSlicerLength] = useState<number>(8);
@@ -26,7 +27,9 @@ export default function Recent() {
             </Frame>
           ))}
         </Cover>
-        <Route>모든 챌린지 보러가기</Route>
+        <Link to="/challenge">
+          <Route>모든 챌린지 보러가기</Route>
+        </Link>
       </Wrapper>
     </Container>
   );
