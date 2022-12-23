@@ -1,12 +1,15 @@
 import instance from 'utils/axios';
 
-export const createChallenge = (createChallengeData: FormData) => {
+export const createChallenge = async (
+  createChallengeData: FormData,
+): Promise<string> => {
   try {
-    instance.post('/challenge', createChallengeData, {
+    const { data } = await instance.post('/challenge', createChallengeData, {
       headers: {
         'content-Type': 'multipart/form-data',
       },
     });
+    return data.challengeId;
   } catch (error) {
     throw error;
   }

@@ -2,24 +2,75 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { defaultImg } from 'assets';
 import { ChangeEvent, useState } from 'react';
+
 import { createChallenge } from 'utils/api/challenge/createChallenge';
-import { format } from 'date-fns';
+import { addDays, format } from 'date-fns';
 import { createChallengeType } from 'utils/interface/createChallenge/createChallenge';
+import { topicEnum } from 'utils/interface/topic/topic';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function InputItems() {
+  const navigate = useNavigate();
   const [imgView, setImgView] = useState<string>('');
+  const [imgFile, setImgFile] = useState<File | null>(null);
   const [createChallengeData, setCreateChallengeData] =
     useState<createChallengeType>({
       name: '',
       introduction: '',
       password: '',
       startDay: format(new Date(), 'yyyy-MM-dd'),
-      endDay: format(new Date(), 'yyyy-MM-dd'),
+      endDay: format(addDays(new Date(), 7), 'yyyy-MM-dd'),
       limitMember: 10,
       topic: '코딩',
     });
 
-  const [imgFile, setImgFile] = useState<File | null>(null);
+  const changeChallengeData = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    let { value, name } = e.target;
+
+    if (name === 'limitMember') {
+      console.log('dddd');
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: parseInt(value.replace(/[^0-9]/g, '')) | 0,
+      }));
+    } else {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        [name]: value,
+      }));
+    }
+  };
+
+  const changeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+
+    setCreateChallengeData((pre) => ({
+      ...pre,
+      topic: value as topicEnum,
+    }));
+  };
+
+  const formatNumericRange = () => {
+    const { limitMember } = createChallengeData;
+
+    if (limitMember < 5) {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        limitMember: 5,
+      }));
+      return null;
+    }
+    if (limitMember > 30) {
+      setCreateChallengeData((pre) => ({
+        ...pre,
+        limitMember: 30,
+      }));
+      return null;
+    }
+  };
 
   const fileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files as FileList;
@@ -38,8 +89,44 @@ export default function InputItems() {
     await reader.readAsDataURL(theFile);
   };
 
+  /** 챌린지 생성 조건 확인 */
+  const confirmCreationConditions = (): boolean => {
+    if (!createChallengeData.name) {
+      alert('챌린지명을 작성하세요!');
+      return true;
+    }
+
+    const dateSecond = 24 * 60 * 60 * 1000;
+    const today = new Date(format(new Date(), 'yyyy-MM-dd'));
+
+    const startDay = new Date(createChallengeData.startDay);
+    const endDay = new Date(createChallengeData.endDay);
+
+    if (startDay > endDay) {
+      alert('종료일이 시작일보다 앞일 수 없어요!');
+      return true;
+    }
+    if (startDay < today) {
+      console.log(startDay);
+      console.log(new Date().getTime());
+
+      alert(`챌린지가 이전에 시작될 수 없어요!`);
+      return true;
+    }
+    if (endDay.getTime() - startDay.getTime() < dateSecond * 7) {
+      alert(`챌린지는 7일 이상이어야 해요!!`);
+      return true;
+    }
+    if (endDay.getTime() - startDay.getTime() > dateSecond * 30) {
+      alert(`챌린지는 30일 이내이어야 해요!!`);
+      return true;
+    }
+
+    return false;
+  };
+
   const submit = async () => {
-    console.log(createChallengeData);
+    if (confirmCreationConditions()) return null;
 
     const formData = new FormData();
     formData.append('name', createChallengeData.name);
@@ -53,18 +140,10 @@ export default function InputItems() {
       formData.append('image', imgFile);
     }
 
-    createChallenge(formData);
-  };
+    const challengeId: string = await createChallenge(formData);
+    toast.success('새로운 챌린지가 생성되었어요!');
 
-  const changeChallengeData = (
-    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { value, name } = e.target;
-
-    setCreateChallengeData((pre) => ({
-      ...pre,
-      [name]: value,
-    }));
+    navigate(`/challenge/${challengeId}`);
   };
 
   return (
@@ -78,7 +157,6 @@ export default function InputItems() {
           </Warning>
         </WarningBox>
       </TextBox>
-
       <FildBox>
         <Fild>사진</Fild>
         <Label htmlFor="input-file">
@@ -87,18 +165,18 @@ export default function InputItems() {
         <ImgInput type="file" id="input-file" onChange={fileChange} />
       </FildBox>
       <FildBox>
-        <Fild>제목</Fild>
+        <Fild>챌린지명</Fild>
         <LongInput
-          placeholder="챌린지 제목을 입력해주세요"
+          placeholder="챌린지명을 입력해주세요"
           onChange={changeChallengeData}
           name="name"
           value={createChallengeData.name}
         ></LongInput>
       </FildBox>
       <FildBox>
-        <Fild>내용</Fild>
+        <Fild>설명</Fild>
         <TextArea
-          placeholder="챌린지 내용을 입력해주세요"
+          placeholder="챌린지 설명을 입력해주세요"
           onChange={changeChallengeData}
           name="introduction"
           value={createChallengeData.introduction}
@@ -108,16 +186,16 @@ export default function InputItems() {
         <FildBox>
           <Fild>인원수</Fild>
           <ShortInput
-            type="number"
+            onBlur={formatNumericRange}
             placeholder="5~30명 이내로 인원 수를 입력해주세요"
             onChange={changeChallengeData}
             name="limitMember"
-            value={createChallengeData.limitMember}
+            value={String(createChallengeData.limitMember)}
           ></ShortInput>
         </FildBox>
         <FildBox>
           <Fild>카테고리</Fild>
-          <CategorySelecter>
+          <CategorySelecter onChange={changeCategory}>
             {[
               '코딩',
               '스터디',
@@ -207,7 +285,7 @@ const FildBox = styled.div`
   margin-bottom: 50px;
 `;
 
-const Cover = styled.div``;
+// const Cover = styled.div``;
 
 const Frame = styled.div`
   width: 100%;
