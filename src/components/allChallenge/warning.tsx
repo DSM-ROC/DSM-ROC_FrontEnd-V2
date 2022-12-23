@@ -4,7 +4,7 @@ export default function Warning() {
   return (
     <Container>
       <TextBox>
-        <Text>챌린지 생성하기</Text>
+        <Text>챌린지 전체보기</Text>
         <WarningBox>
           <WarningItem>
             선정성, 폭력성 등을 포함, 부적절하다고 판단되었을 시 통보없이 삭제될
