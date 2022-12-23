@@ -1,25 +1,12 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { useEffect, useState } from 'react';
-import { getAllChallengeInfo } from 'utils/api/challenge/allChallenge';
-import { challengeInfoType } from 'utils/interface/challenge/challenge';
+import { useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
 
 export default function Recent() {
-  const [allChallengeInfo, setAllChallengeInfo] = useState<challengeInfoType[]>(
-    [],
-  );
-
-  useEffect(() => {
-    console.log(allChallengeInfo);
-  }, [allChallengeInfo]);
-
-  const getChallenge = async () => {
-    setAllChallengeInfo(await (await getAllChallengeInfo()).slice(0, 8));
-  };
-
-  useEffect(() => {
-    getChallenge();
-  }, []);
+  const [slicerLength, setSlicerLength] = useState<number>(8);
+  const allChallengeInfo = useRecoilValue(challengeListSlicer(slicerLength));
 
   return (
     <Container>
@@ -72,13 +59,14 @@ const Summary = styled.h2`
 const Cover = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 25.6%);
+  grid-template-columns: repeat(4, 1fr);
   grid-row-gap: 40px;
+  justify-items: center;
 `;
 
 const Frame = styled.div`
   width: 260px;
-  height: 100%;
+  height: 280px;
   display: flex;
   align-items: center;
   justify-content: center;
