@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { background, userProfile } from 'assets';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
+import { Link } from 'react-router-dom';
 
 interface props {
   challenge: challengeInfoType;
@@ -9,19 +10,21 @@ interface props {
 
 const ChallengeCard = ({ challenge }: props) => {
   return (
-    <Frame>
-      <Image img={challenge.coverImage || background}></Image>
-      <Text>
-        <Title>{challenge.name}</Title>
-        <Content>
-          <User>{challenge.user.nickname}</User>
-          <JoinedUserWrap>
-            <JoinedUserNum>{challenge.joinMember}</JoinedUserNum>
-            <UserImg />
-          </JoinedUserWrap>
-        </Content>
-      </Text>
-    </Frame>
+    <Link to={`/detail/${challenge.id}`}>
+      <Frame>
+        <Image img={challenge.coverImage || background}></Image>
+        <Text>
+          <Title>{challenge.name}</Title>
+          <Content>
+            <User>{challenge.user.nickname}</User>
+            <JoinedUserWrap>
+              <JoinedUserNum>{challenge.joinMember}</JoinedUserNum>
+              <UserImg />
+            </JoinedUserWrap>
+          </Content>
+        </Text>
+      </Frame>
+    </Link>
   );
 };
 
