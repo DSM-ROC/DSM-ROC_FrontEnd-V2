@@ -1,33 +1,38 @@
 import styled from 'styled-components';
-import { recentDocs } from 'docs/main/recentDocs';
 import { theme } from 'styles/theme';
-import { background } from 'assets';
-import { falseLike } from 'assets';
-import { trueLike } from 'assets';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getAllChallengeInfo } from 'utils/api/challenge/allChallenge';
+import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 export default function Recent() {
-  const [like, setLike] = useState(false);
+  const [allChallengeInfo, setAllChallengeInfo] = useState<challengeInfoType[]>(
+    [],
+  );
+
+  useEffect(() => {
+    console.log(allChallengeInfo);
+  }, [allChallengeInfo]);
+
+  const getChallenge = async () => {
+    setAllChallengeInfo(await (await getAllChallengeInfo()).slice(0, 8));
+  };
+
+  useEffect(() => {
+    getChallenge();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
         <Summary>최근에 만들어진 챌린지🌱</Summary>
         <Cover>
-          {recentDocs.map((ch, i) => (
+          {allChallengeInfo.map((ch, i) => (
             <Frame key={i}>
-              <Image src={background}></Image>
+              <Image src={ch.coverImage}></Image>
               <Text>
-                <Title>{ch.title}</Title>
+                <Title>{ch.name}</Title>
                 <Content>
-                  <User>{ch.user}</User>
-                  <LikeBox>
-                    <LikeNum>{ch.like}</LikeNum>
-                    {like === false ? (
-                      <FalseLike src={falseLike}></FalseLike>
-                    ) : (
-                      <TrueLike src={trueLike}></TrueLike>
-                    )}
-                  </LikeBox>
+                  <User>{ch.user.nickname}</User>
                 </Content>
               </Text>
             </Frame>
@@ -40,7 +45,7 @@ export default function Recent() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   color: ${theme.darkGray};
   display: flex;
   align-items: center;
@@ -48,7 +53,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
   margin-top: 150px;
   display: flex;
   align-items: center;
@@ -66,9 +71,9 @@ const Summary = styled.h2`
 
 const Cover = styled.div`
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 25.6%);
+  grid-row-gap: 40px;
 `;
 
 const Frame = styled.div`
@@ -117,19 +122,6 @@ const User = styled.p`
   font-weight: 600;
 `;
 
-const LikeBox = styled.div`
-  gap: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LikeNum = styled.div`
-  color: ${theme.uiRedColor};
-  font-size: 14px;
-  font-weight: 600;
-`;
-
 const Route = styled.p`
   width: 100%;
   margin-top: 20px;
@@ -138,12 +130,4 @@ const Route = styled.p`
   font-size: 16px;
   font-weight: 500;
   color: ${theme.blackContentColor};
-`;
-
-const FalseLike = styled.img`
-  width: 14px;
-`;
-
-const TrueLike = styled.img`
-  width: 14px;
 `;

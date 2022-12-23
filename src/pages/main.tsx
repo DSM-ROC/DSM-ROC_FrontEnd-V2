@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import Banner from 'components/main/banner';
 import Search from 'components/main/search';
 import Recent from 'components/main/recent';
-import Popular from 'components/main/popular';
 
 const Main = (): JSX.Element => {
   return (
@@ -10,7 +9,6 @@ const Main = (): JSX.Element => {
       <Banner />
       <Search />
       <Recent />
-      <Popular />
     </Container>
   );
 };
@@ -18,6 +16,6 @@ const Main = (): JSX.Element => {
 export default Main;
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   margin-bottom: 180px;
 `;
