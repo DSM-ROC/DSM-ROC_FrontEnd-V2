@@ -15,8 +15,8 @@ export default function Recent() {
       <Wrapper>
         <Summary>최근에 만들어진 챌린지🌱</Summary>
         <Cover>
-          {allChallengeInfo.map((chellenge, i) => (
-            <ChallengeCard chellenge={chellenge} key={i} />
+          {allChallengeInfo.map((challenge, i) => (
+            <ChallengeCard challenge={challenge} key={i} />
           ))}
         </Cover>
         <Link to="/challenge">

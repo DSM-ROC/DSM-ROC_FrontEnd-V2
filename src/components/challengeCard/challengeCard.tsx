@@ -1,25 +1,53 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { background } from 'assets';
+import { background, userProfile } from 'assets';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 interface props {
-  chellenge: challengeInfoType;
+  challenge: challengeInfoType;
 }
 
-const ChallengeCard = ({ chellenge }: props) => {
+const ChallengeCard = ({ challenge }: props) => {
   return (
     <Frame>
-      <Image img={chellenge.coverImage || background}></Image>
+      <Image img={challenge.coverImage || background}></Image>
       <Text>
-        <Title>{chellenge.name}</Title>
+        <Title>{challenge.name}</Title>
         <Content>
-          <User>{chellenge.user.nickname}</User>
+          <User>{challenge.user.nickname}</User>
+          <JoinedUserWrap>
+            <JoinedUserNum>{challenge.joinMember}</JoinedUserNum>
+            <UserImg />
+          </JoinedUserWrap>
         </Content>
       </Text>
     </Frame>
   );
 };
+
+const UserImg = styled.div`
+  width: 18px;
+  aspect-ratio: 1;
+
+  background-image: url(${userProfile});
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+`;
+
+const JoinedUserNum = styled.div`
+  font-size: 14px;
+  font-weight: 600;
+`;
+
+const JoinedUserWrap = styled.div`
+  width: fit-content;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+`;
 
 const Frame = styled.div`
   width: 260px;
