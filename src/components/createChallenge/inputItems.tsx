@@ -140,10 +140,10 @@ export default function InputItems() {
       formData.append('image', imgFile);
     }
 
-    createChallenge(formData);
+    const challengeId: string = await createChallenge(formData);
     toast.success('새로운 챌린지가 생성되었어요!');
 
-    navigate('/challenge');
+    navigate(`/challenge/${challengeId}`);
   };
 
   return (
