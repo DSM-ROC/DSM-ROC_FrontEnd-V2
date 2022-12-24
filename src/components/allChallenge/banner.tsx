@@ -19,7 +19,7 @@ export default function Banner() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 500px;
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-between;

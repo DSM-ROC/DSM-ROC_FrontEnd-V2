@@ -1,39 +1,41 @@
 import styled from 'styled-components';
-import { allChallengeDocs } from 'docs/allChallenge/allChallengeDocs';
-import { theme } from 'styles/theme';
-import { background } from 'assets';
-import { falseLike } from 'assets';
-import { trueLike } from 'assets';
+import ChallengeCard from 'components/challengeCard/challengeCard';
+import { useRecoilValue } from 'recoil';
+import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
 import { useState } from 'react';
+import { challengeSortKey } from 'utils/interface/challengeSortKey/challengeSortKey';
+import { theme } from 'styles/theme';
+import { sortedChallenge } from 'utils/store/challengeList/selector/sortedChallenge';
 
 export default function ChallengeList() {
-  const [like, setLike] = useState(false);
+  const [challengeSortKey, setChallengeSortKey] =
+    useState<challengeSortKey>('new');
+  const challengeList = useRecoilValue(sortedChallenge(challengeSortKey));
+
+  const changeSortKey = (newSortKey: challengeSortKey) => {
+    setChallengeSortKey(newSortKey);
+  };
+
   return (
     <Container>
       <Wrapper>
         <TextBox>
-          <Text>최신순</Text>
-          <Text>인기순</Text>
+          <Text
+            isSelected={challengeSortKey === 'new'}
+            onClick={() => changeSortKey('new')}
+          >
+            최신순
+          </Text>
+          <Text
+            isSelected={challengeSortKey === 'popular'}
+            onClick={() => changeSortKey('popular')}
+          >
+            인기순
+          </Text>
         </TextBox>
         <Frame>
-          {allChallengeDocs.map((ch, i) => (
-            <Cover key={i}>
-              <Image src={background}></Image>
-              <TextItem>
-                <Title>{ch.title}</Title>
-                <Content>
-                  <User>{ch.user}</User>
-                  <LikeBox>
-                    <LikeNum>{ch.like}</LikeNum>
-                    {like === false ? (
-                      <FalseLike src={falseLike}></FalseLike>
-                    ) : (
-                      <TrueLike src={trueLike}></TrueLike>
-                    )}
-                  </LikeBox>
-                </Content>
-              </TextItem>
-            </Cover>
+          {challengeList.map((challenge, i) => (
+            <ChallengeCard challenge={challenge} key={i} />
           ))}
         </Frame>
       </Wrapper>
@@ -42,14 +44,14 @@ export default function ChallengeList() {
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
 `;
 
 const TextBox = styled.ul`
@@ -63,89 +65,17 @@ const TextBox = styled.ul`
 
 const Text = styled.li`
   font-weight: 600;
+  cursor: pointer;
+
+  color: ${({ isSelected }: { isSelected: boolean }) =>
+    isSelected ? theme.mainBlueColor : theme.blackContentColor};
 `;
 
 const Frame = styled.div`
   width: 100%;
   margin: 40px 0 170px;
   display: grid;
-  grid-template-columns: repeat(4, 25.8%);
-  grid-row-gap: 80px;
-`;
-
-const Cover = styled.div`
-  width: 260px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  border-radius: 4px;
-  background-color: ${theme.whiteContentColor};
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
-`;
-
-const Image = styled.img`
-  width: 100%;
-  height: 200px;
-  border-radius: 4px;
-`;
-
-const TextItem = styled.div`
-  width: 100%;
-  margin: 12px 0 16px 0;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-direction: column;
-`;
-
-const Title = styled.p`
-  width: 90%;
-  font-size: 18px;
-  font-weight: 700;
-`;
-
-const Content = styled.div`
-  width: 90%;
-  margin-top: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const User = styled.p`
-  font-size: 12px;
-  font-weight: 600;
-`;
-
-const LikeBox = styled.div`
-  gap: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LikeNum = styled.div`
-  color: ${theme.uiRedColor};
-  font-size: 14px;
-  font-weight: 600;
-`;
-
-const Route = styled.p`
-  width: 100%;
-  margin-top: 20px;
-  text-decoration: underline;
-  text-align: end;
-  font-size: 16px;
-  font-weight: 500;
-  color: ${theme.blackContentColor};
-`;
-
-const FalseLike = styled.img`
-  width: 14px;
-`;
-
-const TrueLike = styled.img`
-  width: 14px;
+  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-row-gap: 50px;
 `;

@@ -1,13 +1,22 @@
 import styled from 'styled-components';
 import { search } from 'assets';
 import { ChangeEvent, useState } from 'react';
+import { challengeSearch } from 'utils/api/search/search';
+import { useSetRecoilState } from 'recoil';
+import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
 
 export default function Search() {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const setChallengeList = useSetRecoilState(challengeListRecoil);
 
   const changeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchKeyword(value);
+  };
+
+  const getSearchedChallenge = async () => {
+    const res = await challengeSearch(searchKeyword);
+    setChallengeList(res);
   };
 
   return (
@@ -20,7 +29,7 @@ export default function Search() {
             value={searchKeyword}
             onChange={changeSearchKeyword}
           ></Input>
-          <SearchButton />
+          <SearchButton onClick={getSearchedChallenge} />
         </InputBox>
       </Wrapper>
     </Container>
@@ -61,17 +70,14 @@ const Input = styled.input`
 
 const SearchButton = styled.button`
   position: absolute;
-
   top: 24%;
   right: 20px;
   width: 30px;
   aspect-ratio: 1;
-
   background-image: url(${search});
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-
   background-color: transparent;
   border: none;
   cursor: pointer;
