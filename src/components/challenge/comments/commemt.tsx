@@ -1,12 +1,15 @@
 import { deleteIcon, editIcon } from 'assets';
 import { format } from 'date-fns';
-import { ChangeEvent, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { deleteComment, patchComment } from 'utils/api/comment/comment';
+import { saveCommentList } from 'utils/functions/comment/comment';
 import { commentDataType } from 'utils/interface/comment/comment';
 import { userDataType } from 'utils/interface/user/user';
+import { commentListRecoil } from 'utils/store/commentList/commentList';
 
 interface props {
   commentData: commentDataType;
@@ -17,17 +20,34 @@ const Commemt = ({ commentData, userData }: props): JSX.Element => {
   const challengeId = useParams().challengeId as string;
   const [text, setText] = useState<string>(commentData.text);
   const [isEdit, setIsEdit] = useState<boolean>(false);
+  const setCommentList = useSetRecoilState(commentListRecoil);
 
-  const deleteReview = () => {
+  const [searchParams] = useSearchParams();
+  const date = new Date(searchParams.get('date') as string);
+
+  useEffect(() => {
+    setText(commentData.text);
+  }, [commentData]);
+
+  const deleteReview = async () => {
     if (window.confirm('리뷰를 삭제합니다')) {
       console.log('delete');
-      deleteComment(parseInt(challengeId), commentData.id);
+      await deleteComment(parseInt(challengeId), commentData.id);
+      await reloadList();
     }
   };
 
   const commentEdit = () => setIsEdit(true);
 
+  const reloadList = async () => {
+    const newCommentList = [
+      ...(await saveCommentList(parseInt(challengeId), date)),
+    ];
+    setCommentList([...newCommentList]);
+  };
+
   const editCancel = () => {
+    console.log('cancel');
     setText(commentData.text);
     setIsEdit(false);
   };
@@ -36,7 +56,7 @@ const Commemt = ({ commentData, userData }: props): JSX.Element => {
     console.log('patchReview');
 
     await patchComment(parseInt(challengeId), commentData.id, text);
-
+    await reloadList();
     setIsEdit(false);
   };
 
@@ -47,6 +67,33 @@ const Commemt = ({ commentData, userData }: props): JSX.Element => {
   return (
     <CommemtContainer>
       <WriteInfoWrap>
+        <Writer>{commentData.user.nickname}</Writer>
+        <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
+      </WriteInfoWrap>
+
+      {isEdit ? (
+        <CommentInputWrap>
+          <CommentInput value={text} onChange={changeText} />
+          <EditButtonWrap>
+            <EditCancelButton onClick={editCancel}>cancel</EditCancelButton>
+            <PatchButton onClick={patchReview}>edit</PatchButton>
+          </EditButtonWrap>
+        </CommentInputWrap>
+      ) : (
+        <Content>{commentData.text}</Content>
+      )}
+      {!isEdit && commentData.user.id === userData.id && (
+        <ButtonWrap>
+          <PatchComment onClick={commentEdit} />
+          <DeleteComment onClick={deleteReview} />
+        </ButtonWrap>
+      )}
+    </CommemtContainer>
+  );
+};
+
+/**
+ * <Wrap>
         <Writer>{commentData.user.nickname}</Writer>
         <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
       </WriteInfoWrap>
@@ -67,9 +114,7 @@ const Commemt = ({ commentData, userData }: props): JSX.Element => {
           <DeleteComment onClick={deleteReview} />
         </ButtonWrap>
       )}
-    </CommemtContainer>
-  );
-};
+ */
 
 const EditCancelButton = styled.button`
   background-color: transparent;

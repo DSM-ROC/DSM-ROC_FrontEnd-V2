@@ -31,18 +31,17 @@ const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   };
 
   const submit = async () => {
-    console.log(date, new Date());
-    console.log(isSameDate(date, new Date()));
     if (!isSameDate(date, new Date())) {
-      console.log('dddd');
       alert('당일에만 작성할 수 있어요!!');
       return null;
     }
 
     await addComment(comment, parseInt(challengeId));
-    setCommentList(await saveCommentList(parseInt(challengeId), date));
+    const newCommentList = [
+      ...(await saveCommentList(parseInt(challengeId), date)),
+    ];
+    setCommentList([...newCommentList]);
     setComment('');
-    window.location.reload();
   };
 
   const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {

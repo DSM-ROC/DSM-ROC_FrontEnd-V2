@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import { commentListRecoil } from 'utils/store/commentList/commentList';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { saveCommentList } from 'utils/functions/comment/comment';
 
 const Comments = (): JSX.Element => {
@@ -19,6 +19,8 @@ const Comments = (): JSX.Element => {
   const challengeId = useParams().challengeId as string;
   const dateStr = searchParams.get('date') as string;
   const date = new Date(dateStr);
+  const commentDateList = useRecoilValue(commentListRecoil);
+
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
     id: 0,
     name: '',
@@ -42,7 +44,7 @@ const Comments = (): JSX.Element => {
   };
 
   const getCommentData = async () => {
-    setCommentList(await saveCommentList(parseInt(challengeId), date));
+    setCommentList([...(await saveCommentList(parseInt(challengeId), date))]);
   };
 
   useLayoutEffect(() => {
@@ -61,7 +63,10 @@ const Comments = (): JSX.Element => {
         {Number(date.getDate())}일
       </Title>
       <AddComment addCommentInputRef={addCommentInputRef} date={date} />
-      <CommentList addCommentInputRef={addCommentInputRef} />
+      <CommentList
+        addCommentInputRef={addCommentInputRef}
+        commentDateList={commentDateList}
+      />
     </CommentsPage>
   );
 };

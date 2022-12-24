@@ -1,24 +1,21 @@
 import { format } from 'date-fns';
-import { RefObject, useEffect, useState, useTransition } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { getUserData } from 'utils/api/userData/userData';
 import { commentDataType } from 'utils/interface/comment/comment';
 import { userDataType } from 'utils/interface/user/user';
-import { commentListRecoil } from 'utils/store/commentList/commentList';
 import Commemt from './commemt';
-import { useLocation } from 'react-router-dom';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
+  commentDateList: commentDataType[];
 }
 
-const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
-  const navigate = useNavigate();
-  // const location = useLocation();
-
+const CommentList = ({
+  addCommentInputRef,
+  commentDateList,
+}: props): JSX.Element => {
   const focusCommentInput = () => {
     addCommentInputRef.current?.focus();
   };
@@ -27,8 +24,6 @@ const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
     nickname: '',
     email: '',
   });
-
-  const commentDateList = useRecoilValue(commentListRecoil);
 
   const getData = async () => {
     const res = await getUserData();
@@ -41,15 +36,7 @@ const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
 
   return (
     <CommentListContainer>
-      {commentDateList.map((commentData: commentDataType, i) => (
-        <Commemt key={i} commentData={commentData} userData={userData} />
-      ))}
-    </CommentListContainer>
-  );
-};
-
-/**
- *  {commentDateList.length ? (
+      {commentDateList.length ? (
         commentDateList.map((commentData: commentDataType, i) => (
           <Commemt key={i} commentData={commentData} userData={userData} />
         ))
@@ -61,7 +48,9 @@ const CommentList = ({ addCommentInputRef }: props): JSX.Element => {
           </WriteStartButton>
         </ReviewNotFound>
       )}
- */
+    </CommentListContainer>
+  );
+};
 
 const WriteStartButton = styled.button`
   background-color: transparent;
