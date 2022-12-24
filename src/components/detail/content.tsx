@@ -5,16 +5,21 @@ import { logo } from 'assets';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import { joinChallenge } from 'utils/api/joinChallenge/joinChallenge';
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 interface props {
   challengeData: challengeInfoType;
 }
 
 export default function Content({ challengeData }: props) {
-  const { challengeId } = useParams();
+  const challengeId = useParams().challengeId as string;
+  const navigate = useNavigate();
 
-  const join = () => {
-    joinChallenge(challengeId as string);
+  const join = async () => {
+    const res = await joinChallenge(challengeId);
+    if (res) {
+      navigate(`/challenge/${challengeId}`);
+    }
   };
 
   return (
