@@ -39,8 +39,12 @@ export default function Footer() {
             </Text>
           </Cover>
           <Route>
-            <Facebook src={facebook}></Facebook>
-            <Github src={github}></Github>
+            <a href="https://www.facebook.com/DSMSinabro">
+              <Facebook src={facebook} />
+            </a>
+            <a href="https://github.com/DSM-ROC">
+              <Github src={github} />
+            </a>
           </Route>
         </Wrapper>
       </Container>
@@ -61,7 +65,7 @@ const Wrapper = styled.div`
   width: 80vw;
   height: 240px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   border-bottom: 1px solid #fff;
 `;
@@ -110,25 +114,29 @@ const Name = styled.p`
   white-space: nowrap;
 `;
 
-const routeLogo = styled.img`
-  width: 50px;
-  padding: 8px;
-  border-radius: 27px;
-  background-color: #fff;
-`;
-
 const Route = styled.div`
-  width: 100%;
-  height: 90%;
   margin-bottom: 28px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  flex-direction: row;
+  gap: 26px;
+`;
+
+const routeLogo = styled.img`
+  width: 50px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 35px;
+  cursor: pointer;
 `;
 
 const Facebook = styled(routeLogo)`
-  margin-right: 16px;
+  background-image: url(${facebook});
 `;
 
-const Github = styled(routeLogo)``;
+const Github = styled(routeLogo)`
+  background-image: url(${github});
+`;
