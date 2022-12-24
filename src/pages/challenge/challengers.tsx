@@ -95,7 +95,11 @@ const Challengers = (): JSX.Element => {
         {challengerList
           .filter((challenger) => challenger !== hostChallenger)
           .map((challenger) => (
-            <MemberCard challengerInfo={challenger.user} isHost={isHost} />
+            <MemberCard
+              key={challenger.userId}
+              challengerInfo={challenger.user}
+              isHost={isHost}
+            />
           ))}
       </ChallengerPage>
     </>
