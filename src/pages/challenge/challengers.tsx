@@ -10,16 +10,24 @@ import { challengerTpye } from 'utils/interface/challenger/challenger';
 import ToastError from 'utils/functions/errorMessage';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import MemberCard from 'components/memberCard';
+import { userDataType } from 'utils/interface/user/user';
+import { getUserData } from 'utils/api/userData/userData';
 
 const Challengers = (): JSX.Element => {
   const challengeId = useParams().challengeId as string;
   const [challengerList, setChallengerList] = useState<challengerTpye[]>([]);
+  const [isHost, setIsHost] = useState<boolean>(false);
   const [hostChallenger, setHostChallenger] = useState<challengerTpye>({
     userId: 0,
     user: {
       id: 0,
       nickname: '',
     },
+  });
+  const [userData, setUserData] = useState<userDataType>({
+    id: 0,
+    nickname: '',
+    email: '',
   });
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
     id: 0,
@@ -42,6 +50,7 @@ const Challengers = (): JSX.Element => {
   const findHost = (
     challengerListRes: challengerTpye[],
     challengeDataRes: challengeInfoType,
+    userDataRes: userDataType,
   ) => {
     const hostData = challengerListRes.find(
       (challenger) => challenger.userId === parseInt(challengeDataRes.user.id),
@@ -50,6 +59,7 @@ const Challengers = (): JSX.Element => {
     if (!hostData) {
       ToastError('챌린지 방장을 찾을 수 없습니다!!');
     } else {
+      setIsHost(userDataRes.id === hostData.userId);
       setHostChallenger(hostData);
     }
   };
@@ -60,7 +70,11 @@ const Challengers = (): JSX.Element => {
 
     const challengerListRes = await getChallenger(challengeId);
     setChallengerList(challengerListRes);
-    findHost(challengerListRes, challengeDataRes);
+
+    const userDataRes = await getUserData();
+    setUserData(userDataRes);
+
+    findHost(challengerListRes, challengeDataRes, userDataRes);
   };
 
   useLayoutEffect(() => {
@@ -78,9 +92,11 @@ const Challengers = (): JSX.Element => {
             <b>[챌린지 방장]</b>&nbsp;{hostChallenger.user.nickname}
           </HostName>
         </ChallengeHost>
-        {challengerList.map((challenger) => (
-          <MemberCard challengerInfo={challenger.user} />
-        ))}
+        {challengerList
+          .filter((challenger) => challenger !== hostChallenger)
+          .map((challenger) => (
+            <MemberCard challengerInfo={challenger.user} isHost={isHost} />
+          ))}
       </ChallengerPage>
     </>
   );

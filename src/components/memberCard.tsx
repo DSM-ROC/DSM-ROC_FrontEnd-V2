@@ -7,9 +7,10 @@ interface props {
     id: number;
     nickname: string;
   };
+  isHost: boolean;
 }
 
-const MemberCard = ({ challengerInfo }: props) => {
+const MemberCard = ({ challengerInfo, isHost }: props) => {
   return (
     <Wrapper>
       <ProfileWrapper>
@@ -20,7 +21,7 @@ const MemberCard = ({ challengerInfo }: props) => {
           {challengerInfo.nickname}
         </ChallengerName>
       </ProfileWrapper>
-      {true && <ExpulsionButton />}
+      {isHost && <ExpulsionButton />}
     </Wrapper>
   );
 };
