@@ -4,6 +4,7 @@ export interface commentDataType {
   createdAt: Date;
   updatedAt: Date;
   user: {
+    id: number;
     nickname: string;
   };
   challenge: {

@@ -13,6 +13,7 @@ export const getCommentList = async (
       createdAt: new Date(comment.createdAt),
       updatedAt: new Date(comment.updatedAt),
       user: {
+        id: comment.user.id,
         nickname: comment.user.nickname,
       },
       challenge: {
