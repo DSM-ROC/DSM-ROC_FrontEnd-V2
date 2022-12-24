@@ -69,7 +69,6 @@ const Comments = (): JSX.Element => {
       <AddComment addCommentInputRef={addCommentInputRef} date={date} />
       <CommentList
         addCommentInputRef={addCommentInputRef}
-        date={date}
         commentDateList={commentDateList}
       />
     </CommentsPage>

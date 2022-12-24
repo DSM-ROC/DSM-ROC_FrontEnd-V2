@@ -1,23 +1,37 @@
-import { RefObject } from 'react';
+import { RefObject, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { getUserData } from 'utils/api/userData/userData';
 import { commentDataType } from 'utils/interface/comment/comment';
+import { userDataType } from 'utils/interface/user/user';
 import Commemt from './commemt';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
-  date: Date;
   commentDateList: commentDataType[];
 }
 
 const CommentList = ({
   addCommentInputRef,
-  date,
   commentDateList,
 }: props): JSX.Element => {
   const focusCommentInput = () => {
     addCommentInputRef.current?.focus();
   };
+  const [userData, setUserData] = useState<userDataType>({
+    id: 0,
+    nickname: '',
+    email: '',
+  });
+
+  const getData = async () => {
+    const res = await getUserData();
+    setUserData(res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <CommentListContainer>
