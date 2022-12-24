@@ -1,16 +1,27 @@
 import { deleteIcon } from 'assets';
 import { format } from 'date-fns';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { deleteComment } from 'utils/api/comment/comment';
 import { commentDataType } from 'utils/interface/comment/comment';
+import { userDataType } from 'utils/interface/user/user';
 
 interface props {
   commentData: commentDataType;
+  userData: userDataType;
 }
 
-// const myWriterId = 0;
+const Commemt = ({ commentData, userData }: props): JSX.Element => {
+  const challengeId = useParams().challengeId as string;
 
-const Commemt = ({ commentData }: props): JSX.Element => {
+  const deleteReview = () => {
+    if (window.confirm('리뷰를 삭제합니다')) {
+      console.log('delete');
+      deleteComment(parseInt(challengeId), commentData.id);
+    }
+  };
+
   return (
     <CommemtContainer>
       <WriteInfoWrap>
@@ -18,26 +29,28 @@ const Commemt = ({ commentData }: props): JSX.Element => {
         <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
       </WriteInfoWrap>
       <Content>{commentData.text}</Content>
-      {/* {commentData. === myWriterId && <DeleteComment />} */}
+      {commentData.user.id === userData.id && (
+        <DeleteComment onClick={deleteReview} />
+      )}
     </CommemtContainer>
   );
 };
 
-// const DeleteComment = styled.button`
-//   width: 20px;
-//   aspect-ratio: 1;
-//   border: none;
-//   background-color: transparent;
-//   background-image: url(${deleteIcon});
-//   background-repeat: no-repeat;
-//   background-size: contain;
-//   background-position: center;
-//   cursor: pointer;
+const DeleteComment = styled.button`
+  width: 20px;
+  aspect-ratio: 1;
+  border: none;
+  background-color: transparent;
+  background-image: url(${deleteIcon});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
 
-//   position: absolute;
-//   top: 25px;
-//   right: 30px;
-// `;
+  position: absolute;
+  top: 25px;
+  right: 30px;
+`;
 
 const Content = styled.div`
   width: 100%;

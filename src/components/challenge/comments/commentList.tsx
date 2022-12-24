@@ -37,7 +37,7 @@ const CommentList = ({
     <CommentListContainer>
       {commentDateList.length ? (
         commentDateList.map((commentData: commentDataType, i) => (
-          <Commemt key={i} commentData={commentData} />
+          <Commemt key={i} commentData={commentData} userData={userData} />
         ))
       ) : (
         <ReviewNotFound>
