@@ -13,25 +13,33 @@ import Calendar from 'pages/challenge/calendar';
 import Comments from 'pages/challenge/comments';
 import Board from 'pages/challenge/board';
 import Challengers from 'pages/challenge/challengers';
+import Footer from 'components/common/footer/footer';
+import AllChallenge from 'pages/allChallenge';
 
 const Router = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signUp" element={<SignUp />} />
         <Route element={<Header />}>
-          {/** header 있는 페이지 */}
-          <Route path="/" element={<Main />} />
-          <Route path="/myPage" element={<MyPage />} />
-          <Route path="/createChallenge" element={<CreateChallenge />} />
-          <Route path="detail/:challengeId" element={<Detail />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="challenge/:challengeId">
-            <Route path="" element={<Challenge />} />
-            <Route path="calendar" element={<Calendar />} />
-            <Route path="comments" element={<Comments />} />
-            <Route path="challengers" element={<Challengers />} />
             <Route path="board" element={<Board />} />
+          </Route>
+          <Route element={<Footer />}>
+            <Route path="/" element={<Main />} />
+            <Route path="/myPage" element={<MyPage />} />
+            <Route path="/createChallenge" element={<CreateChallenge />} />
+            <Route path="/detail/:challengeId" element={<Detail />} />
+            <Route path="/challenge">
+              <Route path="" element={<AllChallenge />} />
+              <Route path=":challengeId">
+                <Route path="" element={<Challenge />} />
+                <Route path="calendar" element={<Calendar />} />
+                <Route path="comments" element={<Comments />} />
+                <Route path="challengers" element={<Challengers />} />
+              </Route>
+            </Route>
           </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
