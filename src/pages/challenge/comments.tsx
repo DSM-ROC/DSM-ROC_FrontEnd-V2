@@ -4,11 +4,11 @@ import ChallengeInfoSection from 'components/common/challengeInfoSection/challen
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { getCommentList } from 'utils/api/calendar/calendar';
 import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import { commentDataType } from 'utils/interface/comment/comment';
+import { getCommentList } from 'utils/api/comment/commentList';
 
 const Comments = (): JSX.Element => {
   const navigate = useNavigate();
@@ -38,7 +38,8 @@ const Comments = (): JSX.Element => {
   });
 
   const getData = async () => {
-    setChallengeData(await getChallengeData(challengeId as string));
+    const res = await getChallengeData(challengeId as string);
+    setChallengeData(res);
   };
 
   const getCommentData = async () => {
@@ -47,7 +48,7 @@ const Comments = (): JSX.Element => {
         .filter((comment: commentDataType) =>
           isSameDate(date, comment.createdAt),
         )
-        .reverse(),
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
     );
   };
 
