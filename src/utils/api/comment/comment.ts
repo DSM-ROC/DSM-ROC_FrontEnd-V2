@@ -18,3 +18,17 @@ export const deleteComment = async (
     throw error;
   }
 };
+
+export const patchComment = async (
+  challenge_id: number,
+  review_id: number,
+  text: string,
+) => {
+  try {
+    await instance.patch(`challenge/${challenge_id}/review/${review_id}`, {
+      text,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
