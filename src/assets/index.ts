@@ -2,7 +2,7 @@ export { default as list } from 'assets/img/allChallenge/list.png';
 
 export { default as arrow } from 'assets/img/calendar/arrow.svg';
 
-export { default as Crown } from 'assets/img/challenger/Crown.png';
+export { default as Crown } from 'assets/img/challenger/Crown.svg';
 export { default as profile } from 'assets/img/challenger/profile.png';
 export { default as trashcan } from 'assets/img/challenger/trashcan.png';
 
