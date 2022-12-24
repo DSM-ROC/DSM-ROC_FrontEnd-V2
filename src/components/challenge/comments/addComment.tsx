@@ -1,10 +1,17 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { addComment } from 'utils/api/comment/comment';
+import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
 
-const AddComment = (): JSX.Element => {
+interface props {
+  addCommentInputRef: RefObject<HTMLInputElement>;
+  date: Date;
+}
+
+const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   const navigate = useNavigate();
   const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
@@ -16,8 +23,24 @@ const AddComment = (): JSX.Element => {
 
   const changeComment = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setComment(value);
+  };
+
+  const submit = () => {
+    console.log(date, new Date());
+    console.log(isSameDate(date, new Date()));
+    if (!isSameDate(date, new Date())) {
+      console.log('dddd');
+      alert('당일에만 작성할 수 있어요!!');
+      return null;
+    }
+
+    addComment(comment, parseInt(challengeId as string));
+    setComment('');
+  };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') submit();
   };
 
   return (
@@ -28,6 +51,8 @@ const AddComment = (): JSX.Element => {
           placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
           value={comment}
           onChange={changeComment}
+          onKeyDown={getEnter}
+          ref={addCommentInputRef}
         />
       </InputWrap>
       <Buttons>

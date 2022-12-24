@@ -1,25 +1,25 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { pen } from 'assets';
+import { list } from 'assets';
 
 export default function Banner() {
   return (
     <Container>
       <Wrapper>
         <TextBox>
-          <Page>ROC 챌린지 생성하기 페이지</Page>
-          <Title>원하는 챌린지를 </Title>
-          <Title>생성하고 모집해보세요</Title>
+          <Page>ROC 챌린지 전체보기 페이지</Page>
+          <Title>ROC와 함께하는</Title>
+          <Title>챌린지를 확인해보세요</Title>
           <Content>공동의 목표를 정하고 함께 목표를 실현합니다</Content>
         </TextBox>
-        <Image src={pen}></Image>
+        <Image src={list}></Image>
       </Wrapper>
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 500px;
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const Wrapper = styled.div`
-  width: 80vw;
+  width: 80%;
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -14,21 +14,15 @@ import MonthController from './monthController';
 import WeekBar from './weekBar';
 
 interface props {
-  period: string;
+  startDay: Date;
+  endDay: Date;
 }
 
-const CalendarComponent = ({ period }: props): JSX.Element => {
+const CalendarComponent = ({ startDay, endDay }: props): JSX.Element => {
   const monthStart = useRecoilValue(calendarRecoil);
   const monthEnd = endOfMonth(monthStart);
   const startDate = startOfWeek(monthStart);
   const endDate = endOfWeek(monthEnd);
-
-  const [sYear, sMonth, sDate] = period.split(' ')[0].split('.');
-  const challengeStartDate = new Date(
-    Number(sYear),
-    Number(sMonth) - 1,
-    Number(sDate),
-  );
 
   const rows = [];
   let dates = [];
@@ -41,7 +35,8 @@ const CalendarComponent = ({ period }: props): JSX.Element => {
       dates.push(
         <Cell
           key={formattedDate}
-          challengeStartDate={challengeStartDate}
+          challengeStartDate={startDay}
+          challengeEndDate={endDay}
           date={date}
           day={getDay(date)}
           formattedDate={formattedDate}

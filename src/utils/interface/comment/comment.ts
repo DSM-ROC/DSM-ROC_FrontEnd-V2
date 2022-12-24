@@ -1,6 +1,12 @@
 export interface commentDataType {
-  writerId: number;
-  writer: string;
-  created: string;
-  content: string;
+  id: number;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: {
+    nickname: string;
+  };
+  challenge: {
+    name: string;
+  };
 }
