@@ -12,7 +12,7 @@ export default function Footer() {
       <Container>
         <Wrapper>
           <Cover>
-            <Image src={whiteLogo}></Image>
+            <ProjectLogo src={whiteLogo} />
             <Text>
               <Front>
                 <Fild>Frontend</Fild>
@@ -86,7 +86,7 @@ const Wrapper = styled.div`
 
 const Cover = styled.div``;
 
-const Image = styled.img`
+const ProjectLogo = styled.img`
   width: 100px;
   margin-bottom: 34px;
 `;
