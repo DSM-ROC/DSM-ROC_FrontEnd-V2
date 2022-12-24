@@ -17,23 +17,37 @@ export default function Footer() {
               <Front>
                 <Fild>Frontend</Fild>
                 <Names>
-                  <Name>김민성</Name>
-                  <Name>배준수</Name>
-                  <Name>신윤호</Name>
-                  <Name>임수빈</Name>
+                  <a href="https://github.com/HungryMinsung">
+                    <Name>김민성</Name>
+                  </a>
+                  <a href="https://github.com/baejoonsoo">
+                    <Name>배준수</Name>
+                  </a>
+                  <a href="https://github.com/yoon-ho7">
+                    <Name>신윤호</Name>
+                  </a>
+                  <a href="https://github.com/waterbeen0530">
+                    <Name>임수빈</Name>
+                  </a>
                 </Names>
               </Front>
               <Back>
                 <Fild>Back-end</Fild>
                 <Names>
-                  <Name>박상진</Name>
-                  <Name>이예빈</Name>
+                  <a href="https://github.com/skmn3">
+                    <Name>박상진</Name>
+                  </a>
+                  <a href="https://github.com/2yev1n">
+                    <Name>이예빈</Name>
+                  </a>
                 </Names>
               </Back>
               <Design>
                 <Fild>Designer</Fild>
                 <Names>
-                  <Name>임수빈</Name>
+                  <a href="https://github.com/waterbeen0530">
+                    <Name>임수빈</Name>
+                  </a>
                 </Names>
               </Design>
             </Text>
