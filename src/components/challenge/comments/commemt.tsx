@@ -1,43 +1,181 @@
-import { deleteIcon } from 'assets';
+import { deleteIcon, editIcon } from 'assets';
 import { format } from 'date-fns';
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useParams, useSearchParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { deleteComment, patchComment } from 'utils/api/comment/comment';
+import { saveCommentList } from 'utils/functions/comment/comment';
 import { commentDataType } from 'utils/interface/comment/comment';
+import { userDataType } from 'utils/interface/user/user';
+import { commentListRecoil } from 'utils/store/commentList/commentList';
 
 interface props {
   commentData: commentDataType;
+  userData: userDataType;
 }
 
-// const myWriterId = 0;
+const Commemt = ({ commentData, userData }: props): JSX.Element => {
+  const challengeId = useParams().challengeId as string;
+  const [text, setText] = useState<string>(commentData.text);
+  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const setCommentList = useSetRecoilState(commentListRecoil);
 
-const Commemt = ({ commentData }: props): JSX.Element => {
+  const [searchParams] = useSearchParams();
+  const date = new Date(searchParams.get('date') as string);
+
+  useEffect(() => {
+    setText(commentData.text);
+  }, [commentData]);
+
+  const deleteReview = async () => {
+    if (window.confirm('리뷰를 삭제합니다')) {
+      console.log('delete');
+      await deleteComment(parseInt(challengeId), commentData.id);
+      await reloadList();
+    }
+  };
+
+  const commentEdit = () => setIsEdit(true);
+
+  const reloadList = async () => {
+    const newCommentList = [
+      ...(await saveCommentList(parseInt(challengeId), date)),
+    ];
+    setCommentList([...newCommentList]);
+  };
+
+  const editCancel = () => {
+    console.log('cancel');
+    setText(commentData.text);
+    setIsEdit(false);
+  };
+
+  const patchReview = async () => {
+    console.log('patchReview');
+
+    await patchComment(parseInt(challengeId), commentData.id, text);
+    await reloadList();
+    setIsEdit(false);
+  };
+
+  const changeText = (e: ChangeEvent<HTMLInputElement>) => {
+    setText(e.target.value);
+  };
+
   return (
     <CommemtContainer>
       <WriteInfoWrap>
         <Writer>{commentData.user.nickname}</Writer>
         <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
       </WriteInfoWrap>
-      <Content>{commentData.text}</Content>
-      {/* {commentData. === myWriterId && <DeleteComment />} */}
+
+      {isEdit ? (
+        <CommentInputWrap>
+          <CommentInput value={text} onChange={changeText} />
+          <EditButtonWrap>
+            <EditCancelButton onClick={editCancel}>cancel</EditCancelButton>
+            <PatchButton onClick={patchReview}>edit</PatchButton>
+          </EditButtonWrap>
+        </CommentInputWrap>
+      ) : (
+        <Content>{commentData.text}</Content>
+      )}
+      {!isEdit && commentData.user.id === userData.id && (
+        <ButtonWrap>
+          <PatchComment onClick={commentEdit} />
+          <DeleteComment onClick={deleteReview} />
+        </ButtonWrap>
+      )}
     </CommemtContainer>
   );
 };
 
-// const DeleteComment = styled.button`
-//   width: 20px;
-//   aspect-ratio: 1;
-//   border: none;
-//   background-color: transparent;
-//   background-image: url(${deleteIcon});
-//   background-repeat: no-repeat;
-//   background-size: contain;
-//   background-position: center;
-//   cursor: pointer;
+/**
+ * <Wrap>
+        <Writer>{commentData.user.nickname}</Writer>
+        <CreatedDate>{format(commentData.createdAt, 'yyyy-MM-dd')}</CreatedDate>
+      </WriteInfoWrap>
+      {isEdit ? (
+        <CommentInputWrap>
+          <CommentInput value={text} onChange={changeText} />
+          <EditButtonWrap>
+            <EditCancelButton onClick={editCancel}>cancel</EditCancelButton>
+            <PatchButton onClick={patchReview}>edit</PatchButton>
+          </EditButtonWrap>
+        </CommentInputWrap>
+      ) : (
+        <Content>{text}</Content>
+      )}
+      {!isEdit && commentData.user.id === userData.id && (
+        <ButtonWrap>
+          <PatchComment onClick={commentEdit} />
+          <DeleteComment onClick={deleteReview} />
+        </ButtonWrap>
+      )}
+ */
 
-//   position: absolute;
-//   top: 25px;
-//   right: 30px;
-// `;
+const EditCancelButton = styled.button`
+  background-color: transparent;
+  width: fit-content;
+  height: fit-content;
+  border: none;
+  border-radius: 10px;
+
+  font-size: 16px;
+  color: ${theme.uiRedColor};
+  padding: 3px 7px;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
+const PatchButton = styled(EditCancelButton)`
+  color: ${theme.uiBlueColor};
+`;
+
+const EditButtonWrap = styled.div`
+  width: fit-content;
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+`;
+
+const CommentInputWrap = styled.div`
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const ButtonWrap = styled.div`
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  gap: 10px;
+
+  position: absolute;
+  top: 25px;
+  right: 30px;
+`;
+
+const DeleteComment = styled.button`
+  width: 20px;
+  aspect-ratio: 1;
+  border: none;
+
+  background-color: transparent;
+  background-image: url(${deleteIcon});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  cursor: pointer;
+`;
+
+const PatchComment = styled(DeleteComment)`
+  background-image: url(${editIcon});
+`;
 
 const Content = styled.div`
   width: 100%;
@@ -50,6 +188,23 @@ const Content = styled.div`
   font-size: 20px;
   font-family: 'Noto Sans KR';
   font-weight: 400;
+`;
+
+const CommentInput = styled.input`
+  width: 100%;
+  height: fit-content;
+  padding-bottom: 3px;
+  margin-top: 30px;
+  border: none;
+  border-bottom: 1px solid ${theme.dailyGray};
+
+  white-space: pre-wrap;
+  word-break: break-all;
+
+  font-size: 20px;
+  font-family: 'Noto Sans KR';
+  font-weight: 400;
+  outline: none;
 `;
 
 const WriteInfoWrap = styled.div`

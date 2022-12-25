@@ -12,35 +12,53 @@ export default function Footer() {
       <Container>
         <Wrapper>
           <Cover>
-            <Image src={whiteLogo}></Image>
+            <ProjectLogo src={whiteLogo} />
             <Text>
               <Front>
                 <Fild>Frontend</Fild>
                 <Names>
-                  <Name>김민성</Name>
-                  <Name>배준수</Name>
-                  <Name>신윤호</Name>
-                  <Name>임수빈</Name>
+                  <a href="https://github.com/HungryMinsung">
+                    <Name>김민성</Name>
+                  </a>
+                  <a href="https://github.com/baejoonsoo">
+                    <Name>배준수</Name>
+                  </a>
+                  <a href="https://github.com/yoon-ho7">
+                    <Name>신윤호</Name>
+                  </a>
+                  <a href="https://github.com/waterbeen0530">
+                    <Name>임수빈</Name>
+                  </a>
                 </Names>
               </Front>
               <Back>
                 <Fild>Back-end</Fild>
                 <Names>
-                  <Name>박상진</Name>
-                  <Name>이예빈</Name>
+                  <a href="https://github.com/skmn3">
+                    <Name>박상진</Name>
+                  </a>
+                  <a href="https://github.com/2yev1n">
+                    <Name>이예빈</Name>
+                  </a>
                 </Names>
               </Back>
               <Design>
                 <Fild>Designer</Fild>
                 <Names>
-                  <Name>임수빈</Name>
+                  <a href="https://github.com/waterbeen0530">
+                    <Name>임수빈</Name>
+                  </a>
                 </Names>
               </Design>
             </Text>
           </Cover>
           <Route>
-            <Facebook src={facebook}></Facebook>
-            <Github src={github}></Github>
+            <a href="https://www.facebook.com/DSMSinabro">
+              <Facebook src={facebook} />
+            </a>
+            <a href="https://github.com/DSM-ROC">
+              <Github src={github} />
+            </a>
           </Route>
         </Wrapper>
       </Container>
@@ -61,14 +79,14 @@ const Wrapper = styled.div`
   width: 80vw;
   height: 240px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
   border-bottom: 1px solid #fff;
 `;
 
 const Cover = styled.div``;
 
-const Image = styled.img`
+const ProjectLogo = styled.img`
   width: 100px;
   margin-bottom: 34px;
 `;
@@ -110,25 +128,29 @@ const Name = styled.p`
   white-space: nowrap;
 `;
 
-const routeLogo = styled.img`
-  width: 50px;
-  padding: 8px;
-  border-radius: 27px;
-  background-color: #fff;
-`;
-
 const Route = styled.div`
-  width: 100%;
-  height: 90%;
   margin-bottom: 28px;
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-  flex-direction: row;
+  gap: 26px;
+`;
+
+const routeLogo = styled.img`
+  width: 50px;
+  padding: 8px;
+  border-radius: 50%;
+  background-color: #fff;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 35px;
+  cursor: pointer;
 `;
 
 const Facebook = styled(routeLogo)`
-  margin-right: 16px;
+  background-image: url(${facebook});
 `;
 
-const Github = styled(routeLogo)``;
+const Github = styled(routeLogo)`
+  background-image: url(${github});
+`;

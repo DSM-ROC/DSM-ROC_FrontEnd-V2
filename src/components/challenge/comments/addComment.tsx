@@ -1,10 +1,13 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
 import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { addComment } from 'utils/api/comment/comment';
+import { saveCommentList } from 'utils/functions/comment/comment';
 import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
+import { commentListRecoil } from 'utils/store/commentList/commentList';
 
 interface props {
   addCommentInputRef: RefObject<HTMLInputElement>;
@@ -13,8 +16,9 @@ interface props {
 
 const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   const navigate = useNavigate();
-  const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
+  const challengeId = useParams().challengeId as string;
+  const setCommentList = useSetRecoilState(commentListRecoil);
 
   const goCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
   const goBoardPage = () => navigate(`/challenge/${challengeId}/board`);
@@ -26,16 +30,17 @@ const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
     setComment(value);
   };
 
-  const submit = () => {
-    console.log(date, new Date());
-    console.log(isSameDate(date, new Date()));
+  const submit = async () => {
     if (!isSameDate(date, new Date())) {
-      console.log('dddd');
       alert('당일에만 작성할 수 있어요!!');
       return null;
     }
 
-    addComment(comment, parseInt(challengeId as string));
+    await addComment(comment, parseInt(challengeId));
+    const newCommentList = [
+      ...(await saveCommentList(parseInt(challengeId), date)),
+    ];
+    setCommentList([...newCommentList]);
     setComment('');
   };
 
