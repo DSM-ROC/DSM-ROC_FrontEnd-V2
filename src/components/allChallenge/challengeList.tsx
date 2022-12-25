@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import ChallengeCard from 'components/challengeCard/challengeCard';
 import { useRecoilValue } from 'recoil';
-import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
 import { useState } from 'react';
 import { challengeSortKey } from 'utils/interface/challengeSortKey/challengeSortKey';
 import { theme } from 'styles/theme';
