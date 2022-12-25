@@ -25,6 +25,7 @@ export default function Recent() {
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
+    handleResize();
     return () => {
       window.removeEventListener('resize', handleResize);
     };
