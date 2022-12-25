@@ -1,9 +1,19 @@
 import styled from 'styled-components';
 import { search } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Search() {
   const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const navigate = useNavigate();
+
+  const searchUrlChange = () => {
+    navigate(`/challenges?search=${searchKeyword}`);
+  };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') searchUrlChange();
+  };
 
   const changeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -19,8 +29,9 @@ export default function Search() {
             placeholder="관심있는 분야를 검색하세요!"
             value={searchKeyword}
             onChange={changeSearchKeyword}
+            onKeyDown={getEnter}
           ></Input>
-          <SearchButton />
+          <SearchButton onClick={searchUrlChange} />
         </InputBox>
       </Wrapper>
     </Container>

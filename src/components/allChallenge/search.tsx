@@ -1,23 +1,41 @@
 import styled from 'styled-components';
 import { search } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { challengeSearch } from 'utils/api/search/search';
 import { useSetRecoilState } from 'recoil';
 import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 export default function Search() {
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [searchParams] = useSearchParams();
+
+  const searchQuery = searchParams.get('search');
+
+  const [searchKeyword, setSearchKeyword] = useState<string>(searchQuery || '');
   const setChallengeList = useSetRecoilState(challengeListRecoil);
+  const navigate = useNavigate();
 
   const changeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setSearchKeyword(value);
   };
 
+  const searchUrlChange = () => {
+    navigate(`/challenges?search=${searchKeyword}`);
+  };
+
   const getSearchedChallenge = async () => {
     const res = await challengeSearch(searchKeyword);
     setChallengeList(res);
   };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') searchUrlChange();
+  };
+
+  useEffect(() => {
+    getSearchedChallenge();
+  }, [searchQuery]);
 
   return (
     <Container>
@@ -28,8 +46,9 @@ export default function Search() {
             placeholder="관심있는 분야를 검색하세요!"
             value={searchKeyword}
             onChange={changeSearchKeyword}
+            onKeyDown={getEnter}
           ></Input>
-          <SearchButton onClick={getSearchedChallenge} />
+          <SearchButton onClick={searchUrlChange} />
         </InputBox>
       </Wrapper>
     </Container>
