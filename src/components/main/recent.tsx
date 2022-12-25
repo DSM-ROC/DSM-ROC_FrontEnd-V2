@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { challengeListSlicer } from 'utils/store/challengeList/selector/challengeListSlicer';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,26 @@ import ChallengeCard from 'components/challengeCard/challengeCard';
 export default function Recent() {
   const [slicerLength, setSlicerLength] = useState<number>(8);
   const allChallengeInfo = useRecoilValue(challengeListSlicer(slicerLength));
+
+  const handleResize = () => {
+    const width = window.innerWidth;
+    console.log(width);
+
+    if (width <= 1364 && width >= 1028) {
+      console.log('change 1');
+      setSlicerLength(9);
+    } else {
+      console.log('change 2');
+      setSlicerLength(8);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  });
 
   return (
     <Container>
@@ -55,8 +75,8 @@ const Summary = styled.h2`
 const Cover = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-row-gap: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  grid-row-gap: 50px;
   justify-items: center;
 `;
 
