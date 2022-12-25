@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { userProfile } from 'assets';
-import MyUserData from 'components/myData/myUserData';
+import MyUserData from 'components/myPage/myUserData';
+import MyChallenges from 'components/myPage/myChallenges';
 
 const MyPage = (): JSX.Element => {
   return (
@@ -14,6 +15,7 @@ const MyPage = (): JSX.Element => {
         </UserProfileWrap>
         <UserInfoContainer>
           <MyUserData />
+          <MyChallenges />
         </UserInfoContainer>
       </UserInfoWrap>
     </MyPageContainer>
@@ -60,7 +62,7 @@ const UserInfoWrap = styled.div`
   gap: 28px;
 `;
 
-const UserInfoContainer = styled.div`
+const UserInfoContainer = styled.article`
   width: 100%;
   height: fit-content;
   min-height: 100px;
