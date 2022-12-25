@@ -4,7 +4,7 @@ import Header from 'components/common/header/header';
 import NotFound from 'pages/status/notFound';
 import Main from 'pages/main';
 import Login from 'pages/login';
-import SignUpPage from 'pages/signUpPage';
+import SignUp from 'pages/signUp';
 import MyPage from 'pages/myPage';
 import CreateChallenge from 'pages/createChallenge';
 import Detail from 'pages/detail/detail';
@@ -22,7 +22,7 @@ const Router = (): JSX.Element => {
       <Routes>
         <Route element={<Header />}>
           <Route path="/login" element={<Login />} />
-          <Route path="/signUp" element={<SignUpPage />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="challenge/:challengeId">
             <Route path="board" element={<Board />} />
           </Route>

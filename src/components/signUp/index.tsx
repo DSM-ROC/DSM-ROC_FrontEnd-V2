@@ -4,7 +4,7 @@ import { theme } from 'styles/theme';
 import { postSignUp } from 'utils/api/signup';
 import { SignUpType } from 'utils/interface/signUp';
 
-const SignUp = () => {
+const SignUpSection = () => {
   const [signupState, setSignupState] = useState<SignUpType>({
     email: '',
     password: '',
@@ -77,7 +77,7 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignUpSection;
 
 const SignUpPage = styled.div`
   display: flex;
