@@ -14,15 +14,37 @@ const SignUpSection = () => {
     password: '',
     nickname: '',
   });
+  const [checkPW, setCheckPW] = useState<string>('');
 
   const { email, password, nickname } = signupState;
 
+  const formmatInput = (value: string, name: string): string => {
+    if (name === 'email') {
+      return value.replace(/[^a-z0-9.@]/g, '');
+    }
+    if (name === 'password') {
+      return value.replace(/[^a-z0-9.@]/g, '');
+    }
+    if (name === 'nickname') {
+      return value.replace(/[^a-z0-9]/g, '');
+    }
+
+    throw new Error('알 수 없는 name');
+  };
+
   const SignUpInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
+
+    const formmatedVlaue = formmatInput(value, name);
+
     setSignupState({
       ...signupState,
-      [name]: value,
+      [name]: formmatedVlaue,
     });
+  };
+  const changeCheckPW = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setCheckPW(value);
   };
 
   const SubmitSignUp = async () => {
@@ -30,6 +52,10 @@ const SignUpSection = () => {
       ToastError('입력칸을 다시 확인해주세요!');
     } else if (!/^(\S+)@(\S+)(\.)(\S+)$/.test(email)) {
       ToastError('email 형식이 올바르지 않습니다!');
+    } else if (password !== checkPW) {
+      ToastError('password가 같지 않습니다!');
+      setCheckPW('');
+      setSignupState((pre) => ({ ...pre, password: '' }));
     } else {
       try {
         await postSignUp({
@@ -75,6 +101,16 @@ const SignUpSection = () => {
             maxLength={20}
             value={password}
           />
+          <SignUpForm>비밀번호 확인</SignUpForm>
+          <SignUpInput
+            onChange={changeCheckPW}
+            name="password"
+            placeholder="비밀번호를 입력해주세요"
+            minLength={8}
+            maxLength={20}
+            value={checkPW}
+            type="password"
+          />
           <SignUpBtn onClick={SubmitSignUp}>회원가입</SignUpBtn>
         </SignUpBox>
       </SignUpWrapper>
@@ -114,7 +150,7 @@ const SignUpForm = styled.p`
   color: ${theme.mainBlueColor};
   font-size: 20px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 `;
 const SignUpInput = styled.input`
   border: none;
@@ -124,7 +160,7 @@ const SignUpInput = styled.input`
   padding-bottom: 10px;
   outline: none;
   font-size: 16px;
-  margin-bottom: 42px;
+  margin-bottom: 30px;
 `;
 
 const SignUpBtn = styled.button`
