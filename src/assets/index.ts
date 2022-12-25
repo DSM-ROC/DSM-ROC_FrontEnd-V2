@@ -15,3 +15,7 @@ export { default as calenderIcon } from 'assets/img/comments/calenderIcon.svg';
 export { default as challengerIcon } from 'assets/img/comments/challengerIcon.svg';
 export { default as deleteIcon } from 'assets/img/comments/deleteIcon.svg';
 export { default as list } from 'assets/img/allChallenge/list.png';
+export { default as profile } from 'assets/img/board/profile.png';
+export { default as cheak } from 'assets/img/board/cheak.png';
+export { default as gitpen } from 'assets/img/board/gitpen.png';
+export { default as members } from 'assets/img/board/members.png';
