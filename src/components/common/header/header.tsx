@@ -1,36 +1,71 @@
-import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import logo from '../../../assets/img/header/logo.png';
+import { logo } from 'assets';
+import { getUserData } from 'utils/api/userData/userData';
+import { logout } from 'utils/api/logout/logout';
+import { removeToken } from 'utils/functions/token/tokenManager';
 
 const Header = (): JSX.Element => {
-  const [status, setStatus] = useState(false);
+  const navitate = useNavigate();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const toLogin = () => navitate('/login');
+  const toSignUp = () => navitate('/signUp');
+
+  const logOut = () => {
+    logout();
+    removeToken();
+    setIsLogin(false);
+    navigate('/');
+  };
+
+  const getData = async () => {
+    try {
+      await getUserData();
+      setIsLogin(true);
+    } catch (e) {
+      setIsLogin(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <Container>
-        <Wrapper>
-          <Cover>
-            <Image src={logo}></Image>
-            <Frame>
+        <Cover>
+          <Image src={logo} />
+          <Frame>
+            <Link to="/">
               <Nav>메인페이지</Nav>
+            </Link>
+            <Link to="/chllenge">
               <Nav>챌린지 전체보기</Nav>
+            </Link>
+            <Link to="/createChallenge">
               <Nav>챌린지 생성</Nav>
+            </Link>
+            <Link to="/myPage">
               <Nav>마이 페이지</Nav>
-            </Frame>
-          </Cover>
-          <Button>
-            {status === false ? (
-              <>
-                <LoginButton>로그인</LoginButton>
-                <SignUpButton>회원가입</SignUpButton>
-              </>
-            ) : (
-              <>
-                <Logout>로그아웃</Logout>
-              </>
-            )}
-          </Button>
-        </Wrapper>
+            </Link>
+          </Frame>
+        </Cover>
+        <Button>
+          {isLogin ? (
+            <>
+              <Logout onClick={logOut}>로그아웃</Logout>
+            </>
+          ) : (
+            <>
+              <LoginButton onClick={toLogin}>로그인</LoginButton>
+              <SignUpButton onClick={toSignUp}>회원가입</SignUpButton>
+            </>
+          )}
+        </Button>
       </Container>
       <Outlet /> {/**이거 지우지 마 */}
     </>
@@ -44,15 +79,9 @@ const Container = styled.div`
   height: 100px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  background-color: #fff;
-`;
-
-const Wrapper = styled.div`
-  width: 80vw;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
+  background-color: #fff;
+  padding: 0 10vw;
 `;
 
 const Cover = styled.div`
@@ -66,7 +95,7 @@ const Image = styled.img`
   width: 100px;
 `;
 
-const Frame = styled.div`
+const Frame = styled.nav`
   gap: 30px;
   display: flex;
   align-items: center;
@@ -85,6 +114,7 @@ const StyleButton = styled.button`
   outline: none;
   font-size: 18px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const LoginButton = styled(StyleButton)`
