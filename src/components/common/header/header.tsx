@@ -1,14 +1,29 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { logo } from 'assets';
+import { userDataType } from 'utils/interface/user/user';
+import { getUserData } from 'utils/api/userData/userData';
 
 const Header = (): JSX.Element => {
-  const [status, setStatus] = useState(false);
   const navitate = useNavigate();
+  const [isLogin, setIsLogin] = useState<boolean>(false);
 
   const toLogin = () => navitate('/login');
   const toSignUp = () => navitate('/signUp');
+
+  const getData = async () => {
+    try {
+      await getUserData();
+      setIsLogin(true);
+    } catch (e) {
+      setIsLogin(false);
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   return (
     <>
@@ -31,14 +46,14 @@ const Header = (): JSX.Element => {
           </Frame>
         </Cover>
         <Button>
-          {status === false ? (
+          {isLogin ? (
             <>
-              <LoginButton onClick={toLogin}>로그인</LoginButton>
-              <SignUpButton onClick={toSignUp}>회원가입</SignUpButton>
+              <Logout>로그아웃</Logout>
             </>
           ) : (
             <>
-              <Logout>로그아웃</Logout>
+              <LoginButton onClick={toLogin}>로그인</LoginButton>
+              <SignUpButton onClick={toSignUp}>회원가입</SignUpButton>
             </>
           )}
         </Button>
