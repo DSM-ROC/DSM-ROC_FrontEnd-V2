@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
 import styled from 'styled-components';
+import PostList from 'components/challenge/board/postList';
 
 const Board = (): JSX.Element => {
   const challengeId = useParams().challengeId as string;
@@ -39,7 +40,7 @@ const Board = (): JSX.Element => {
     <BoardPage>
       <ChallengeInfoSection challengeData={challengeData} />
       <ButtonBox />
-      <Post />
+      <PostList />
     </BoardPage>
   );
 };
