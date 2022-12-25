@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { search } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { challengeSearch } from 'utils/api/search/search';
 import { useSetRecoilState } from 'recoil';
 import { challengeListRecoil } from 'utils/store/challengeList/challengeList';
@@ -19,6 +19,10 @@ export default function Search() {
     setChallengeList(res);
   };
 
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') getSearchedChallenge();
+  };
+
   return (
     <Container>
       <Wrapper>
@@ -28,6 +32,7 @@ export default function Search() {
             placeholder="관심있는 분야를 검색하세요!"
             value={searchKeyword}
             onChange={changeSearchKeyword}
+            onKeyDown={getEnter}
           ></Input>
           <SearchButton onClick={getSearchedChallenge} />
         </InputBox>
