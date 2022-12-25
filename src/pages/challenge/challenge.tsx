@@ -1,13 +1,14 @@
 import { calendar, bulletinBoard, challengers } from 'assets';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
 import { useLayoutEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 const Challenge = (): JSX.Element => {
+  const navigate = useNavigate();
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
     id: 0,
     name: '',
@@ -32,6 +33,11 @@ const Challenge = (): JSX.Element => {
     setChallengeData(await getChallengeData(challengeId));
   };
 
+  const toCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
+  const toBoardPage = () => navigate(`/challenge/${challengeId}/board`);
+  const toChallengersPage = () =>
+    navigate(`/challenge/${challengeId}/challengers`);
+
   useLayoutEffect(() => {
     getData();
   }, []);
@@ -47,7 +53,7 @@ const Challenge = (): JSX.Element => {
           <Description>
             {'다른 챌린저들의 챌린지 목표 달성\n현황을 확인하고 동참해보세요'}
           </Description>
-          <ShortcutButton>바로가기</ShortcutButton>
+          <ShortcutButton onClick={toCalendarPage}>바로가기</ShortcutButton>
         </PageCard>
         <PageCard>
           <CardTitle>자유 게시판</CardTitle>
@@ -55,15 +61,15 @@ const Challenge = (): JSX.Element => {
           <Description>
             {'다른 챌린저들과 챌린지에 대해\n자유롭게 소통해보세요'}
           </Description>
-          <ShortcutButton>바로가기</ShortcutButton>
+          <ShortcutButton onClick={toBoardPage}>바로가기</ShortcutButton>
         </PageCard>
         <PageCard>
-          <CardTitle>캘린더 보기</CardTitle>
+          <CardTitle>챌린저 목록</CardTitle>
           <ImgIcon img={challengers} />
           <Description>
             {'나와 함께 챌린지를 진행하는\n챌린저들을 확인해보세요'}
           </Description>
-          <ShortcutButton>바로가기</ShortcutButton>
+          <ShortcutButton onClick={toChallengersPage}>바로가기</ShortcutButton>
         </PageCard>
       </PageCardSection>
     </ChallengeMainPage>
