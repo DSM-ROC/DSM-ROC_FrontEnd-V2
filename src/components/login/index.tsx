@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
@@ -8,6 +9,7 @@ import { formatInput } from 'utils/functions/formatInput';
 import { LoginType } from 'utils/interface/login';
 
 const Login = (): JSX.Element => {
+  const navigate = useNavigate();
   const [loginState, setLoginState] = useState<LoginType>({
     email: '',
     password: '',
@@ -35,6 +37,8 @@ const Login = (): JSX.Element => {
           password: password,
         });
         toast.success('로그인에 성공하셨습니다!');
+        navigate('/');
+        window.location.reload();
       } catch (error) {
         ToastError('email, password가 잘못되었습니다!');
         setLoginState({
