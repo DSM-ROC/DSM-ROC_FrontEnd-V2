@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { postSignUp } from 'utils/api/signup';
 import ToastError from 'utils/functions/errorMessage';
+import { formatInput } from 'utils/functions/formatInput';
 import { SignUpType } from 'utils/interface/signUp';
 
 const SignUpSection = () => {
@@ -18,24 +19,10 @@ const SignUpSection = () => {
 
   const { email, password, nickname } = signupState;
 
-  const formmatInput = (value: string, name: string): string => {
-    if (name === 'email') {
-      return value.replace(/[^A-Za-z0-9.@]/g, '');
-    }
-    if (name === 'password') {
-      return value.replace(/[^A-Za-z\d@$!%*#?&]/g, '');
-    }
-    if (name === 'nickname') {
-      return value.replace(/[^A-Za-z0-9]/g, '');
-    }
-
-    throw new Error('알 수 없는 name');
-  };
-
   const SignUpInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
 
-    const formmatedVlaue = formmatInput(value, name);
+    const formmatedVlaue = formatInput(value, name);
 
     setSignupState({
       ...signupState,
@@ -44,7 +31,7 @@ const SignUpSection = () => {
   };
   const changeCheckPW = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    const formmatedVlaue = formmatInput(value, 'password');
+    const formmatedVlaue = formatInput(value, 'password');
 
     setCheckPW(formmatedVlaue);
   };
