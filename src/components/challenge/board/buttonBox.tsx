@@ -86,6 +86,7 @@ const BoardInput = styled.div`
   align-items: center;
   font-size: 20px;
   color: ${theme.darkGray};
+  cursor: pointer;
 `;
 
 const Profile = styled.div`
