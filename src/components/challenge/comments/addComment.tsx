@@ -1,13 +1,24 @@
 import { boardIcon, calenderIcon, challengerIcon } from 'assets';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, KeyboardEvent, RefObject, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { addComment } from 'utils/api/comment/comment';
+import { saveCommentList } from 'utils/functions/comment/comment';
+import { isSameDate } from 'utils/functions/isSameDate/isSameDate';
+import { commentListRecoil } from 'utils/store/commentList/commentList';
 
-const AddComment = (): JSX.Element => {
+interface props {
+  addCommentInputRef: RefObject<HTMLInputElement>;
+  date: Date;
+}
+
+const AddComment = ({ addCommentInputRef, date }: props): JSX.Element => {
   const navigate = useNavigate();
-  const { challengeId } = useParams();
   const [comment, setComment] = useState<string>('');
+  const challengeId = useParams().challengeId as string;
+  const setCommentList = useSetRecoilState(commentListRecoil);
 
   const goCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
   const goBoardPage = () => navigate(`/challenge/${challengeId}/board`);
@@ -16,8 +27,25 @@ const AddComment = (): JSX.Element => {
 
   const changeComment = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-
     setComment(value);
+  };
+
+  const submit = async () => {
+    if (!isSameDate(date, new Date())) {
+      alert('당일에만 작성할 수 있어요!!');
+      return null;
+    }
+
+    await addComment(comment, parseInt(challengeId));
+    const newCommentList = [
+      ...(await saveCommentList(parseInt(challengeId), date)),
+    ];
+    setCommentList([...newCommentList]);
+    setComment('');
+  };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') submit();
   };
 
   return (
@@ -28,6 +56,8 @@ const AddComment = (): JSX.Element => {
           placeholder="오늘의 메모는 하루에 한 번만 작성이 가능합니다."
           value={comment}
           onChange={changeComment}
+          onKeyDown={getEnter}
+          ref={addCommentInputRef}
         />
       </InputWrap>
       <Buttons>
