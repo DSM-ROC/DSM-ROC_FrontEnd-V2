@@ -33,14 +33,24 @@ export default function ChallengeList() {
           </Text>
         </TextBox>
         <Frame>
-          {challengeList.map((challenge, i) => (
-            <ChallengeCard challenge={challenge} key={i} />
-          ))}
+          {challengeList.length ? (
+            challengeList.map((challenge, i) => (
+              <ChallengeCard challenge={challenge} key={i} />
+            ))
+          ) : (
+            <NoSearch>챌린지를 찾을 수 없어요😢</NoSearch>
+          )}
         </Frame>
       </Wrapper>
     </Container>
   );
 }
+
+const NoSearch = styled.p`
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 50px;
+`;
 
 const Container = styled.div`
   width: 100%;
