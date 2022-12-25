@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { postSignUp } from 'utils/api/signup';
+import ToastError from 'utils/functions/errorMessage';
 import { SignUpType } from 'utils/interface/signUp';
 
 const SignUpSection = () => {
+  const navigate = useNavigate();
   const [signupState, setSignupState] = useState<SignUpType>({
     email: '',
     password: '',
@@ -21,16 +25,22 @@ const SignUpSection = () => {
     });
   };
 
-  const SubmitSignUp = () => {
+  const SubmitSignUp = async () => {
     if (email === '' || nickname === '' || password === '') {
       alert('입력칸을 다시 확인해주세요.');
     } else {
-      postSignUp({
-        email: email,
-        nickname: nickname,
-        password: password,
-      });
-      alert('회원가입에 성공하셨습니다!');
+      try {
+        await postSignUp({
+          email: email,
+          nickname: nickname,
+          password: password,
+        });
+        toast.success('회원가입에 성공하셨습니다!');
+        navigate('/');
+      } catch (error) {
+        ToastError('회원가입에 실패했습니다!');
+        setSignupState({ email: '', password: '', nickname: '' });
+      }
     }
   };
 
@@ -49,6 +59,7 @@ const SignUpSection = () => {
             placeholder="닉네임을 입력해주세요"
             onChange={SignUpInputChange}
             maxLength={10}
+            value={nickname}
           />
           <SignUpForm>
             <b>이메일</b>
@@ -57,6 +68,7 @@ const SignUpSection = () => {
             onChange={SignUpInputChange}
             name="email"
             placeholder="이메일을 입력해주세요"
+            value={email}
           />
           <SignUpForm>
             <b>비밀번호</b>
@@ -67,6 +79,7 @@ const SignUpSection = () => {
             placeholder="비밀번호를 입력해주세요"
             minLength={8}
             maxLength={20}
+            value={password}
           />
           <SignUpBtn onClick={SubmitSignUp}>
             <b>회원가입</b>
