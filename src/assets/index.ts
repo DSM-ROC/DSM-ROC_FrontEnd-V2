@@ -28,3 +28,7 @@ export { default as speaker } from 'assets/img/main/speaker.png';
 export { default as trueLike } from 'assets/img/main/trueLike.png';
 
 export { default as userProfile } from 'assets/img/user/userProfile.png';
+
+export { default as bulletinBoard } from 'assets/img/challengeMain/bulletinBoard.svg';
+export { default as calendar } from 'assets/img/challengeMain/calendar.svg';
+export { default as challengers } from 'assets/img/challengeMain/challengers.svg';
