@@ -27,7 +27,9 @@ const SignUpSection = () => {
 
   const SubmitSignUp = async () => {
     if (email === '' || nickname === '' || password === '') {
-      alert('입력칸을 다시 확인해주세요.');
+      ToastError('입력칸을 다시 확인해주세요!');
+    } else if (!/^(\S+)@(\S+)(\.)(\S+)$/.test(email)) {
+      ToastError('email 형식이 올바르지 않습니다!');
     } else {
       try {
         await postSignUp({
@@ -47,13 +49,9 @@ const SignUpSection = () => {
   return (
     <SignUpPage>
       <SignUpWrapper>
-        <SignUpText>
-          <b>회원가입</b>
-        </SignUpText>
+        <SignUpText>회원가입</SignUpText>
         <SignUpBox>
-          <SignUpForm>
-            <b>닉네임</b>
-          </SignUpForm>
+          <SignUpForm>닉네임</SignUpForm>
           <SignUpInput
             name="nickname"
             placeholder="닉네임을 입력해주세요"
@@ -61,18 +59,14 @@ const SignUpSection = () => {
             maxLength={10}
             value={nickname}
           />
-          <SignUpForm>
-            <b>이메일</b>
-          </SignUpForm>
+          <SignUpForm>이메일</SignUpForm>
           <SignUpInput
             onChange={SignUpInputChange}
             name="email"
             placeholder="이메일을 입력해주세요"
             value={email}
           />
-          <SignUpForm>
-            <b>비밀번호</b>
-          </SignUpForm>
+          <SignUpForm>비밀번호</SignUpForm>
           <SignUpInput
             onChange={SignUpInputChange}
             name="password"
@@ -81,9 +75,7 @@ const SignUpSection = () => {
             maxLength={20}
             value={password}
           />
-          <SignUpBtn onClick={SubmitSignUp}>
-            <b>회원가입</b>
-          </SignUpBtn>
+          <SignUpBtn onClick={SubmitSignUp}>회원가입</SignUpBtn>
         </SignUpBox>
       </SignUpWrapper>
     </SignUpPage>
@@ -106,8 +98,9 @@ const SignUpWrapper = styled.div`
   margin-top: 27px;
   box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.25);
 `;
-const SignUpText = styled.div`
+const SignUpText = styled.p`
   font-size: 40px;
+  font-weight: bolder;
   margin-top: 70px;
   display: flex;
   position: absolute;
@@ -117,9 +110,10 @@ const SignUpBox = styled.div`
   width: 420px;
   height: 340px;
 `;
-const SignUpForm = styled.div`
+const SignUpForm = styled.p`
   color: ${theme.mainBlueColor};
   font-size: 20px;
+  font-weight: bold;
   margin-bottom: 30px;
 `;
 const SignUpInput = styled.input`
@@ -144,6 +138,7 @@ const SignUpBtn = styled.button`
   align-items: center;
   color: white;
   font-size: 24px;
+  font-weight: bold;
   background: linear-gradient(
     To right,
     rgba(0, 100, 255, 0.4),
