@@ -2,15 +2,24 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { logo } from 'assets';
-import { userDataType } from 'utils/interface/user/user';
 import { getUserData } from 'utils/api/userData/userData';
+import { logout } from 'utils/api/logout/logout';
+import { removeToken } from 'utils/functions/token/tokenManager';
 
 const Header = (): JSX.Element => {
   const navitate = useNavigate();
   const [isLogin, setIsLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const toLogin = () => navitate('/login');
   const toSignUp = () => navitate('/signUp');
+
+  const logOut = () => {
+    logout();
+    removeToken();
+    setIsLogin(false);
+    navigate('/');
+  };
 
   const getData = async () => {
     try {
@@ -48,7 +57,7 @@ const Header = (): JSX.Element => {
         <Button>
           {isLogin ? (
             <>
-              <Logout>로그아웃</Logout>
+              <Logout onClick={logOut}>로그아웃</Logout>
             </>
           ) : (
             <>
