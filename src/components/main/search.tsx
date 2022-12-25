@@ -1,14 +1,37 @@
 import styled from 'styled-components';
 import { search } from 'assets';
+import { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Search() {
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const navigate = useNavigate();
+
+  const searchUrlChange = () => {
+    navigate(`/challenges?search=${searchKeyword}`);
+  };
+
+  const getEnter = (e: KeyboardEvent<HTMLInputElement>): void => {
+    if (e.key === 'Enter') searchUrlChange();
+  };
+
+  const changeSearchKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setSearchKeyword(value);
+  };
+
   return (
     <Container>
       <Wrapper>
         <Title>나에게 맞는 챌린지를 찾아보세요</Title>
         <InputBox>
-          <Input placeholder="관심있는 분야를 검색하세요!"></Input>
-          <Image src={search}></Image>
+          <Input
+            placeholder="관심있는 분야를 검색하세요!"
+            value={searchKeyword}
+            onChange={changeSearchKeyword}
+            onKeyDown={getEnter}
+          ></Input>
+          <SearchButton onClick={searchUrlChange} />
         </InputBox>
       </Wrapper>
     </Container>
@@ -44,11 +67,23 @@ const Input = styled.input`
   font-size: 16px;
   border-radius: 30px;
   border: 1px solid #808080;
+  outline: none;
 `;
 
-const Image = styled.img`
+const SearchButton = styled.button`
   position: absolute;
+
   top: 24%;
   right: 20px;
   width: 30px;
+  aspect-ratio: 1;
+
+  background-image: url(${search});
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
 `;

@@ -1,35 +1,72 @@
 import AddComment from 'components/challenge/comments/addComment';
 import CommentList from 'components/challenge/comments/commentList';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
-import { useSearchParams } from 'react-router-dom';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-
-const challengeData = {
-  title: 'React 공부하기',
-  writer: '배준수',
-  period: '2022.11.22 ~ 2022.12.22',
-  tags: [
-    'React',
-    'Programing',
-    'Study',
-    'TypeScript',
-    'TypeScriptTypeScriptTypeScriptTypeScript',
-  ],
-};
+import { getChallengeData } from 'utils/functions/challenge/challenge';
+import { challengeInfoType } from 'utils/interface/challenge/challenge';
+import { commentListRecoil } from 'utils/store/commentList/commentList';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { saveCommentList } from 'utils/functions/comment/comment';
 
 const Comments = (): JSX.Element => {
+  const navigate = useNavigate();
+
+  const addCommentInputRef = useRef<HTMLInputElement>(null);
   const [searchParams] = useSearchParams();
-  const dateStr: string = searchParams.get('date') as string;
-  const [year, month, date] = dateStr.split('-');
+  const setCommentList = useSetRecoilState(commentListRecoil);
+  const challengeId = useParams().challengeId as string;
+  const dateStr = searchParams.get('date') as string;
+  const date = new Date(dateStr);
+  const commentDateList = useRecoilValue(commentListRecoil);
+
+  const [challengeData, setChallengeData] = useState<challengeInfoType>({
+    id: 0,
+    name: '',
+    introduction: '',
+    limitMember: 0,
+    joinMember: 0,
+    topic: '코딩',
+    startDay: new Date(),
+    endDay: new Date(),
+    createdAt: new Date(),
+    coverImage: '',
+    user: {
+      id: '',
+      nickname: '',
+    },
+  });
+
+  const getData = async () => {
+    const res = await getChallengeData(challengeId as string);
+    setChallengeData(res);
+  };
+
+  const getCommentData = async () => {
+    setCommentList([...(await saveCommentList(parseInt(challengeId), date))]);
+  };
+
+  useLayoutEffect(() => {
+    if (!/(\d{2})-(\d{2})-(\d{2})/.test(dateStr)) {
+      navigate(-1);
+    }
+    getData();
+    getCommentData();
+  }, []);
 
   return (
     <CommentsPage>
       <ChallengeInfoSection challengeData={challengeData} />
       <Title>
-        오늘의 메모🔥 - {year}년 {Number(month)}월 {Number(date)}일
+        오늘의 메모🔥 - {date.getFullYear()}년 {Number(date.getMonth() + 1)}월{' '}
+        {Number(date.getDate())}일
       </Title>
-      <AddComment />
-      <CommentList />
+      <AddComment addCommentInputRef={addCommentInputRef} date={date} />
+      <CommentList
+        addCommentInputRef={addCommentInputRef}
+        commentDateList={commentDateList}
+      />
     </CommentsPage>
   );
 };
