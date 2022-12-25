@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { postLogin } from 'utils/api/login';
 import ToastError from 'utils/functions/errorMessage';
+import { formatInput } from 'utils/functions/formatInput';
 import { LoginType } from 'utils/interface/login';
 
 const Login = (): JSX.Element => {
@@ -16,9 +17,11 @@ const Login = (): JSX.Element => {
 
   const LoginInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
+    const formatedValue = formatInput(value, name);
+
     setLoginState({
       ...loginState,
-      [name]: value,
+      [name]: formatedValue,
     });
   };
 
@@ -34,6 +37,10 @@ const Login = (): JSX.Element => {
         toast.success('로그인에 성공하셨습니다!');
       } catch (error) {
         ToastError('email, password가 잘못되었습니다!');
+        setLoginState({
+          email: '',
+          password: '',
+        });
       }
     }
   };
@@ -50,6 +57,7 @@ const Login = (): JSX.Element => {
                 name="email"
                 placeholder="이메일을 입력해주세요"
                 onChange={LoginInputChange}
+                value={email}
               />
             </LoginFormWrap>
             <LoginFormWrap>
@@ -60,6 +68,8 @@ const Login = (): JSX.Element => {
                 minLength={8}
                 maxLength={20}
                 onChange={LoginInputChange}
+                type="password"
+                value={password}
               />
             </LoginFormWrap>
             <LoginBtn onClick={SubmitLogin}>로그인</LoginBtn>
