@@ -34,8 +34,6 @@ export { default as bulletinBoard } from 'assets/img/challengeMain/bulletinBoard
 export { default as calendar } from 'assets/img/challengeMain/calendar.svg';
 export { default as challengers } from 'assets/img/challengeMain/challengers.svg';
 
-export { default as list } from 'assets/img/allChallenge/list.png';
-export { default as profile } from 'assets/img/board/profile.png';
 export { default as cheak } from 'assets/img/board/cheak.png';
 export { default as gitpen } from 'assets/img/board/gitpen.png';
 export { default as members } from 'assets/img/board/members.png';
