@@ -20,13 +20,13 @@ const SignUpSection = () => {
 
   const formmatInput = (value: string, name: string): string => {
     if (name === 'email') {
-      return value.replace(/[^a-z0-9.@]/g, '');
+      return value.replace(/[^A-Za-z0-9.@]/g, '');
     }
     if (name === 'password') {
-      return value.replace(/[^a-z0-9.@]/g, '');
+      return value.replace(/[^A-Za-z\d@$!%*#?&]/g, '');
     }
     if (name === 'nickname') {
-      return value.replace(/[^a-z0-9]/g, '');
+      return value.replace(/[^A-Za-z0-9]/g, '');
     }
 
     throw new Error('알 수 없는 name');
@@ -44,7 +44,9 @@ const SignUpSection = () => {
   };
   const changeCheckPW = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setCheckPW(value);
+    const formmatedVlaue = formmatInput(value, 'password');
+
+    setCheckPW(formmatedVlaue);
   };
 
   const SubmitSignUp = async () => {
@@ -56,6 +58,12 @@ const SignUpSection = () => {
       ToastError('password가 같지 않습니다!');
       setCheckPW('');
       setSignupState((pre) => ({ ...pre, password: '' }));
+    } else if (
+      !/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/.test(
+        password,
+      )
+    ) {
+      ToastError('password 형식이 올바르지 않습니다!');
     } else {
       try {
         await postSignUp({
