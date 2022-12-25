@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { postLogin } from 'utils/api/login';
+import ToastError from 'utils/functions/errorMessage';
 import { LoginType } from 'utils/interface/login';
 
 const Login = (): JSX.Element => {
@@ -20,15 +22,19 @@ const Login = (): JSX.Element => {
     });
   };
 
-  const SubmitLogin = () => {
+  const SubmitLogin = async () => {
     if (email === '' || password === '') {
-      alert('입력칸을 다시 확인해주세요.');
+      ToastError('입력칸을 다시 확인해주세요.');
     } else {
-      postLogin({
-        email: email,
-        password: password,
-      });
-      alert('로그인에 성공하셨습니다!');
+      try {
+        await postLogin({
+          email: email,
+          password: password,
+        });
+        toast.success('로그인에 성공하셨습니다!');
+      } catch (error) {
+        ToastError('email, password가 잘못되었습니다!');
+      }
     }
   };
 
