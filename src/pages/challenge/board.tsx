@@ -1,7 +1,13 @@
+import Post from 'components/challenge/board/post';
+import ButtonBox from 'components/challenge/board/buttonBox';
+import TitleBox from 'components/challenge/board/titleBox';
+
 const Board = (): JSX.Element => {
   return (
     <>
-      <h1>Board</h1>
+      <TitleBox />
+      <ButtonBox />
+      <Post />
     </>
   );
 };
