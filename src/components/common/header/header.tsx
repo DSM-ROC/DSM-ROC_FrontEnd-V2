@@ -1,10 +1,14 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
 import { logo } from 'assets';
 
 const Header = (): JSX.Element => {
   const [status, setStatus] = useState(false);
+  const navitate = useNavigate();
+
+  const toLogin = () => navitate('/login');
+  const toSignUp = () => navitate('/signUp');
 
   return (
     <>
@@ -29,8 +33,8 @@ const Header = (): JSX.Element => {
         <Button>
           {status === false ? (
             <>
-              <LoginButton>로그인</LoginButton>
-              <SignUpButton>회원가입</SignUpButton>
+              <LoginButton onClick={toLogin}>로그인</LoginButton>
+              <SignUpButton onClick={toSignUp}>회원가입</SignUpButton>
             </>
           ) : (
             <>
@@ -86,6 +90,7 @@ const StyleButton = styled.button`
   outline: none;
   font-size: 18px;
   font-weight: 600;
+  cursor: pointer;
 `;
 
 const LoginButton = styled(StyleButton)`
