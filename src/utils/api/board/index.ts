@@ -37,3 +37,11 @@ export const getBoardList = async (challengeId: string) => {
     throw error;
   }
 };
+
+export const deleteBoard = async (challengeId: string, commentId: string) => {
+  try {
+    await instance.delete(`/challenge/${challengeId}/post/${commentId}`);
+  } catch (error) {
+    throw error;
+  }
+};
