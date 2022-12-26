@@ -1,11 +1,5 @@
-import { useNavigate } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
-import {
-  getToken,
-  removeToken,
-  setToken,
-} from 'utils/functions/token/tokenManager';
-import ToastError from 'utils/functions/errorMessage';
+import { getToken } from 'utils/functions/token/tokenManager';
 
 const instance = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
