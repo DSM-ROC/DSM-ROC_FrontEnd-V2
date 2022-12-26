@@ -43,7 +43,7 @@ const Header = (): JSX.Element => {
             <Link to="/">
               <Nav>메인페이지</Nav>
             </Link>
-            <Link to="/challenge">
+            <Link to="/challenges">
               <Nav>챌린지 전체보기</Nav>
             </Link>
             <Link to="/createChallenge">

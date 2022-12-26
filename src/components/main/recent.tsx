@@ -12,13 +12,10 @@ export default function Recent() {
 
   const handleResize = () => {
     const width = window.innerWidth;
-    console.log(width);
 
     if (width <= 1364 && width >= 1028) {
-      console.log('change 1');
       setSlicerLength(9);
     } else {
-      console.log('change 2');
       setSlicerLength(8);
     }
   };
@@ -40,7 +37,7 @@ export default function Recent() {
             <ChallengeCard challenge={challenge} key={i} />
           ))}
         </Cover>
-        <Link to="/challenge">
+        <Link to="/challenges">
           <Route>모든 챌린지 보러가기</Route>
         </Link>
       </Wrapper>
