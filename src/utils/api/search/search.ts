@@ -9,7 +9,26 @@ export const challengeSearch = async (
       `/challenge/search?where=${searchText}`,
     );
 
-    return data;
+    const newData: challengeInfoType[] = data.map(
+      (challengeInfo: challengeInfoType) => ({
+        id: challengeInfo.id,
+        name: challengeInfo.name,
+        introduction: challengeInfo.introduction,
+        coverImage: challengeInfo.coverImage,
+        limitMember: challengeInfo.limitMember,
+        joinMember: challengeInfo.joinMember,
+        topic: challengeInfo.topic,
+        startDay: new Date(challengeInfo.startDay),
+        endDay: new Date(challengeInfo.endDay),
+        createdAt: new Date(challengeInfo.createdAt),
+        user: {
+          id: challengeInfo.user.id,
+          nickname: challengeInfo.user.nickname,
+        },
+      }),
+    );
+
+    return newData;
   } catch (error) {
     throw error;
   }
