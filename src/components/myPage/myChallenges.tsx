@@ -25,7 +25,7 @@ const MyChallenges = () => {
       <SectionTitle>회원 정보</SectionTitle>
       <ChallengesWrap>
         {myChallengeList.map((challenge, i) => (
-          <JoinedChallenge challenge={challenge} />
+          <JoinedChallenge key={challenge.challengeId} challenge={challenge} />
         ))}
       </ChallengesWrap>
     </MyChallengeSection>
