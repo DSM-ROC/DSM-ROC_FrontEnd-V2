@@ -26,6 +26,7 @@ export default function Search() {
 
   const getSearchedChallenge = async () => {
     const res = await challengeSearch(searchKeyword);
+    console.log(searchKeyword, res);
     setChallengeList(res);
   };
 
@@ -36,6 +37,11 @@ export default function Search() {
   useEffect(() => {
     getSearchedChallenge();
   }, [searchQuery]);
+  useEffect(() => {
+    return () => {
+      navigate(`/challenges`);
+    };
+  }, []);
 
   return (
     <Container>
