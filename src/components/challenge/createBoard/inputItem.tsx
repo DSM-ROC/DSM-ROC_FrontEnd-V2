@@ -1,7 +1,37 @@
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { createBoard } from 'utils/api/createBoard';
+import { createBoardType } from 'utils/interface/createBoard/createBoard';
 
 export default function InputItem() {
+  const challengeId = useParams().challengeId as string;
+
+  const [createBoardDate, setCreateBoardDate] = useState<createBoardType>({
+    title: '',
+    text: '',
+  });
+
+  const changeBoardData = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    let { value, name } = e.target;
+
+    setCreateBoardDate((pre) => ({
+      ...pre,
+      [name]: value,
+    }));
+  };
+
+  const submit = () => {
+    createBoard(challengeId, createBoardDate);
+  };
+
+  useEffect(() => {
+    console.log(createBoardDate);
+  }, [createBoardDate]);
+
   return (
     <Container>
       <Wrapper>
@@ -15,15 +45,25 @@ export default function InputItem() {
 
         <FildBox>
           <Fild>제목</Fild>
-          <Input placeholder="게시글 제목을 입력해주세요"></Input>
+          <Input
+            placeholder="게시글 제목을 입력해주세요"
+            onChange={changeBoardData}
+            name="title"
+            value={createBoardDate.title}
+          ></Input>
         </FildBox>
         <FildBox>
           <Fild id="content">내용</Fild>
-          <Textarea placeholder="게시글 내용을 입력해주세요"></Textarea>
+          <Textarea
+            placeholder="게시글 내용을 입력해주세요"
+            onChange={changeBoardData}
+            name="text"
+            value={createBoardDate.text}
+          ></Textarea>
         </FildBox>
 
         <ButtonBox>
-          <Button>게시글 생성하기</Button>
+          <Button onClick={submit}>게시글 생성하기</Button>
         </ButtonBox>
       </Wrapper>
     </Container>
