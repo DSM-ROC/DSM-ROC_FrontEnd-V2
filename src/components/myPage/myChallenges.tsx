@@ -1,81 +1,33 @@
-import ChallengeCard from 'components/challengeCard/challengeCard';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { challengeInfoType } from 'utils/interface/challenge/challenge';
-
-const data: challengeInfoType[] = [
-  {
-    id: 1,
-    name: '프론트엔드 공부하기',
-    introduction: 'next 사용합니다',
-    coverImage: '',
-    limitMember: 7,
-    startDay: new Date('2022-12-22T15:00:00.000Z'),
-    endDay: new Date('2022-12-29T15:00:00.000Z'),
-    topic: '코딩',
-    createdAt: new Date('2022-12-23T06:12:51.906Z'),
-    user: {
-      id: '4',
-      nickname: 'testUser2',
-    },
-    joinMember: 0,
-  },
-  {
-    id: 1,
-    name: '프론트엔드 공부하기',
-    introduction: 'next 사용합니다',
-    coverImage: '',
-    limitMember: 7,
-    startDay: new Date('2022-12-22T15:00:00.000Z'),
-    endDay: new Date('2022-12-29T15:00:00.000Z'),
-    topic: '코딩',
-    createdAt: new Date('2022-12-23T06:12:51.906Z'),
-    user: {
-      id: '4',
-      nickname: 'testUser2',
-    },
-    joinMember: 0,
-  },
-  {
-    id: 1,
-    name: '프론트엔드 공부하기',
-    introduction: 'next 사용합니다',
-    coverImage: '',
-    limitMember: 7,
-    startDay: new Date('2022-12-22T15:00:00.000Z'),
-    endDay: new Date('2022-12-29T15:00:00.000Z'),
-    topic: '코딩',
-    createdAt: new Date('2022-12-23T06:12:51.906Z'),
-    user: {
-      id: '4',
-      nickname: 'testUser2',
-    },
-    joinMember: 0,
-  },
-  {
-    id: 1,
-    name: '프론트엔드 공부하기',
-    introduction: 'next 사용합니다',
-    coverImage: '',
-    limitMember: 7,
-    startDay: new Date('2022-12-22T15:00:00.000Z'),
-    endDay: new Date('2022-12-29T15:00:00.000Z'),
-    topic: '코딩',
-    createdAt: new Date('2022-12-23T06:12:51.906Z'),
-    user: {
-      id: '4',
-      nickname: 'testUser2',
-    },
-    joinMember: 0,
-  },
-];
+import { getMyChallengeList } from 'utils/api/myChallenge';
+import { myJoinedChallengeType } from 'utils/interface/myJoinedChallenge';
+import JoinedChallenge from './joinedChallenge';
 
 const MyChallenges = () => {
+  const [myChallengeList, setMyChallengeList] = useState<
+    myJoinedChallengeType[]
+  >([]);
+
+  const getData = async () => {
+    const res = await getMyChallengeList();
+
+    console.log(res);
+    const data = {};
+
+    setMyChallengeList(res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <MyChallengeSection>
       <SectionTitle>회원 정보</SectionTitle>
       <ChallengesWrap>
-        {data.map((challenge, i) => (
-          <ChallengeCard challenge={challenge} />
+        {myChallengeList.map((challenge, i) => (
+          <JoinedChallenge challenge={challenge} />
         ))}
       </ChallengesWrap>
     </MyChallengeSection>

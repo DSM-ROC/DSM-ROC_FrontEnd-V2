@@ -17,7 +17,6 @@ const MyPage = (): JSX.Element => {
   const getData = async () => {
     const res = await getUserData();
     setUserData(res);
-    console.log(res);
   };
 
   useEffect(() => {
