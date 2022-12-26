@@ -1,33 +1,21 @@
+import { format } from 'date-fns';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { boardType } from 'utils/interface/board';
 
-export default function Post() {
+interface props {
+  board: boardType;
+}
+
+export default function Post({ board }: props) {
   return (
     <Container>
-      <Title>React JS 너무 재밌네요</Title>
+      <Title>{board.title}</Title>
       <Frame>
-        <User>user34</User>
-        <Date>2022.12.25</Date>
+        <User>{board.user.nickname}</User>
+        <Date>{format(board.createdAt, 'yyyy.MM.dd')}</Date>
       </Frame>
-      <Content>
-        오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS hook에 대해
-        공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS
-        hook에 대해 공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은
-        React JS hook에 대해 공부했습니다.오늘은 React JS hook에 대해
-        공부했습니다. 오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS
-        hook에 대해 공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은
-        React JS hook에 대해 공부했습니다.오늘은 React JS hook에 대해
-        공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS
-        hook에 대해 공부했습니다. 오늘은 React JS hook에 대해
-        공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS
-        hook에 대해 공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은
-        React JS hook에 대해 공부했습니다.오늘은 React JS hook에 대해
-        공부했습니다.오늘은 React JS hook에 대해 공부했습니다. 오늘은 React JS
-        hook에 대해 공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은
-        React JS hook에 대해 공부했습니다.오늘은 React JS hook에 대해
-        공부했습니다.오늘은 React JS hook에 대해 공부했습니다.오늘은 React JS
-        hook에 대해 공부했습니다.오늘은 React JS hook에 대해 공부했습니다.
-      </Content>
+      <Content>{board.text}</Content>
     </Container>
   );
 }
@@ -62,5 +50,8 @@ const Date = styled.p`
 
 const Content = styled.p`
   margin-top: 40px;
+  white-space: pre-wrap;
+  width: 100%;
+  word-break: break-all;
   white-space: pre-wrap;
 `;

@@ -1,0 +1,39 @@
+import { boardCommentType } from './../../interface/boardComment/index';
+import instance from 'utils/axios';
+import { boardType } from 'utils/interface/board';
+
+export const getBoardList = async (challengeId: string) => {
+  try {
+    const { data } = await instance.get(`/challenge/${challengeId}/post`);
+    return data.map((board: boardType) => {
+      const commentData: boardCommentType[] = board.comment.map(
+        (comment: boardCommentType) => ({
+          text: comment.text,
+          createdAt: new Date(comment.createdAt),
+          updatedAt: new Date(comment.updatedAt),
+          user: {
+            nickname: comment.user.nickname,
+          },
+        }),
+      );
+
+      return {
+        id: board.id,
+        title: board.title,
+        text: board.text,
+        createdAt: new Date(board.createdAt),
+        updatedAt: new Date(board.updatedAt),
+        user: {
+          nickname: board.user.nickname,
+        },
+        challenge: {
+          name: board.challenge.name,
+        },
+        comment: commentData,
+        likeCount: board.likeCount,
+      };
+    });
+  } catch (error) {
+    throw error;
+  }
+};

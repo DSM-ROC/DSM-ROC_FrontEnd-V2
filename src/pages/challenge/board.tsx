@@ -1,4 +1,3 @@
-import Post from 'components/challenge/board/post';
 import ButtonBox from 'components/challenge/board/buttonBox';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
 import { useParams } from 'react-router-dom';
