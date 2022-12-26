@@ -13,9 +13,6 @@ const MyChallenges = () => {
   const getData = async () => {
     const res = await getMyChallengeList();
 
-    console.log(res);
-    const data = {};
-
     setMyChallengeList(res);
   };
 
