@@ -1,21 +1,73 @@
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
+import { myDataUpdate } from 'utils/api/myDataUpdate';
+import { userDataType } from 'utils/interface/user/user';
 
-const MyUserData = () => {
+interface props {
+  userData: userDataType;
+}
+
+const MyUserData = ({ userData }: props) => {
+  const [userNickname, setUserNickname] = useState<string>(userData.nickname);
+  const [isUpdate, setIsUpdate] = useState<boolean>(false);
+
+  const changeUserInfo = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setUserNickname(value);
+  };
+
+  useEffect(() => {
+    if (userData.nickname === userNickname) {
+      setIsUpdate(false);
+    } else {
+      setIsUpdate(true);
+    }
+  }, [userNickname]);
+
+  useEffect(() => {
+    setUserNickname(userData.nickname);
+  }, [userData]);
+
+  const submit = async () => {
+    await myDataUpdate(userNickname);
+    window.location.reload();
+  };
+
   return (
-    <MyUserDataSection>
+    <MyUserDataSection isUpdate={isUpdate}>
       <SectionTitle>회원 정보</SectionTitle>
       <InputWrap>
         <SubTitle>닉네임</SubTitle>
-        <UserDataInput />
+        <UserDataInput
+          value={userNickname}
+          onChange={changeUserInfo}
+          name="nickname"
+        />
       </InputWrap>
       <InputWrap>
         <SubTitle>이메일</SubTitle>
-        <UserDataInput />
+        <UserDataInput value={userData.email} />
       </InputWrap>
+      {isUpdate && <UpdateButton onClick={submit}>내 정보 수정</UpdateButton>}
     </MyUserDataSection>
   );
 };
+
+const UpdateButton = styled.button`
+  background-color: white;
+  border: 3px solid ${theme.uiBlueColor};
+  width: 110px;
+  height: 40px;
+  align-self: flex-end;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-size: 14px;
+  color: ${theme.uiBlueColor};
+  font-weight: bolder;
+  cursor: pointer;
+`;
 
 const UserDataInput = styled.input`
   width: 100%;
@@ -55,7 +107,8 @@ const MyUserDataSection = styled.section`
   flex-direction: column;
 
   border-bottom: ${theme.dailyGray} 1px solid;
-  padding-bottom: 50px;
+  padding-bottom: ${({ isUpdate }: { isUpdate: boolean }) =>
+    isUpdate ? '15px' : '50px'};
 `;
 
 export default MyUserData;

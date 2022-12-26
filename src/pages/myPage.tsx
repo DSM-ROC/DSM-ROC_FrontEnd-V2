@@ -3,18 +3,37 @@ import { theme } from 'styles/theme';
 import { userProfile } from 'assets';
 import MyUserData from 'components/myPage/myUserData';
 import MyChallenges from 'components/myPage/myChallenges';
+import { useEffect, useState } from 'react';
+import { userDataType } from 'utils/interface/user/user';
+import { getUserData } from 'utils/api/userData/userData';
 
 const MyPage = (): JSX.Element => {
+  const [userData, setUserData] = useState<userDataType>({
+    id: 0,
+    nickname: '',
+    email: '',
+  });
+
+  const getData = async () => {
+    const res = await getUserData();
+    setUserData(res);
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <MyPageContainer>
       <BannerBox />
       <UserInfoWrap>
         <UserProfileWrap>
           <UserProfile />
-          <UserNickname>시나브로</UserNickname>
+          <UserNickname>{userData.nickname}</UserNickname>
         </UserProfileWrap>
         <UserInfoContainer>
-          <MyUserData />
+          <MyUserData userData={userData} />
           <MyChallenges />
         </UserInfoContainer>
       </UserInfoWrap>
