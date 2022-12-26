@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { theme } from 'styles/theme';
 import { getMyChallengeList } from 'utils/api/myChallenge';
 import { myJoinedChallengeType } from 'utils/interface/myJoinedChallenge';
 import JoinedChallenge from './joinedChallenge';
@@ -40,6 +41,15 @@ const ChallengesWrap = styled.div`
   height: fit-content;
   gap: 50px;
   overflow-x: scroll;
+  padding-bottom: 6px;
+
+  &::-webkit-scrollbar {
+    height: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${theme.uiBlueColor};
+    border-radius: 3px;
+  }
 `;
 
 const SectionTitle = styled.p`
