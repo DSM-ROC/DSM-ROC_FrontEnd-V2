@@ -15,8 +15,10 @@ const MyPage = (): JSX.Element => {
   });
 
   const getData = async () => {
-    const res = await getUserData();
-    setUserData(res);
+    try {
+      const res = await getUserData();
+      setUserData(res);
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const UserInfoWrap = styled.div`
   height: fit-content;
   min-height: 100px;
   margin: 0 auto;
-  margin-top: -300px;
+  margin-top: -380px;
 
   display: flex;
   flex-direction: column;
