@@ -48,7 +48,7 @@ const MyUserData = ({ userData }: props) => {
       </InputWrap>
       <InputWrap>
         <SubTitle>이메일</SubTitle>
-        <UserDataInput value={userData.email} />
+        <UserEmail>{userData.email}</UserEmail>
       </InputWrap>
       {isUpdate && <UpdateButton onClick={submit}>내 정보 수정</UpdateButton>}
     </MyUserDataSection>
@@ -67,6 +67,19 @@ const UpdateButton = styled.button`
   color: ${theme.uiBlueColor};
   font-weight: bolder;
   cursor: pointer;
+`;
+
+const UserEmail = styled.div`
+  width: 100%;
+  height: 70px;
+
+  border: ${theme.dailyGray} 1px solid;
+  border-radius: 10px;
+  padding: 0 25px;
+
+  font-size: 18px;
+  display: flex;
+  align-items: center;
 `;
 
 const UserDataInput = styled.input`
