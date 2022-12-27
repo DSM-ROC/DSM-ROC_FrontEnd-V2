@@ -9,7 +9,7 @@ export const formatInput = (value: string, name: string): string => {
     return value.replace(/[^A-Za-z\d@$!%*#?&]/g, '');
   }
   if (name === 'nickname') {
-    return value.replace(/[^A-Za-z0-9]/g, '');
+    return value.replace(/[^ㄱ-ㅎ가-힣A-Za-z0-9]/g, '');
   }
 
   throw new Error('알 수 없는 name');

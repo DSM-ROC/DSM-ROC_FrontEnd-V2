@@ -16,6 +16,7 @@ const SignUpSection = () => {
     nickname: '',
   });
   const [checkPW, setCheckPW] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
 
   const { email, password, nickname } = signupState;
 
@@ -50,6 +51,7 @@ const SignUpSection = () => {
         password,
       )
     ) {
+      setIsError(true);
       ToastError('password 형식이 올바르지 않습니다!');
     } else {
       try {
@@ -95,7 +97,16 @@ const SignUpSection = () => {
             minLength={8}
             maxLength={20}
             value={password}
+            type="password"
           />
+          {isError ? (
+            <ErrorMsg>
+              영문 대소문자와 숫자 특수문자(@$!%*#?&)가 모두 포함되어 있어야
+              해요!
+            </ErrorMsg>
+          ) : (
+            <></>
+          )}
           <SignUpForm>비밀번호 확인</SignUpForm>
           <SignUpInput
             onChange={changeCheckPW}
@@ -112,6 +123,11 @@ const SignUpSection = () => {
     </SignUpPage>
   );
 };
+
+const ErrorMsg = styled.p`
+  font-size: 12px;
+  color: ${theme.uiRedColor};
+`;
 
 export default SignUpSection;
 
