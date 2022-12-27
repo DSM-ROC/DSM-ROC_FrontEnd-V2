@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styled from 'styled-components';
@@ -27,7 +27,7 @@ export default function InputItem() {
     }));
   };
 
-  const submit = () => {
+  const submit = async () => {
     if (!createBoardData.title) {
       ToastError('제목을 작성해주세요!!');
       return null;
@@ -37,7 +37,7 @@ export default function InputItem() {
       return null;
     }
     try {
-      createBoard(challengeId, createBoardData);
+      await createBoard(challengeId, createBoardData);
       toast.success('게시글이 작성되었습니다!');
       navigate(`/challenge/${challengeId}/board`);
     } catch (error) {
