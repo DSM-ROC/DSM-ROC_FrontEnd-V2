@@ -33,8 +33,8 @@ const Router = (): JSX.Element => {
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/createChallenge" element={<CreateChallenge />} />
             <Route path="/detail/:challengeId" element={<Detail />} />
+            <Route path="/challenges" element={<AllChallenge />} />
             <Route path="/challenge">
-              <Route path="" element={<AllChallenge />} />
               <Route path=":challengeId">
                 <Route path="" element={<Challenge />} />
                 <Route path="calendar" element={<Calendar />} />
