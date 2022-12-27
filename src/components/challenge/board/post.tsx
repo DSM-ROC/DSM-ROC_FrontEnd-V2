@@ -1,10 +1,12 @@
-import { deleteIcon } from 'assets';
+import { deleteIcon, like, liked } from 'assets';
 import { format } from 'date-fns';
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { deleteBoard, getBoardList } from 'utils/api/board';
+import { postLike } from 'utils/api/postLike';
 import { boardType } from 'utils/interface/board';
 import { boardListRecoil } from 'utils/store/board';
 
@@ -17,13 +19,24 @@ export default function Post({ board, isMyPost }: props) {
   const challengeId = useParams().challengeId as string;
   const setBoardList = useSetRecoilState(boardListRecoil);
 
+  const [isLike, setIsLike] = useState<boolean>(false);
+
+  const reloadData = async () => {
+    const boardRes = await getBoardList(challengeId);
+    setBoardList(boardRes);
+  };
+
   const deletePost = async () => {
     if (window.confirm('게시글을 삭제합니다')) {
       await deleteBoard(challengeId, String(board.id));
 
-      const boardRes = await getBoardList(challengeId);
-      setBoardList(boardRes);
+      await reloadData();
     }
+  };
+
+  const onLike = async () => {
+    await postLike(challengeId, board.id);
+    await reloadData();
   };
 
   return (
@@ -35,9 +48,43 @@ export default function Post({ board, isMyPost }: props) {
       </Frame>
       <Content>{board.text}</Content>
       {isMyPost && <PostDeleteButton onClick={deletePost} />}
+      <LikeButtonWrap>
+        <LikeCount>{board.likeCount}</LikeCount>
+        <LikeButton onClick={onLike} isLike={isLike ? liked : like} />
+      </LikeButtonWrap>
     </Container>
   );
 }
+
+const LikeCount = styled.p`
+  font-size: 20px;
+`;
+const LikeButton = styled.button`
+  width: 20px;
+  aspect-ratio: 1;
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(${({ isLike }: { isLike: string }) => isLike});
+  border: none;
+  transition: 0.2s;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(1.1);
+  }
+`;
+
+const LikeButtonWrap = styled.div`
+  position: absolute;
+  bottom: 25px;
+  right: 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+`;
 
 const PostDeleteButton = styled.button`
   position: absolute;
@@ -59,6 +106,7 @@ const Container = styled.div`
   width: 100%;
   border-radius: 8px;
   padding: 40px;
+  padding-bottom: 60px;
   border: 1px solid ${theme.darkGray};
   position: relative;
 `;

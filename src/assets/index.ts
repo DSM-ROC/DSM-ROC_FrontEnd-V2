@@ -37,3 +37,5 @@ export { default as challengers } from 'assets/img/challengeMain/challengers.svg
 export { default as cheak } from 'assets/img/board/cheak.png';
 export { default as gitpen } from 'assets/img/board/gitpen.png';
 export { default as members } from 'assets/img/board/members.png';
+export { default as like } from 'assets/img/board/like.svg';
+export { default as liked } from 'assets/img/board/liked.svg';
