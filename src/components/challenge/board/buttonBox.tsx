@@ -15,11 +15,15 @@ export default function ButtonBox() {
   const goChallengerPage = () =>
     navigate(`/challenge/${challengeId}/challengers`);
 
+  const goCreateBoard = () => navigate(`/challenge/${challengeId}/createBoard`);
+
   return (
     <AddBoardContainer>
       <InputWrap>
         <Profile />
-        <BoardInput>오늘의 메모는 하루에 한 번만 작성이 가능합니다.</BoardInput>
+        <BoardInput onClick={goCreateBoard}>
+          오늘의 메모는 하루에 한 번만 작성이 가능합니다.
+        </BoardInput>
       </InputWrap>
       <Buttons>
         <Button onClick={goCalendarPage}>
