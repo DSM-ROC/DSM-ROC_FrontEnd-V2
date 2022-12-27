@@ -95,6 +95,7 @@ const SignUpSection = () => {
             minLength={8}
             maxLength={20}
             value={password}
+            type="password"
           />
           <SignUpForm>비밀번호 확인</SignUpForm>
           <SignUpInput
