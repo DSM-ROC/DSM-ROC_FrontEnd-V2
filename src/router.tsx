@@ -12,6 +12,7 @@ import Challenge from 'pages/challenge/challenge';
 import Calendar from 'pages/challenge/calendar';
 import Comments from 'pages/challenge/comments';
 import Board from 'pages/challenge/board';
+import CreateBoard from 'pages/challenge/createBoard';
 import Challengers from 'pages/challenge/challengers';
 import Footer from 'components/common/footer/footer';
 import AllChallenge from 'pages/allChallenge';
@@ -25,14 +26,15 @@ const Router = (): JSX.Element => {
           <Route path="/signUp" element={<SignUp />} />
           <Route path="challenge/:challengeId">
             <Route path="board" element={<Board />} />
+            <Route path="createBoard" element={<CreateBoard />} />
           </Route>
           <Route element={<Footer />}>
             <Route path="/" element={<Main />} />
             <Route path="/myPage" element={<MyPage />} />
             <Route path="/createChallenge" element={<CreateChallenge />} />
             <Route path="/detail/:challengeId" element={<Detail />} />
-            <Route path="/challenges" element={<AllChallenge />} />
             <Route path="/challenge">
+              <Route path="" element={<AllChallenge />} />
               <Route path=":challengeId">
                 <Route path="" element={<Challenge />} />
                 <Route path="calendar" element={<Calendar />} />
