@@ -1,14 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { createBoard } from 'utils/api/createBoard';
+import ToastError from 'utils/functions/errorMessage';
 import { createBoardType } from 'utils/interface/createBoard/createBoard';
 
 export default function InputItem() {
   const challengeId = useParams().challengeId as string;
+  const navigate = useNavigate();
 
-  const [createBoardDate, setCreateBoardDate] = useState<createBoardType>({
+  const [createBoardData, setCreateBoardData] = useState<createBoardType>({
     title: '',
     text: '',
   });
@@ -18,19 +21,29 @@ export default function InputItem() {
   ) => {
     let { value, name } = e.target;
 
-    setCreateBoardDate((pre) => ({
+    setCreateBoardData((pre) => ({
       ...pre,
       [name]: value,
     }));
   };
 
   const submit = () => {
-    createBoard(challengeId, createBoardDate);
+    if (!createBoardData.title) {
+      ToastError('제목을 작성해주세요!!');
+      return null;
+    }
+    if (!createBoardData.text) {
+      ToastError('내용을 작성해주세요!!');
+      return null;
+    }
+    try {
+      createBoard(challengeId, createBoardData);
+      toast.success('게시글이 작성되었습니다!');
+      navigate(`/challenge/${challengeId}/board`);
+    } catch (error) {
+      ToastError('게시글을 작성할 수  없어요!!');
+    }
   };
-
-  useEffect(() => {
-    console.log(createBoardDate);
-  }, [createBoardDate]);
 
   return (
     <Container>
@@ -42,14 +55,13 @@ export default function InputItem() {
             수 있습니다.
           </Warning>
         </WarningBox>
-
         <FildBox>
           <Fild>제목</Fild>
           <Input
             placeholder="게시글 제목을 입력해주세요"
             onChange={changeBoardData}
             name="title"
-            value={createBoardDate.title}
+            value={createBoardData.title}
           ></Input>
         </FildBox>
         <FildBox>
@@ -58,7 +70,7 @@ export default function InputItem() {
             placeholder="게시글 내용을 입력해주세요"
             onChange={changeBoardData}
             name="text"
-            value={createBoardDate.text}
+            value={createBoardData.text}
           ></Textarea>
         </FildBox>
 
