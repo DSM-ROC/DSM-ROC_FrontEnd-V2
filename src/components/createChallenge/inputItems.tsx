@@ -9,6 +9,7 @@ import { createChallengeType } from 'utils/interface/createChallenge/createChall
 import { topicEnum } from 'utils/interface/topic/topic';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ToastError from 'utils/functions/errorMessage';
 
 export default function InputItems() {
   const navigate = useNavigate();
@@ -97,23 +98,23 @@ export default function InputItems() {
     const endDay = new Date(createChallengeData.endDay);
 
     if (!createChallengeData.name) {
-      toast.error('챌린지명을 작성하세요!');
+      ToastError('챌린지명을 작성하세요!');
       return true;
     }
     if (startDay > endDay) {
-      toast.error('종료일이 시작일보다 앞일 수 없어요!');
+      ToastError('종료일이 시작일보다 앞일 수 없어요!');
       return true;
     }
     if (startDay < today) {
-      toast.error(`챌린지가 이전에 시작될 수 없어요!`);
+      ToastError(`챌린지가 이전에 시작될 수 없어요!`);
       return true;
     }
     if (endDay.getTime() - startDay.getTime() < dateSecond * 7) {
-      toast.error(`챌린지는 7일 이상이어야 해요!!`);
+      ToastError(`챌린지는 7일 이상이어야 해요!!`);
       return true;
     }
     if (endDay.getTime() - startDay.getTime() > dateSecond * 30) {
-      toast.error(`챌린지는 30일 이내이어야 해요!!`);
+      ToastError(`챌린지는 30일 이내이어야 해요!!`);
       return true;
     }
 
