@@ -6,6 +6,8 @@ import { challengeInfoType } from 'utils/interface/challenge/challenge';
 import { joinChallenge } from 'utils/api/joinChallenge/joinChallenge';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import ToastError from 'utils/functions/errorMessage';
+import { toast } from 'react-toastify';
 
 interface props {
   challengeData: challengeInfoType;
@@ -16,9 +18,17 @@ export default function Content({ challengeData }: props) {
   const navigate = useNavigate();
 
   const join = async () => {
-    const res = await joinChallenge(challengeId);
-    if (res) {
+    try {
+      await joinChallenge(challengeId);
       navigate(`/challenge/${challengeId}`);
+      toast.success('챌린지에 가입했어요!');
+    } catch (error: any) {
+      console.log(error.response.status);
+      if (error.response.status === 409) {
+        navigate(`/challenge/${challengeId}`);
+      } else {
+        ToastError('챌린지에 참가할 수 없습니다!');
+      }
     }
   };
 
