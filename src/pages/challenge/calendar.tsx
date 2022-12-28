@@ -1,6 +1,6 @@
 import CalendarComponent from 'components/challenge/calender/calendarComponent';
 import ChallengeInfoSection from 'components/common/challengeInfoSection/challengeInfoSection';
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
@@ -25,13 +25,14 @@ const Calendar = (): JSX.Element => {
     },
   });
 
-  const { challengeId } = useParams();
+  const challengeId = useParams().challengeId as string;
 
   const getData = async () => {
-    setChallengeData(await getChallengeData(challengeId as string));
+    const res = await getChallengeData(challengeId);
+    setChallengeData(res);
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     getData();
   }, []);
 
