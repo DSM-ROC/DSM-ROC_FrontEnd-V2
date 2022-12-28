@@ -13,7 +13,11 @@ const ChallengeInfoSection = ({ challengeData }: props): JSX.Element => {
       <ChallengeTitle>{challengeData.name}</ChallengeTitle>
       <WriteInfo>
         <Writer>{challengeData.user.nickname}</Writer>
-        <Period>{format(challengeData.createdAt, 'yyyy-MM-dd')}</Period>
+        <Line />
+        <Period>{`${format(challengeData.startDay, 'yyyy.MM.dd')} ~ ${format(
+          challengeData.endDay,
+          'yyyy.MM.dd',
+        )}`}</Period>
       </WriteInfo>
       <Tags>
         <Tag>{challengeData.topic}</Tag>
@@ -21,6 +25,12 @@ const ChallengeInfoSection = ({ challengeData }: props): JSX.Element => {
     </ChallengeInfoContainer>
   );
 };
+
+const Line = styled.div`
+  height: 14px;
+  width: 1.5px;
+  background-color: black;
+`;
 
 const Tag = styled.div`
   width: fit-content;
