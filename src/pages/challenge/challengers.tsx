@@ -24,11 +24,7 @@ const Challengers = (): JSX.Element => {
       nickname: '',
     },
   });
-  const [userData, setUserData] = useState<userDataType>({
-    id: 0,
-    nickname: '',
-    email: '',
-  });
+
   const [challengeData, setChallengeData] = useState<challengeInfoType>({
     id: 0,
     name: '',
@@ -46,6 +42,8 @@ const Challengers = (): JSX.Element => {
       nickname: '',
     },
   });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const findHost = (
     challengerListRes: challengerTpye[],
@@ -65,6 +63,7 @@ const Challengers = (): JSX.Element => {
   };
 
   const getData = async () => {
+    setIsLoading(true);
     const challengeDataRes = await getChallengeData(challengeId as string);
     setChallengeData(challengeDataRes);
 
@@ -72,9 +71,9 @@ const Challengers = (): JSX.Element => {
     setChallengerList(challengerListRes);
 
     const userDataRes = await getUserData();
-    setUserData(userDataRes);
 
     findHost(challengerListRes, challengeDataRes, userDataRes);
+    setIsLoading(false);
   };
 
   useLayoutEffect(() => {
@@ -85,22 +84,28 @@ const Challengers = (): JSX.Element => {
     <>
       <ChallengerPage>
         <ChallengeInfoSection challengeData={challengeData} />
-        <Title>챌린저 목록</Title>
-        <ChallengeHost>
-          <HostCircle></HostCircle>
-          <HostName>
-            <b>[챌린지 방장]</b>&nbsp;{hostChallenger.user.nickname}
-          </HostName>
-        </ChallengeHost>
-        {challengerList
-          .filter((challenger) => challenger !== hostChallenger)
-          .map((challenger) => (
-            <MemberCard
-              key={challenger.userId}
-              challengerInfo={challenger.user}
-              isHost={isHost}
-            />
-          ))}
+        {isLoading ? (
+          <></>
+        ) : (
+          <>
+            <Title>챌린저 목록</Title>
+            <ChallengeHost>
+              <HostCircle />
+              <HostName>
+                <b>[챌린지 방장]</b>&nbsp;{hostChallenger.user.nickname}
+              </HostName>
+            </ChallengeHost>
+            {challengerList
+              .filter((challenger) => challenger !== hostChallenger)
+              .map((challenger) => (
+                <MemberCard
+                  key={challenger.userId}
+                  challengerInfo={challenger.user}
+                  isHost={isHost}
+                />
+              ))}
+          </>
+        )}
       </ChallengerPage>
     </>
   );
