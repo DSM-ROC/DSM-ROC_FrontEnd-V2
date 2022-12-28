@@ -8,7 +8,7 @@ interface props {
 }
 
 const ChallengeInfoSection = ({ challengeData }: props): JSX.Element => {
-  return (
+  return challengeData.name ? (
     <ChallengeInfoContainer>
       <ChallengeTitle>{challengeData.name}</ChallengeTitle>
       <WriteInfo>
@@ -23,6 +23,8 @@ const ChallengeInfoSection = ({ challengeData }: props): JSX.Element => {
         <Tag>{challengeData.topic}</Tag>
       </Tags>
     </ChallengeInfoContainer>
+  ) : (
+    <></>
   );
 };
 

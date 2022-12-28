@@ -84,11 +84,11 @@ const Challengers = (): JSX.Element => {
     <>
       <ChallengerPage>
         <ChallengeInfoSection challengeData={challengeData} />
-        <Title>챌린저 목록</Title>
         {isLoading ? (
           <></>
         ) : (
           <>
+            <Title>챌린저 목록</Title>
             <ChallengeHost>
               <HostCircle />
               <HostName>
