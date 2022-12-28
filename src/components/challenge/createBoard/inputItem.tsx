@@ -133,8 +133,10 @@ const Input = styled.input`
   width: 100%;
   height: 60px;
   padding: 0 20px;
-  border: 1px solid #5b5b5b;
-  border-radius: 2px;
+
+  border: 1px solid ${theme.ligthGray};
+  border-radius: 10px;
+
   outline: none;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
@@ -145,13 +147,15 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 260px;
   padding: 20px 0 0 20px;
-  border: 1px solid #5b5b5b;
+  border: 1px solid ${theme.dailyGray};
+  border: 1px solid ${theme.ligthGray};
   border-radius: 2px;
   outline: none;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
   font-size: 16px;
   resize: none;
+  border-radius: 10px;
 `;
 
 const ButtonBox = styled.div`

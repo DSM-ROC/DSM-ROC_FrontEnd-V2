@@ -281,8 +281,6 @@ const FildBox = styled.div`
   margin-bottom: 50px;
 `;
 
-// const Cover = styled.div``;
-
 const Frame = styled.div`
   width: 100%;
   display: flex;
@@ -312,12 +310,16 @@ const Fild = styled.p`
 const Input = styled.input`
   height: 60px;
   padding: 0 20px;
-  border: 1px solid #5b5b5b;
+  border: 1px solid ${theme.dailyGray};
+  /* border: 1px solid ${theme.ligthGray}; */
   border-radius: 2px;
   outline: none;
   background-color: #f5f5f5;
+  /* background-color: ${theme.ligthGray}; */
   color: ${theme.blackContentColor};
   font-size: 18px;
+
+  border-radius: 10px;
 `;
 
 const LongInput = styled(Input)`
@@ -333,12 +335,13 @@ const CategorySelecter = styled.select`
   width: 96%;
 
   padding: 0 20px;
-  border: 1px solid #5b5b5b;
+  border: 1px solid ${theme.dailyGray};
   border-radius: 2px;
   outline: none;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
   font-size: 18px;
+  border-radius: 10px;
 `;
 
 const ImgInput = styled.input`
@@ -368,12 +371,14 @@ const TextArea = styled.textarea`
   width: 100%;
   height: 200px;
   padding: 20px 0 0 20px;
-  border: 1px solid #5b5b5b;
+  border: 1px solid ${theme.dailyGray};
   border-radius: 2px;
   background-color: #f5f5f5;
   color: ${theme.blackContentColor};
   resize: none;
   outline: none;
+  border-radius: 10px;
+
   font-size: 18px;
 `;
 
