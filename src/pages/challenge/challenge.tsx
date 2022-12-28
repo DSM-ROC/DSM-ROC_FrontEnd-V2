@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { getChallengeData } from 'utils/functions/challenge/challenge';
+import ToastError from 'utils/functions/errorMessage';
 import { challengeInfoType } from 'utils/interface/challenge/challenge';
 
 const Challenge = (): JSX.Element => {
@@ -33,7 +34,13 @@ const Challenge = (): JSX.Element => {
     setChallengeData(await getChallengeData(challengeId));
   };
 
-  const toCalendarPage = () => navigate(`/challenge/${challengeId}/calendar`);
+  const toCalendarPage = () => {
+    if (challengeData.startDay.getTime() > new Date().getTime()) {
+      ToastError('아직 챌린지가 시작되지 않았어요!');
+    } else {
+      navigate(`/challenge/${challengeId}/calendar`);
+    }
+  };
   const toBoardPage = () => navigate(`/challenge/${challengeId}/board`);
   const toChallengersPage = () =>
     navigate(`/challenge/${challengeId}/challengers`);
